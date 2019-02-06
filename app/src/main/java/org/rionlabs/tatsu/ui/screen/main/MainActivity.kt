@@ -1,4 +1,4 @@
-package org.rionlabs.tatsu.ui
+package org.rionlabs.tatsu.ui.screen.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
