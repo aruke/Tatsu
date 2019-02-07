@@ -10,7 +10,7 @@
             android:title="@string/title_timer"/>
 
     <item
-            android:id="@+id/navigation_menu"
+            android:id="@+id/navigation_menu_settings"
             android:icon="@drawable/ic_settings"
             android:title="@string/title_settings"/>
 </menu>
