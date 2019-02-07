@@ -1,7 +1,19 @@
 <resources>
     <string name="app_name">Tatsu</string>
 
+    <!-- Menu Titles -->
     <string name="title_stats">Stats</string>
     <string name="title_timer">Timer</string>
     <string name="title_settings">Settings</string>
+
+    <!-- Timer Screen -->
+    <string name="timer_placeholder">00:00</string>
+    <string name="timer_hour_minutes">Hours : Minutes</string>
+
+    <!-- Settings Screen -->
+    <string name="about_app">About App</string>
+
+    <!-- Stats Screen -->
+    <string name="stats_today">Today\'s Stats</string>
+    <string name="stats_last_week">Last Week\'s Stats</string>
 </resources>
