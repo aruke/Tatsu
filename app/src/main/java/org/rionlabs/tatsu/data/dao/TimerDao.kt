@@ -13,5 +13,5 @@ interface TimerDao {
     fun getAll(): List<Timer>
 
     @Insert(onConflict = REPLACE)
-    fun insert(weatherData: Timer)
+    fun insert(timer: Timer)
 }
