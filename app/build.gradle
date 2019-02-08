@@ -30,6 +30,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0"
+
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -53,7 +56,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
     testImplementation 'junit:junit:4.12'
-    testImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTesingVersion"
 
     testImplementation "androidx.room:room-testing:$roomVersion"
 
