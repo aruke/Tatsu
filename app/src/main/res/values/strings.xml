@@ -10,6 +10,11 @@
     <string name="timer_placeholder">00:00</string>
     <string name="timer_hour_minutes">Hours : Minutes</string>
 
+    <string name="minutes">Minutes</string>
+    <string name="hours">Hours</string>
+    <string name="timer_divider">:</string>
+    <string name="start_timer">Start Timer</string>
+
     <!-- Settings Screen -->
     <string name="settings_timer_title">Timer</string>
     <string name="settings_timer_work_title">Work Duration</string>

@@ -15,4 +15,15 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+    <style name="TimerDigitStyle" parent="TextAppearance.AppCompat.Large">
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:autoText">true</item>
+        <item name="autoSizeTextType">uniform</item>
+        <item name="autoSizeMaxTextSize">22sp</item>
+    </style>
+
+    <style name="TimerTextStyle" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:layout_margin">16dp</item>
+    </style>
+
 </resources>

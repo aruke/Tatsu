@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        tools:context=".ui.screen.main.timer.TimerFragment">
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:src="@drawable/ic_timer"
-            android:layout_margin="32dp"
-            android:tint="@color/colorPrimary"
-            android:contentDescription="@null"/>
+    <data>
+        <variable name="viewModel" type="org.rionlabs.tatsu.ui.screen.main.timer.TimerViewModel"/>
+    </data>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.MaterialComponents.Headline2"
-            android:text="@string/timer_placeholder"
-            tools:text="@string/timer_placeholder"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:context=".ui.screen.main.timer.TimerFragment">
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.MaterialComponents.Headline4"
-            android:text="@string/timer_hour_minutes"/>
+        <TextView
+                android:id="@+id/textTimerStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/ic_timer"
+                android:layout_margin="16dp"
+                android:tint="@color/colorPrimary"/>
 
-</LinearLayout>
+        <include
+                android:id="@+id/viewTimerDigits"
+                layout="@layout/view_timer_digits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:duration="@{viewModel.duration}"/>
+
+        <Button
+                android:id="@+id/buttonTimer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/start_timer"/>
+
+    </LinearLayout>
+</layout>
