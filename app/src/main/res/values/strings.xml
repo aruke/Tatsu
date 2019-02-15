@@ -11,7 +11,16 @@
     <string name="timer_hour_minutes">Hours : Minutes</string>
 
     <!-- Settings Screen -->
-    <string name="about_app">About App</string>
+    <string name="settings_timer_title">Timer</string>
+    <string name="settings_timer_work_title">Work Duration</string>
+    <string name="settings_timer_break_title">Break Duration</string>
+
+    <string name="settings_work_hours_title">Work Hours</string>
+    <string name="settings_work_hours_start_title">Start my work at</string>
+    <string name="settings_work_hours_finish_title">Finish my work at</string>
+
+    <string name="settings_about_title">About</string>
+    <string name="settings_feedback_title">Feedback</string>
 
     <!-- Stats Screen -->
     <string name="stats_today">Today\'s Stats</string>

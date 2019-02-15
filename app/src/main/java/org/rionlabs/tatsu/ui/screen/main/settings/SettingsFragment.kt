@@ -1,14 +1,11 @@
 package org.rionlabs.tatsu.ui.screen.main.settings
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.PreferenceFragmentCompat
 import org.rionlabs.tatsu.R
-import org.rionlabs.tatsu.ui.screen.main.BaseMainFragment
 
-class SettingsFragment : BaseMainFragment() {
+class SettingsFragment : PreferenceFragmentCompat() {
 
     companion object {
         fun newInstance() = SettingsFragment()
@@ -16,8 +13,8 @@ class SettingsFragment : BaseMainFragment() {
 
     private lateinit var viewModel: SettingsViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.settings, rootKey)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
