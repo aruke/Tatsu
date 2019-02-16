@@ -73,7 +73,8 @@ class TimerController(app: Application) : LifecycleObserver {
             throw IllegalStateException("Already running or paused timer detected.")
         } else {
             val timerId = timerDao.insert(Timer(TimeUtils.currentTimeEpoch(), durationInSeconds))
-            timerDao.getWith(timerId).updateLiveData(activeTimerData, state = TimerState.RUNNING)
+            val timer = timerDao.getWith(timerId).copy(state = TimerState.RUNNING)
+            activeTimerData.value = timer
             return activeTimerData
         }
     }

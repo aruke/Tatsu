@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
 
+/**
+ * Updates the [mutableLiveData] with options, only if the original value is NonNull
+ */
 fun Timer.updateLiveData(
     mutableLiveData: MutableLiveData<Timer>,
     duration: Long = this.duration,
