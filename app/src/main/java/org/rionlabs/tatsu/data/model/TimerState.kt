@@ -1,5 +1,5 @@
 package org.rionlabs.tatsu.data.model
 
 enum class TimerState {
-    IDLE, RUNNING, PAUSED, FINISHED, STOPPED
+    IDLE, RUNNING, PAUSED, STOPPED, CANCELLED
 }
