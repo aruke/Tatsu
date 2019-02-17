@@ -4,20 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.databinding.FragmentTimerBinding
-import org.rionlabs.tatsu.ui.screen.main.BaseMainFragment
+import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import timber.log.Timber
 
-class TimerFragment : BaseMainFragment() {
+class TimerFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = TimerFragment()
-    }
-
-    private lateinit var viewModel: TimerViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentTimerBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,8 +24,7 @@ class TimerFragment : BaseMainFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(TimerViewModel::class.java)
-        binding.viewModel = viewModel
+        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
     }
 
     override fun onResume() {
@@ -42,7 +38,7 @@ class TimerFragment : BaseMainFragment() {
                             buttonTimer.isEnabled = true
                             buttonTimer.text = "Start Timer"
                             buttonTimer.setOnClickListener {
-                                viewModel?.startNewTimer()
+                                viewModel.startNewTimer()
                             }
                             buttonTimer.setOnLongClickListener(null)
                         }
@@ -50,10 +46,10 @@ class TimerFragment : BaseMainFragment() {
                             buttonTimer.isEnabled = true
                             buttonTimer.text = "Pause Timer"
                             buttonTimer.setOnClickListener {
-                                viewModel?.pauseTimer()
+                                viewModel.pauseTimer()
                             }
                             buttonTimer.setOnLongClickListener {
-                                viewModel?.cancelTimer()
+                                viewModel.cancelTimer()
                                 true
                             }
                         }
@@ -61,10 +57,10 @@ class TimerFragment : BaseMainFragment() {
                             buttonTimer.isEnabled = true
                             buttonTimer.text = "Resume Timer"
                             buttonTimer.setOnClickListener {
-                                viewModel?.resumeTimer()
+                                viewModel.resumeTimer()
                             }
                             buttonTimer.setOnLongClickListener {
-                                viewModel?.cancelTimer()
+                                viewModel.cancelTimer()
                                 true
                             }
                         }
@@ -72,7 +68,7 @@ class TimerFragment : BaseMainFragment() {
                             buttonTimer.isEnabled = true
                             buttonTimer.text = "Restart Timer"
                             buttonTimer.setOnClickListener {
-                                viewModel?.startNewTimer()
+                                viewModel.startNewTimer()
                             }
                             buttonTimer.setOnLongClickListener(null)
                         }
@@ -80,7 +76,7 @@ class TimerFragment : BaseMainFragment() {
                             buttonTimer.isEnabled = true
                             buttonTimer.text = "Start Timer"
                             buttonTimer.setOnClickListener {
-                                viewModel?.startNewTimer()
+                                viewModel.startNewTimer()
                             }
                             buttonTimer.setOnLongClickListener(null)
                         }

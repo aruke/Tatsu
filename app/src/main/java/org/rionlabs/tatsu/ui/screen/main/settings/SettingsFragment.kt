@@ -6,10 +6,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.rionlabs.tatsu.R
+import org.rionlabs.tatsu.ui.screen.main.MainViewModel
+import org.rionlabs.tatsu.work.SettingsManager
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private lateinit var viewModel: SettingsViewModel
+    private lateinit var viewModel: MainViewModel
 
     private lateinit var settingManager: SettingsManager
 
@@ -20,7 +22,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -31,9 +33,5 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<Preference>(keyWorkHoursStart).summaryProvider = timeSummaryProvider
             findPreference<Preference>(keyWorkHoursEnd).summaryProvider = timeSummaryProvider
         }
-    }
-
-    companion object {
-        fun newInstance() = SettingsFragment()
     }
 }

@@ -2,6 +2,7 @@ package org.rionlabs.tatsu.ui.screen.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        main_bottom_navigation.setupWithNavController((main_nav_host_fragment as NavHostFragment).navController)
+        mainBottomNavigation.setupWithNavController((mainNavHostFragment as NavHostFragment).navController)
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 }

@@ -1,4 +1,4 @@
-package org.rionlabs.tatsu.ui.screen.main.timer
+package org.rionlabs.tatsu.ui.screen.main
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -8,10 +8,11 @@ import androidx.lifecycle.Observer
 import org.rionlabs.tatsu.TatsuApp
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
-import org.rionlabs.tatsu.ui.screen.main.settings.SettingsManager
+import org.rionlabs.tatsu.data.model.TimerState.*
+import org.rionlabs.tatsu.work.SettingsManager
 import timber.log.Timber
 
-class TimerViewModel(val app: Application) : AndroidViewModel(app) {
+class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val timerController = (app as TatsuApp).timerController
 
@@ -28,6 +29,13 @@ class TimerViewModel(val app: Application) : AndroidViewModel(app) {
 
             durationData.value = timer.duration
             stateData.value = timer.state
+
+            if (timer.state ==
+                IDLE || timer.state == STOPPED || timer.state == CANCELLED
+            ) {
+                durationData.value = settingManager.getWorkTimerInMinutes().toLong()
+                stateData.value = IDLE
+            }
         }
     }
 
@@ -36,7 +44,7 @@ class TimerViewModel(val app: Application) : AndroidViewModel(app) {
             timerController.getActiveTimer().observeForever(metadataObserver)
         } else {
             durationData.value = settingManager.getWorkTimerInMinutes().toLong()
-            stateData.value = TimerState.IDLE
+            stateData.value = IDLE
         }
     }
 
@@ -55,6 +63,8 @@ class TimerViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun cancelTimer() {
         timerController.cancelTimer()
+        durationData.value = settingManager.getWorkTimerInMinutes().toLong()
+        stateData.value = IDLE
     }
 
     fun getDuration(): LiveData<Long> {

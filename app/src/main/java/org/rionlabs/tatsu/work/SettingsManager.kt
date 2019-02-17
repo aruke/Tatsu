@@ -1,4 +1,4 @@
-package org.rionlabs.tatsu.ui.screen.main.settings
+package org.rionlabs.tatsu.work
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -40,7 +40,7 @@ class SettingsManager constructor(private val context: Context) {
 
     val timeSummaryProvider = object : Preference.SummaryProvider<Preference> {
         override fun provideSummary(preference: Preference?): CharSequence {
-            var time: Int = 0
+            var time = 0
             preference?.let {
                 time = when (it.key) {
                     keyWorkHoursStart -> getStartWorkHour()
@@ -65,7 +65,7 @@ class SettingsManager constructor(private val context: Context) {
 
     val durationSummaryProvider = object : Preference.SummaryProvider<Preference> {
         override fun provideSummary(preference: Preference?): CharSequence {
-            var minutes: Int = 0
+            var minutes = 0
             preference?.let {
                 minutes = when (it.key) {
                     keyTimerWork -> getWorkTimerInMinutes()
