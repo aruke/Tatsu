@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
->
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="android.view.View"/>
@@ -69,7 +68,6 @@
                 android:id="@+id/text_digit_hours"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:text="@{String.valueOf(viewModel.duration/60)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/guideline_vertical_start"
                 app:layout_constraintTop_toTopOf="@id/guideline_horizontal_40"
@@ -83,7 +81,6 @@
                 android:id="@+id/text_digit_minutes"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:text="@{String.valueOf(viewModel.duration%60)}"
                 app:layout_constraintStart_toStartOf="@id/guideline_vertical_end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/guideline_horizontal_40"
@@ -98,7 +95,6 @@
                 android:text="@string/timer_divider"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:visibility="@{(viewModel.duration%2==0) ? View.VISIBLE : View.GONE}"
                 app:layout_constraintStart_toEndOf="@id/guideline_vertical_start"
                 app:layout_constraintEnd_toStartOf="@id/guideline_vertical_end"
                 app:layout_constraintTop_toTopOf="@id/guideline_horizontal_40"
@@ -148,7 +144,6 @@
                 app:layout_constraintGuide_percent="0.7"/>
 
         <!-- Button Section -->
-
         <Button
                 android:id="@+id/buttonTimer"
                 android:layout_width="match_parent"
