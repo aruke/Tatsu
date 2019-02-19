@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.preference.PreferenceCategory
-            android:title="@string/settings_timer_title"
-            app:iconSpaceReserved="false"
-            app:singleLineTitle="true">
+        android:title="@string/settings_timer_title"
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="true">
 
         <androidx.preference.Preference
-                android:key="@string/settings_key_timer_work"
-                android:title="@string/settings_timer_work_title"
-                android:layout="@layout/preference_time_duration"
-                android:defaultValue="@string/settings_default_value_timer_work"/>
+            android:key="@string/settings_key_timer_work"
+            android:title="@string/settings_timer_work_title"
+            android:layout="@layout/preference_time_duration"
+            android:defaultValue="@string/settings_default_value_timer_work" />
 
         <androidx.preference.Preference
-                android:key="@string/settings_key_timer_break"
-                android:title="@string/settings_timer_break_title"
-                android:layout="@layout/preference_time_duration"
-                android:defaultValue="@string/settings_default_value_timer_break"/>
+            android:key="@string/settings_key_timer_break"
+            android:title="@string/settings_timer_break_title"
+            android:layout="@layout/preference_time_duration"
+            android:defaultValue="@string/settings_default_value_timer_break" />
 
     </androidx.preference.PreferenceCategory>
 
     <androidx.preference.PreferenceCategory
-            android:title="@string/settings_work_hours_title"
-            app:iconSpaceReserved="false"
-            app:singleLineTitle="true">
+        android:title="@string/settings_work_hours_title"
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="true">
 
         <androidx.preference.Preference
-                android:key="@string/settings_key_work_hour_start"
-                android:title="@string/settings_work_hours_start_title"
-                android:layout="@layout/preference_time"
-                android:defaultValue="@string/settings_default_value_work_hour_start"/>
+            android:key="@string/settings_key_work_hour_start"
+            android:title="@string/settings_work_hours_start_title"
+            android:layout="@layout/preference_time"
+            android:defaultValue="@string/settings_default_value_work_hour_start" />
 
         <androidx.preference.Preference
-                android:key="@string/settings_key_work_hour_end"
-                android:title="@string/settings_work_hours_finish_title"
-                android:layout="@layout/preference_time"
-                android:defaultValue="@string/settings_default_value_work_hour_end"/>
+            android:key="@string/settings_key_work_hour_end"
+            android:title="@string/settings_work_hours_finish_title"
+            android:layout="@layout/preference_time"
+            android:defaultValue="@string/settings_default_value_work_hour_end" />
 
     </androidx.preference.PreferenceCategory>
 
     <!-- Workaround to show horizontal line after above PreferenceCategory -->
     <androidx.preference.PreferenceCategory
-            app:iconSpaceReserved="false"
-            app:singleLineTitle="true"/>
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="true" />
 
     <androidx.preference.Preference
-            android:key="@string/settings_key_about"
-            android:title="@string/settings_about_title"
-            app:iconSpaceReserved="false"/>
+        android:key="@string/settings_key_about"
+        android:title="@string/settings_about_title"
+        app:iconSpaceReserved="false" />
 
     <androidx.preference.Preference
-            android:key="@string/settings_key_feedback"
-            android:title="@string/settings_feedback_title"
-            app:iconSpaceReserved="false"/>
+        android:key="@string/settings_key_feedback"
+        android:title="@string/settings_feedback_title"
+        app:iconSpaceReserved="false" />
 
 </androidx.preference.PreferenceScreen>

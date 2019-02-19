@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/main_navigation_graph"
-            app:startDestination="@+id/navigation_menu_timer">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation_graph"
+    app:startDestination="@+id/navigation_menu_timer">
 
-    <fragment android:id="@+id/navigation_menu_stats"
-              android:name="org.rionlabs.tatsu.ui.screen.main.stats.StatsFragment"
-              tools:layout="@layout/fragment_stats"/>
+    <fragment
+        android:id="@+id/navigation_menu_stats"
+        android:name="org.rionlabs.tatsu.ui.screen.main.stats.StatsFragment"
+        tools:layout="@layout/fragment_stats" />
 
-    <fragment android:id="@+id/navigation_menu_timer"
-              android:name="org.rionlabs.tatsu.ui.screen.main.timer.TimerFragment"
-              tools:layout="@layout/fragment_timer"/>
+    <fragment
+        android:id="@+id/navigation_menu_timer"
+        android:name="org.rionlabs.tatsu.ui.screen.main.timer.TimerFragment"
+        tools:layout="@layout/fragment_timer" />
 
-    <fragment android:id="@+id/navigation_menu_settings"
-              android:name="org.rionlabs.tatsu.ui.screen.main.settings.SettingsFragment"/>
+    <fragment
+        android:id="@+id/navigation_menu_settings"
+        android:name="org.rionlabs.tatsu.ui.screen.main.settings.SettingsFragment" />
 </navigation>
