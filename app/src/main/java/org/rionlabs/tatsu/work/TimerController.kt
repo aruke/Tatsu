@@ -16,42 +16,33 @@ class TimerController(app: Application) : LifecycleObserver {
 
     private val activeTimerData = MutableLiveData<Timer>()
 
-    private lateinit var timerTask: TimerTask
-
     private var timerDao = AppDatabase.getInstance(app.applicationContext).timerDao()
+
+    private var timerTask: TimerTask? = null
 
     /**
      * Initializes the store with values from database.
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    fun onCreate() {
+        Timber.v("onCreate() called")
         val timerList = timerDao.getActive()
-
         Timber.d("Received ${timerList.size} entries from database.")
-
-        // TODO Discard other timers if there are more than one
         if (timerList.isEmpty()) {
-            Timber.i("No active timers found.")
+            Timber.v("No active timers found.")
         } else {
             val firstTimer = timerList.first()
             activeTimerData.value = firstTimer
-            Timber.d("Found active timers. Setting LiveData for $firstTimer")
+            Timber.v("Found active timers. Setting LiveData for $firstTimer")
+            // TODO Discard other timers if there are more than one
         }
-    }
-
-    /**
-     * Starts timer. Do not call directly, use [startNewTimer] method.
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    fun onResume() {
-        timerTask = TimerTask(this)
-        timerTask.execute()
     }
 
     /**
      * Returns true if there is any [TimerState.RUNNING] or [TimerState.PAUSED] timer in store.
      */
     fun isActiveTimerAvailable(): Boolean {
+        Timber.v("ActiveTimerData.value ${activeTimerData.value?.state.toString()}")
         return activeTimerData.value?.isActive() ?: false
     }
 
@@ -72,42 +63,52 @@ class TimerController(app: Application) : LifecycleObserver {
         if (isActiveTimerAvailable()) {
             throw IllegalStateException("Already running or paused timer detected.")
         } else {
+            Timber.v("Starting new timer...")
             val timerId = timerDao.insert(Timer(TimeUtils.currentTimeEpoch(), durationInSeconds))
             val timer = timerDao.getWith(timerId).copy(state = TimerState.RUNNING)
             activeTimerData.value = timer
-            return activeTimerData
+            return activeTimerData.also {
+                timerTask = TimerTask(this).also {
+                    it.execute()
+                }
+            }
         }
     }
 
     fun pauseTimer() {
+        Timber.v("Pausing timer...")
         updateStateAndDump(TimerState.PAUSED)
+        timerTask?.cancel(true)
     }
 
     fun resumeTimer() {
+        Timber.v("Resuming timer...")
         updateStateAndDump(TimerState.RUNNING)
+        timerTask = TimerTask(this).also {
+            it.execute()
+        }
     }
 
     fun cancelTimer() {
+        Timber.v("Cancelling timer...")
         updateStateAndDump(TimerState.CANCELLED)
     }
 
     /**
-     * Stops the timer. Do not call directly.
+     * Clears the store and dumps data into database.
+     * This method will be rarely called, so never rely on it.
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    fun onPause() {
-        timerTask.cancel(true)
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun onDestroy() {
+        Timber.v("onDestroy() called")
+        dumpToDatabase()
+        activeTimerData.value = null
+        timerTask?.cancel(true)
     }
 
     /**
-     * Clears the store and dumps data into database.
+     * Updates [activeTimerData] and dumps the value to database.
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    fun onStop() {
-        dumpToDatabase()
-        activeTimerData.value = null
-    }
-
     private fun updateStateAndDump(state: TimerState) {
         val oldTimer = activeTimerData.value
         oldTimer?.let {
@@ -118,12 +119,18 @@ class TimerController(app: Application) : LifecycleObserver {
         }
     }
 
+    /**
+     * Dumps [activeTimerData] value to database.
+     */
     private fun dumpToDatabase() {
         activeTimerData.value?.let {
             timerDao.insert(it)
         }
     }
 
+    /**
+     * Updates the duration and status by decrementing [Timer.duration] value by 1.
+     */
     private fun updateDataAfterTick() {
         val oldTimer = activeTimerData.value
         oldTimer?.let {
@@ -134,6 +141,12 @@ class TimerController(app: Application) : LifecycleObserver {
                     it.updateLiveData(activeTimerData, duration = it.duration - 1)
                 }
             }
+
+            // Cancel timerTask for this timer, if it is not to be ticked
+            if (it.state == TimerState.STOPPED || it.state == TimerState.CANCELLED) {
+                timerTask?.cancel(true)
+                timerTask = null
+            }
         }
     }
 
@@ -143,6 +156,7 @@ class TimerController(app: Application) : LifecycleObserver {
 
         override fun performInBackground() {
             while (!isCancelled) {
+                Timber.v("Tick")
                 Utility.waitForOneSecond()
                 // Update progress
                 publishProgress()

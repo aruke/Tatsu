@@ -8,7 +8,7 @@ object Utility {
         try {
             Thread.sleep(1000)
         } catch (ie: InterruptedException) {
-            Timber.i(ie, "Timer InterruptedException.")
+            Timber.i("Timer InterruptedException.")
         }
     }
 }
