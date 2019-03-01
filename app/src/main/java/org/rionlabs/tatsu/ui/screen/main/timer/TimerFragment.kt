@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
+import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.databinding.FragmentTimerBinding
+import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import timber.log.Timber
 
@@ -16,6 +20,8 @@ class TimerFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentTimerBinding
+
+    private lateinit var actionButton: FloatingActionButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTimerBinding.inflate(inflater, container, false)
@@ -25,6 +31,7 @@ class TimerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+        actionButton = (requireActivity() as MainActivity).fab
     }
 
     override fun onResume() {
@@ -35,50 +42,45 @@ class TimerFragment : Fragment() {
                     textTimerStatus.text = state.name
                     when (state) {
                         TimerState.IDLE -> {
-                            buttonTimer.isEnabled = true
-                            buttonTimer.text = "Start Timer"
-                            buttonTimer.setOnClickListener {
+                            actionButton.setImageResource(R.drawable.ic_play)
+                            actionButton.setOnClickListener {
                                 viewModel.startNewTimer()
                             }
-                            buttonTimer.setOnLongClickListener(null)
+                            actionButton.setOnLongClickListener(null)
                         }
                         TimerState.RUNNING -> {
-                            buttonTimer.isEnabled = true
-                            buttonTimer.text = "Pause Timer"
-                            buttonTimer.setOnClickListener {
+                            actionButton.setImageResource(R.drawable.ic_pause)
+                            actionButton.setOnClickListener {
                                 viewModel.pauseTimer()
                             }
-                            buttonTimer.setOnLongClickListener {
+                            actionButton.setOnLongClickListener {
                                 viewModel.cancelTimer()
                                 true
                             }
                         }
                         TimerState.PAUSED -> {
-                            buttonTimer.isEnabled = true
-                            buttonTimer.text = "Resume Timer"
-                            buttonTimer.setOnClickListener {
+                            actionButton.setImageResource(R.drawable.ic_play)
+                            actionButton.setOnClickListener {
                                 viewModel.resumeTimer()
                             }
-                            buttonTimer.setOnLongClickListener {
+                            actionButton.setOnLongClickListener {
                                 viewModel.cancelTimer()
                                 true
                             }
                         }
                         TimerState.STOPPED -> {
-                            buttonTimer.isEnabled = true
-                            buttonTimer.text = "Restart Timer"
-                            buttonTimer.setOnClickListener {
+                            actionButton.setImageResource(R.drawable.ic_play)
+                            actionButton.setOnClickListener {
                                 viewModel.startNewTimer()
                             }
-                            buttonTimer.setOnLongClickListener(null)
+                            actionButton.setOnLongClickListener(null)
                         }
                         TimerState.CANCELLED -> {
-                            buttonTimer.isEnabled = true
-                            buttonTimer.text = "Start Timer"
-                            buttonTimer.setOnClickListener {
+                            actionButton.setImageResource(R.drawable.ic_play)
+                            actionButton.setOnClickListener {
                                 viewModel.startNewTimer()
                             }
-                            buttonTimer.setOnLongClickListener(null)
+                            actionButton.setOnLongClickListener(null)
                         }
                     }
                 }
