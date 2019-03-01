@@ -37,6 +37,10 @@
 
         </activity>
 
+        <service
+            android:name=".work.TimerService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
