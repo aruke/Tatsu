@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
 
         navController = (mainNavHostFragment as NavHostFragment).navController
         ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        switchToMain()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             switchToMain()
         }
         fab.setOnLongClickListener { false }
+        headerSubtitle.text = getString(R.string.title_stats)
     }
 
     private fun switchToSettings() {
@@ -58,10 +61,12 @@ class MainActivity : AppCompatActivity() {
             switchToMain()
         }
         fab.setOnLongClickListener { false }
+        headerSubtitle.text = getString(R.string.title_settings)
     }
 
     private fun switchToMain() {
         navController.navigate(R.id.navigation_menu_timer)
         fab.setOnClickListener {}
+        headerSubtitle.text = getString(R.string.title_timer)
     }
 }

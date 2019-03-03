@@ -7,7 +7,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp">
 
         <!-- Vertical Guidelines -->
         <androidx.constraintlayout.widget.Guideline
@@ -15,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".4" />
+            app:layout_constraintGuide_percent=".45" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_vertical_middle"
@@ -29,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".6" />
+            app:layout_constraintGuide_percent=".55" />
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:drawableTop="@drawable/ic_timer"
+            android:drawablePadding="16dp"
             android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_40"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +67,9 @@
         <TextView
             android:id="@+id/text_digit_hours"
             style="@style/TimerDigitStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center_vertical|end"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_60"
             app:layout_constraintEnd_toStartOf="@id/guideline_vertical_start"
             app:layout_constraintHorizontal_bias="1.0"
@@ -77,8 +81,9 @@
         <TextView
             android:id="@+id/text_digit_minutes"
             style="@style/TimerDigitStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center_vertical|start"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_60"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -90,8 +95,9 @@
         <TextView
             android:id="@+id/text_timer_divider"
             style="@style/TimerDigitStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="32dp"
             android:layout_height="0dp"
+            android:gravity="center"
             android:text="@string/timer_divider"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_60"
             app:layout_constraintEnd_toStartOf="@id/guideline_vertical_end"
