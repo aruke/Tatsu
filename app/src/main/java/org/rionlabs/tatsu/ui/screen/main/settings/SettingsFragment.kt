@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import org.rionlabs.tatsu.R
+import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.work.SettingsManager
 
@@ -32,6 +33,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
             findPreference<Preference>(keyTimerBreak).summaryProvider = durationSummaryProvider
             findPreference<Preference>(keyWorkHoursStart).summaryProvider = timeSummaryProvider
             findPreference<Preference>(keyWorkHoursEnd).summaryProvider = timeSummaryProvider
+        }
+
+        findPreference<Preference>(getString(R.string.settings_key_about)).setOnPreferenceClickListener {
+            FullScreenDialogFragment.show(requireActivity(), R.string.settings_about_title, R.layout.layout_about)
+            true
+        }
+
+        findPreference<Preference>(getString(R.string.settings_key_feedback)).setOnPreferenceClickListener {
+            FullScreenDialogFragment.show(requireActivity(), R.string.settings_feedback_title, R.layout.layout_feedback)
+            true
         }
     }
 }

@@ -57,4 +57,31 @@
     <!-- Notifications -->
     <string name="timer_notification_title">Timer %s</string>
     <string name="timer_notification_message">Timer → Remaining time: %1$d:%2$d</string>
+
+    <!-- Sentiments -->
+    <string name="happy">&#128525;</string>
+    <string name="neutral">&#128528;</string>
+    <string name="sad">&#128542;</string>
+    <string name="feedback_hint">Say anything…</string>
+    <string name="send">Send</string>
+
+    <string name="title_version">Version</string>
+    <string name="text_version">0.0.1</string>
+    <string name="licences">Licences</string>
+
+    <!-- Licences -->
+    <string name="licence_timber">
+Copyright 2013 Jake Wharton
+\n
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n\n
+   http://www.apache.org/licenses/LICENSE-2.0
+\n\n
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
 </resources>

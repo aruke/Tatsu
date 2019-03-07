@@ -41,6 +41,32 @@
         <item name="android:fontFamily">@font/raleway</item>
     </style>
 
+    <!-- Fullscreen Dialog -->
+    <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+    <style name="FullScreenDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+
+    <style name="FeedbackSentimentTextStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="FeedbackSentimentRadioStyle">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
     <style name="TimerDigitStyle" parent="TextAppearance.AppCompat.Large">
         <item name="android:layout_margin">4dp</item>
         <item name="android:autoText">true</item>
