@@ -12,12 +12,6 @@
         android:paddingEnd="32dp">
 
         <!-- Vertical Guidelines -->
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_vertical_start"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".45" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_vertical_middle"
@@ -25,14 +19,6 @@
             android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".5" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_vertical_end"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".55" />
-
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_horizontal_10"
@@ -67,43 +53,54 @@
         <TextView
             android:id="@+id/text_digit_hours"
             style="@style/TimerDigitStyle"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_vertical|end"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_60"
-            app:layout_constraintEnd_toStartOf="@id/guideline_vertical_start"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toStartOf="@id/text_label_hours"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guideline_horizontal_40"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_40"
             tools:text="00" />
+
+        <TextView
+            android:id="@+id/text_label_hours"
+            style="@style/TimerLabelStyle"
+            android:text="@string/label_short_hours"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_digit_hours"
+            app:layout_constraintEnd_toStartOf="@+id/text_digit_minutes"
+            app:layout_constraintStart_toEndOf="@+id/text_digit_hours" />
 
         <TextView
             android:id="@+id/text_digit_minutes"
             style="@style/TimerDigitStyle"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_vertical|start"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_60"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/guideline_vertical_end"
-            app:layout_constraintTop_toTopOf="@id/guideline_horizontal_40"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintEnd_toStartOf="@+id/text_label_minutes"
+            app:layout_constraintStart_toEndOf="@+id/text_label_hours"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_40"
             tools:text="00" />
 
         <TextView
-            android:id="@+id/text_timer_divider"
+            android:id="@+id/text_label_minutes"
+            style="@style/TimerLabelStyle"
+            android:text="@string/label_short_minutes"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_digit_minutes"
+            app:layout_constraintEnd_toStartOf="@+id/text_digit_seconds"
+            app:layout_constraintStart_toEndOf="@+id/text_digit_minutes" />
+
+        <TextView
+            android:id="@+id/text_digit_seconds"
             style="@style/TimerDigitStyle"
-            android:layout_width="32dp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            android:text="@string/timer_divider"
             app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_60"
-            app:layout_constraintEnd_toStartOf="@id/guideline_vertical_end"
-            app:layout_constraintStart_toEndOf="@id/guideline_vertical_start"
-            app:layout_constraintTop_toTopOf="@id/guideline_horizontal_40"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintEnd_toStartOf="@+id/text_label_seconds"
+            app:layout_constraintStart_toEndOf="@+id/text_label_minutes"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_40"
+            tools:text="00" />
+
+        <TextView
+            android:id="@+id/text_label_seconds"
+            style="@style/TimerLabelStyle"
+            android:text="@string/label_short_seconds"
+            app:layout_constraintBaseline_toBaselineOf="@+id/text_digit_seconds"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_digit_seconds" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_horizontal_60"
@@ -111,33 +108,6 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.6" />
-
-        <!-- Digit Labels Section -->
-        <TextView
-            android:id="@+id/text_hours"
-            style="@style/TimerTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hours"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_70"
-            app:layout_constraintEnd_toStartOf="@id/guideline_vertical_start"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_60"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <TextView
-            android:id="@+id/text_minutes"
-            style="@style/TimerTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/minutes"
-            app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_70"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/guideline_vertical_end"
-            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_60"
-            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_horizontal_70"

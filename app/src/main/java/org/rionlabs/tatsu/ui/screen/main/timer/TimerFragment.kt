@@ -91,19 +91,14 @@ class TimerFragment : Fragment() {
             it?.let { durationInSeconds ->
                 binding.apply {
                     Timber.d("Duration in seconds = $durationInSeconds")
-                    textTimerDivider.visibility = if (durationInSeconds % 2L == 0L) {
-                        Timber.d("Divider visibility : visible")
-                        View.VISIBLE
-                    } else {
-                        Timber.d("Divider visibility : invisible")
-                        View.INVISIBLE
-                    }
 
-                    val minutes = durationInSeconds / 60
                     val hours = durationInSeconds / 3600
+                    val minutes = (durationInSeconds % 3600) / 60
+                    val seconds = (durationInSeconds % 3600) % 60
 
-                    Timber.d("Duration display = $hours:$minutes")
+                    Timber.d("Duration display = $hours:$minutes:$seconds")
 
+                    textDigitSeconds.text = seconds.toString()
                     textDigitMinutes.text = minutes.toString()
                     textDigitHours.text = hours.toString()
                 }
