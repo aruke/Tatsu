@@ -106,6 +106,6 @@ class SettingsManager constructor(private val context: Context) {
     }
 
     fun getEndWorkHour(): Int {
-        return sharedPreference.getInt(keyWorkHoursStart, workHoursEndDefaultValue)
+        return sharedPreference.getInt(keyWorkHoursEnd, workHoursEndDefaultValue)
     }
 }
