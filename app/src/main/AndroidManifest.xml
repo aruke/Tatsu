@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.rionlabs.tatsu">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".TatsuApp"
         android:allowBackup="true"
@@ -44,6 +46,16 @@
         <service
             android:name=".work.TimerService"
             android:exported="false" />
+
+        <receiver
+            android:name=".work.NotificationActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.rionlabs.tatsu.start" />
+                <action android:name="org.rionlabs.tatsu.pause" />
+                <action android:name="org.rionlabs.tatsu.stop" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

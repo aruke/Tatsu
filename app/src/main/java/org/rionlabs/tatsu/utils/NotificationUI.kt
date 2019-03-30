@@ -11,6 +11,7 @@ import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.ui.screen.begin.SplashActivity
+import org.rionlabs.tatsu.work.NotificationActionReceiver
 
 object NotificationUI {
 
@@ -28,21 +29,30 @@ object NotificationUI {
         }
         builder.setContentIntent(pendingIntent)
 
-        val minutes = timer.duration % 60
-        val hours = timer.duration / 60
-        val message = context.getString(R.string.timer_notification_message, hours, minutes)
+        val minutes = timer.hours
+        val hours = timer.minutes
+        val seconds = timer.seconds
+        val message = context.getString(R.string.timer_notification_message, hours, minutes, seconds)
         builder.setContentText(message)
 
+        val broadcastIntent = Intent(context, NotificationActionReceiver::class.java)
+
         if (timer.state == TimerState.PAUSED) {
-            builder.addAction(0, "Resume", null)
+            broadcastIntent.action = NotificationActionReceiver.ACTION_START
+            val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
+            builder.addAction(R.drawable.ic_play, "Resume", intent)
         }
 
         if (timer.state == TimerState.RUNNING) {
-            builder.addAction(0, "Pause", null)
+            broadcastIntent.action = NotificationActionReceiver.ACTION_PAUSE
+            val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
+            builder.addAction(R.drawable.ic_pause, "Pause", intent)
         }
 
         if (timer.state == TimerState.PAUSED || timer.state == TimerState.RUNNING) {
-            builder.addAction(0, "Stop", null)
+            broadcastIntent.action = NotificationActionReceiver.ACTION_STOP
+            val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
+            builder.addAction(R.drawable.ic_stop, "Stop", intent)
         }
 
         return builder.setSmallIcon(R.drawable.ic_timer).build()
