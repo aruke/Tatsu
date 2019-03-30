@@ -29,7 +29,16 @@ data class Timer(
     constructor(startTime: Long, duration: Long) : this(
         0,
         startTime,
-        (startTime + duration * 1000), duration,
+        (startTime + duration), duration,
         TimerState.IDLE
     )
+
+    @Ignore
+    val seconds = duration % 60
+
+    @Ignore
+    val minutes = (duration / 60) % 60
+
+    @Ignore
+    val hours = duration / 3600
 }

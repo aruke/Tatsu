@@ -18,23 +18,22 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val settingManager = SettingsManager(app)
 
-    private val durationData = MutableLiveData<Long>()
+    private val mTimerData = MutableLiveData<Timer>()
+    val timerData: LiveData<Timer> = mTimerData
 
-    private val stateData = MutableLiveData<TimerState>()
+    private val mStateData = MutableLiveData<TimerState>()
+    val stateData: LiveData<TimerState> = mStateData
 
     private val metadataObserver = Observer<Timer> {
         it?.let { timer ->
             Timber.d("OnChanged called with NonNull Timer value")
             Timber.d("$timer")
 
-            durationData.value = timer.duration
-            stateData.value = timer.state
+            mTimerData.value = timer
+            mStateData.value = timer.state
 
-            if (timer.state ==
-                IDLE || timer.state == STOPPED || timer.state == CANCELLED
-            ) {
-                durationData.value = settingManager.getWorkTimerInMinutes().toLong()
-                stateData.value = IDLE
+            if (timer.state == IDLE || timer.state == STOPPED || timer.state == CANCELLED) {
+                resetTimerData()
             }
         }
     }
@@ -43,13 +42,12 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
         if (timerController.isActiveTimerAvailable()) {
             timerController.getActiveTimer().observeForever(metadataObserver)
         } else {
-            durationData.value = settingManager.getWorkTimerInMinutes().toLong()
-            stateData.value = IDLE
+            resetTimerData()
         }
     }
 
     fun startNewTimer() {
-        val duration = settingManager.getWorkTimerInMinutes().toLong() * 60
+        val duration = settingManager.getWorkTimerInMinutes() * 60L
         timerController.startNewTimer(duration).observeForever(metadataObserver)
     }
 
@@ -63,19 +61,19 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun cancelTimer() {
         timerController.cancelTimer()
-        durationData.value = settingManager.getWorkTimerInMinutes().toLong()
-        stateData.value = IDLE
+        resetTimerData()
     }
 
-    fun getDuration(): LiveData<Long> {
-        return durationData
-    }
-
-    fun getTimerState(): LiveData<TimerState> {
-        return stateData
+    private fun resetTimerData() {
+        // TODO Create new Timer object here or handle state in UI side
+        //settingManager.getWorkTimerInMinutes().toLong()
+        mTimerData.value = Timer(System.currentTimeMillis(), settingManager.getWorkTimerInMinutes() * 60L)
+        mStateData.value = IDLE
     }
 
     override fun onCleared() {
-
+        if (timerController.isActiveTimerAvailable()) {
+            timerController.getActiveTimer().removeObserver(metadataObserver)
+        }
     }
 }

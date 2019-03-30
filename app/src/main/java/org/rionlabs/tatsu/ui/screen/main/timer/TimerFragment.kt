@@ -23,20 +23,20 @@ class TimerFragment : Fragment() {
 
     private lateinit var actionButton: FloatingActionButton
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
+        actionButton = (requireActivity() as MainActivity).fab
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTimerBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
-        actionButton = (requireActivity() as MainActivity).fab
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.getTimerState().observe(this, Observer {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.stateData.observe(this, Observer {
             it?.let { state ->
                 binding.apply {
                     textTimerStatus.text = state.name
@@ -87,20 +87,16 @@ class TimerFragment : Fragment() {
             }
         })
 
-        viewModel.getDuration().observe(this, Observer {
-            it?.let { durationInSeconds ->
+        viewModel.timerData.observe(this, Observer {
+            it?.let { timer ->
                 binding.apply {
-                    Timber.d("Duration in seconds = $durationInSeconds")
-
-                    val hours = durationInSeconds / 3600
-                    val minutes = (durationInSeconds % 3600) / 60
-                    val seconds = (durationInSeconds % 3600) % 60
-
-                    Timber.d("Duration display = $hours:$minutes:$seconds")
-
-                    textDigitSeconds.text = seconds.toString()
-                    textDigitMinutes.text = minutes.toString()
-                    textDigitHours.text = hours.toString()
+                    Timber.d("Duration in seconds = $timer")
+                    timer.apply {
+                        Timber.d("Duration display = $hours:$minutes:$seconds")
+                        textDigitSeconds.text = seconds.toString()
+                        textDigitMinutes.text = minutes.toString()
+                        textDigitHours.text = hours.toString()
+                    }
                 }
             }
         })
