@@ -24,6 +24,9 @@
     <string name="settings_work_hours_start_title">Start my work at</string>
     <string name="settings_work_hours_finish_title">Finish my work at</string>
 
+    <string name="settings_silent_mode_title">Silent Mode</string>
+    <string name="settings_silent_mode_pref_title">Turn on silent mode during work</string>
+
     <string name="settings_about_title">About</string>
     <string name="settings_feedback_title">Feedback</string>
 

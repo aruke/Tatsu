@@ -10,6 +10,7 @@ import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.data.model.TimerState.*
 import org.rionlabs.tatsu.work.SettingsManager
+import org.rionlabs.tatsu.work.SilentModeManager
 import timber.log.Timber
 
 class MainViewModel(val app: Application) : AndroidViewModel(app) {
@@ -17,6 +18,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     private val timerController = (app as TatsuApp).timerController
 
     private val settingManager = SettingsManager(app)
+
+    private val silentModeManager = SilentModeManager(app)
 
     private val mTimerData = MutableLiveData<Timer>()
     val timerData: LiveData<Timer> = mTimerData
@@ -49,19 +52,35 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     fun startNewTimer() {
         val duration = settingManager.getWorkTimerInMinutes() * 60L
         timerController.startNewTimer(duration).observeForever(metadataObserver)
+
+        if (settingManager.silentMode) {
+            silentModeManager.turnOnSilentMode()
+        }
     }
 
     fun pauseTimer() {
         timerController.pauseTimer()
+
+        if (settingManager.silentMode) {
+            silentModeManager.turnOffSilentMode()
+        }
     }
 
     fun resumeTimer() {
         timerController.resumeTimer()
+
+        if (settingManager.silentMode) {
+            silentModeManager.turnOnSilentMode()
+        }
     }
 
     fun cancelTimer() {
         timerController.cancelTimer()
         resetTimerData()
+
+        if (settingManager.silentMode) {
+            silentModeManager.turnOffSilentMode()
+        }
     }
 
     private fun resetTimerData() {

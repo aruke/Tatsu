@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string translatable="false" name="settings_key_timer_work">key_timer_work</string>
-    <string translatable="false" name="settings_default_value_timer_work">25</string>
+    <string name="settings_key_timer_work" translatable="false">key_timer_work</string>
+    <string name="settings_default_value_timer_work" translatable="false">1</string>
 
-    <string translatable="false" name="settings_key_timer_break">key_timer_break</string>
-    <string translatable="false" name="settings_default_value_timer_break">5</string>
+    <string name="settings_key_timer_break" translatable="false">key_timer_break</string>
+    <string name="settings_default_value_timer_break" translatable="false">1</string>
 
-    <string translatable="false" name="settings_key_work_hour_start">key_work_hour_start</string>
-    <string translatable="false" name="settings_default_value_work_hour_start">900</string>
+    <string name="settings_key_work_hour_start" translatable="false">key_work_hour_start</string>
+    <string name="settings_default_value_work_hour_start" translatable="false">900</string>
 
-    <string translatable="false" name="settings_key_work_hour_end">key_work_hour_end</string>
-    <string translatable="false" name="settings_default_value_work_hour_end">1700</string>
+    <string name="settings_key_work_hour_end" translatable="false">key_work_hour_end</string>
+    <string name="settings_default_value_work_hour_end" translatable="false">1700</string>
 
-    <string translatable="false" name="settings_key_about">key_about</string>
+    <string name="settings_key_silent_mode" translatable="false">key_silent_mode</string>
+    <string name="settings_default_value_silent_mode" translatable="false">false</string>
 
-    <string translatable="false" name="settings_key_feedback">key_feedback</string>
+    <string name="settings_key_about" translatable="false">key_about</string>
+
+    <string name="settings_key_feedback" translatable="false">key_feedback</string>
 </resources>

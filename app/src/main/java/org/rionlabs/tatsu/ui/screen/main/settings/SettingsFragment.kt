@@ -1,13 +1,21 @@
 package org.rionlabs.tatsu.ui.screen.main.settings
 
+import android.app.NotificationManager
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import androidx.preference.SwitchPreference
+import androidx.recyclerview.widget.RecyclerView
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
@@ -65,6 +73,39 @@ class SettingsFragment : PreferenceFragmentCompat() {
             FullScreenDialogFragment.show(requireActivity(), R.string.settings_feedback_title, R.layout.layout_feedback)
             true
         }
+
+        findPreference<SwitchPreference>(getString(R.string.settings_key_silent_mode))
+                .setOnPreferenceChangeListener { preference, newValue ->
+                    if (newValue == true) {
+                        (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.let {
+                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                                return@setOnPreferenceChangeListener true
+                            }
+
+                            if (!it.isNotificationPolicyAccessGranted) {
+                                val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+                                startActivity(intent)
+                                return@setOnPreferenceChangeListener false
+                            } else {
+                                return@setOnPreferenceChangeListener true
+                            }
+                        } ?: run {
+                            return@setOnPreferenceChangeListener false
+                        }
+                    }
+
+                    return@setOnPreferenceChangeListener true
+                }
+    }
+
+    override fun onCreateRecyclerView(inflater: LayoutInflater?, parent: ViewGroup?, savedInstanceState: Bundle?): RecyclerView {
+        val padding = requireContext().resources.getDimension(R.dimen.main_screen_bottom_padding).toInt()
+        val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState)
+        recyclerView.apply {
+            setPadding(paddingStart, paddingTop, paddingRight, paddingBottom + padding)
+            clipToPadding = false
+        }
+        return recyclerView
     }
 
     private fun setStartWorkHours(workHoursInMinutes: Int) {

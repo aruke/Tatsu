@@ -2,6 +2,7 @@ package org.rionlabs.tatsu.work
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import org.rionlabs.tatsu.R
@@ -14,10 +15,22 @@ class SettingsManager constructor(private val context: Context) {
     val keyWorkHoursStart: String
     val keyWorkHoursEnd: String
 
+    private val keySilentMode: String
+
+    var silentMode: Boolean = false
+        get() = sharedPreference.getBoolean(keySilentMode, silentModeDefaultValue)
+        set(value) {
+            field = value
+            sharedPreference.edit(true) {
+                putBoolean(keySilentMode, value)
+            }
+        }
+
     private val timerWorkDefaultValue: Int
     private val timerBreakDefaultValue: Int
     private val workHoursStartDefaultValue: Int
     private val workHoursEndDefaultValue: Int
+    private val silentModeDefaultValue: Boolean
 
     private val sharedPreference: SharedPreferences
 
@@ -28,11 +41,13 @@ class SettingsManager constructor(private val context: Context) {
             keyTimerBreak = getString(R.string.settings_key_timer_break)
             keyWorkHoursStart = getString(R.string.settings_key_work_hour_start)
             keyWorkHoursEnd = getString(R.string.settings_key_work_hour_end)
+            keySilentMode = getString(R.string.settings_key_silent_mode)
 
             timerWorkDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_timer_work))
             timerBreakDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_timer_break))
             workHoursStartDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_work_hour_start))
             workHoursEndDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_work_hour_end))
+            silentModeDefaultValue = getString(R.string.settings_default_value_silent_mode) == true.toString()
 
             sharedPreference = PreferenceManager.getDefaultSharedPreferences(this)
         }

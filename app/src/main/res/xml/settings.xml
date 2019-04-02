@@ -8,16 +8,16 @@
         app:singleLineTitle="true">
 
         <androidx.preference.Preference
+            android:defaultValue="@string/settings_default_value_timer_work"
             android:key="@string/settings_key_timer_work"
-            android:title="@string/settings_timer_work_title"
             android:layout="@layout/preference_time_duration"
-            android:defaultValue="@string/settings_default_value_timer_work" />
+            android:title="@string/settings_timer_work_title" />
 
         <androidx.preference.Preference
+            android:defaultValue="@string/settings_default_value_timer_break"
             android:key="@string/settings_key_timer_break"
-            android:title="@string/settings_timer_break_title"
             android:layout="@layout/preference_time_duration"
-            android:defaultValue="@string/settings_default_value_timer_break" />
+            android:title="@string/settings_timer_break_title" />
 
     </androidx.preference.PreferenceCategory>
 
@@ -27,16 +27,29 @@
         app:singleLineTitle="true">
 
         <androidx.preference.Preference
+            android:defaultValue="@string/settings_default_value_work_hour_start"
             android:key="@string/settings_key_work_hour_start"
-            android:title="@string/settings_work_hours_start_title"
             android:layout="@layout/preference_time"
-            android:defaultValue="@string/settings_default_value_work_hour_start" />
+            android:title="@string/settings_work_hours_start_title" />
 
         <androidx.preference.Preference
+            android:defaultValue="@string/settings_default_value_work_hour_end"
             android:key="@string/settings_key_work_hour_end"
-            android:title="@string/settings_work_hours_finish_title"
             android:layout="@layout/preference_time"
-            android:defaultValue="@string/settings_default_value_work_hour_end" />
+            android:title="@string/settings_work_hours_finish_title" />
+
+    </androidx.preference.PreferenceCategory>
+
+    <androidx.preference.PreferenceCategory
+        android:title="@string/settings_silent_mode_title"
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="true">
+
+        <androidx.preference.SwitchPreference
+            android:defaultValue="@string/settings_default_value_silent_mode"
+            android:key="@string/settings_key_silent_mode"
+            android:title="@string/settings_silent_mode_pref_title"
+            app:iconSpaceReserved="false" />
 
     </androidx.preference.PreferenceCategory>
 
