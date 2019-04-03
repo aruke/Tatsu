@@ -20,6 +20,11 @@ object Utility {
 
     @TargetApi(Build.VERSION_CODES.O)
     fun createNecessaryNotificationChannels(context: Context) {
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return
+        }
+
         val timerNotificationChannel = NotificationChannel(
                 context.getString(R.string.timer_channel_id),
                 context.getString(R.string.timer_channel_name),

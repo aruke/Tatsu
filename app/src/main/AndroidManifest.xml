@@ -58,6 +58,15 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".work.WorkTimeAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.rionlabs.tatsu.start_work" />
+                <action android:name="org.rionlabs.tatsu.end_work" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

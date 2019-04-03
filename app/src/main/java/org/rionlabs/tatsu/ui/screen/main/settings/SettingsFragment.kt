@@ -1,6 +1,8 @@
 package org.rionlabs.tatsu.ui.screen.main.settings
 
+import android.app.AlarmManager
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
@@ -20,6 +22,12 @@ import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.work.SettingsManager
+import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver
+import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_END_WORK_NOTIFICATION
+import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_START_WORK_NOTIFICATION
+import timber.log.Timber
+import java.util.*
+
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -51,6 +59,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 val prefValue = hourOfDay * 100 + minute
                 setStartWorkHours(prefValue)
+                scheduleAlarm(ACTION_SHOW_START_WORK_NOTIFICATION, hourOfDay, minute)
             }, minutes / 100, minutes % 100, false).show()
             true
         }
@@ -60,6 +69,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 val prefValue = hourOfDay * 100 + minute
                 setEndWorkHours(prefValue)
+                scheduleAlarm(ACTION_SHOW_END_WORK_NOTIFICATION, hourOfDay, minute)
             }, minutes / 100, minutes % 100, false).show()
             true
         }
@@ -75,7 +85,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<SwitchPreference>(getString(R.string.settings_key_silent_mode))
-                .setOnPreferenceChangeListener { preference, newValue ->
+                .setOnPreferenceChangeListener { _, newValue ->
                     if (newValue == true) {
                         (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.let {
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -122,5 +132,34 @@ class SettingsFragment : PreferenceFragmentCompat() {
             putInt(settingManager.keyWorkHoursEnd, workHoursInMinutes)
         }
         listView?.adapter?.notifyDataSetChanged()
+    }
+
+    private fun scheduleAlarm(action: String, hours: Int, minutes: Int) {
+
+        val alarmManager = context?.let {
+            it.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        } ?: run {
+            Timber.e("AlarmManager Not Available")
+            return
+        }
+
+        val intent = Intent(context, WorkTimeAlarmReceiver::class.java)
+        if (action in arrayOf(ACTION_SHOW_START_WORK_NOTIFICATION, ACTION_SHOW_END_WORK_NOTIFICATION)) {
+            intent.action = action
+        } else {
+            throw IllegalStateException("Invalid Action for WorkTimeAlarmReceiver")
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, 0)
+        val millis = Calendar.getInstance(TimeZone.getDefault()).also {
+            it.set(Calendar.HOUR_OF_DAY, hours)
+            it.set(Calendar.MINUTE, minutes)
+            // Keep a 15 minutes offset, because AlarmManager doesn't set exact time
+            it.set(Calendar.MINUTE, -15)
+        }.timeInMillis
+
+        val interval = 86400000L
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, millis, interval, pendingIntent)
     }
 }
