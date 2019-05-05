@@ -1,9 +1,11 @@
 package org.rionlabs.tatsu.ui.screen.main.timer
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +18,7 @@ import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import timber.log.Timber
 
-class TimerFragment : Fragment() {
+class TimerFragment : Fragment(), TimerInteractionListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentTimerBinding
@@ -36,6 +38,7 @@ class TimerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showFinishTimerFragment()
         viewModel.stateData.observe(this, Observer {
             it?.let { state ->
                 binding.apply {
@@ -44,27 +47,27 @@ class TimerFragment : Fragment() {
                         TimerState.IDLE -> {
                             actionButton.setImageResource(R.drawable.ic_play)
                             actionButton.setOnClickListener {
-                                viewModel.startNewTimer()
+                                startWorkTimer()
                             }
                             actionButton.setOnLongClickListener(null)
                         }
                         TimerState.RUNNING -> {
                             actionButton.setImageResource(R.drawable.ic_pause)
                             actionButton.setOnClickListener {
-                                viewModel.pauseTimer()
+                                pauseTimer()
                             }
                             actionButton.setOnLongClickListener {
-                                viewModel.cancelTimer()
+                                cancelTimer()
                                 true
                             }
                         }
                         TimerState.PAUSED -> {
                             actionButton.setImageResource(R.drawable.ic_play)
                             actionButton.setOnClickListener {
-                                viewModel.resumeTimer()
+                                resumeTimer()
                             }
                             actionButton.setOnLongClickListener {
-                                viewModel.cancelTimer()
+                                cancelTimer()
                                 true
                             }
                         }
@@ -100,5 +103,38 @@ class TimerFragment : Fragment() {
                 }
             }
         })
+    }
+
+    override fun startWorkTimer() {
+        viewModel.startNewTimer()
+    }
+
+    override fun startBreakTimer() {
+    }
+
+    override fun pauseTimer() {
+        viewModel.pauseTimer()
+    }
+
+    override fun resumeTimer() {
+        viewModel.resumeTimer()
+    }
+
+    override fun cancelTimer() {
+        viewModel.cancelTimer()
+    }
+
+    private fun showFinishTimerFragment() {
+        AlertDialog.Builder(requireContext(), R.style.AppTheme_AlertDialog)
+            .setTitle(R.string.timer_finish_title)
+            .setMessage(R.string.timer_finish_text)
+            .setPositiveButton(R.string.timer_finish_button_start_break) { _: DialogInterface, _: Int ->
+                startBreakTimer()
+
+            }
+            .setNegativeButton(R.string.timer_finish_button_cancel) { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
+            .show()
     }
 }

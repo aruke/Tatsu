@@ -8,7 +8,8 @@ import androidx.lifecycle.Observer
 import org.rionlabs.tatsu.TatsuApp
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
-import org.rionlabs.tatsu.data.model.TimerState.*
+import org.rionlabs.tatsu.data.model.TimerState.CANCELLED
+import org.rionlabs.tatsu.data.model.TimerState.IDLE
 import org.rionlabs.tatsu.work.SettingsManager
 import org.rionlabs.tatsu.work.SilentModeManager
 import timber.log.Timber
@@ -35,7 +36,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             mTimerData.value = timer
             mStateData.value = timer.state
 
-            if (timer.state == IDLE || timer.state == STOPPED || timer.state == CANCELLED) {
+            if (timer.state == IDLE || timer.state == CANCELLED) {
                 resetTimerData()
             }
         }

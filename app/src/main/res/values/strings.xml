@@ -15,6 +15,14 @@
     <string name="label_short_seconds">S</string>
     <string name="start_timer">Start Timer</string>
 
+    <!-- Timer Finish Dialog -->
+    <string name="timer_finish_title">Congrats! One sitting is complete!</string>
+    <string name="timer_finish_text">Now that you have worked for a good amount of time, go out and have a stretch!
+    </string>
+    <string name="timer_finish_sub_text">@string/empty</string>
+    <string name="timer_finish_button_start_break">Start break</string>
+    <string name="timer_finish_button_cancel">No, I want free time</string>
+
     <!-- Settings Screen -->
     <string name="settings_timer_title">Timer</string>
     <string name="settings_timer_work_title">Work Duration</string>
@@ -50,7 +58,7 @@
     <string name="stats_last_week">Last Week\'s Stats</string>
 
     <!-- Common -->
-    <string name="empty" />
+    <string name="empty" translatable="false"/>
 
     <!-- Notification Channel -->
     <string name="timer_channel_id" translatable="false">default</string>
