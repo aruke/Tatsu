@@ -48,13 +48,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
         settingManager.apply {
-            findPreference<Preference>(keyTimerWork).summaryProvider = durationSummaryProvider
-            findPreference<Preference>(keyTimerBreak).summaryProvider = durationSummaryProvider
-            findPreference<Preference>(keyWorkHoursStart).summaryProvider = timeSummaryProvider
-            findPreference<Preference>(keyWorkHoursEnd).summaryProvider = timeSummaryProvider
+            findPreference<Preference>(keyTimerWork)?.summaryProvider = durationSummaryProvider
+            findPreference<Preference>(keyTimerBreak)?.summaryProvider = durationSummaryProvider
+            findPreference<Preference>(keyWorkHoursStart)?.summaryProvider = timeSummaryProvider
+            findPreference<Preference>(keyWorkHoursEnd)?.summaryProvider = timeSummaryProvider
         }
 
-        findPreference<Preference>(settingManager.keyWorkHoursStart).setOnPreferenceClickListener {
+        findPreference<Preference>(settingManager.keyWorkHoursStart)?.setOnPreferenceClickListener {
             val minutes = settingManager.getStartWorkHour()
             TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 val prefValue = hourOfDay * 100 + minute
@@ -64,7 +64,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        findPreference<Preference>(settingManager.keyWorkHoursEnd).setOnPreferenceClickListener {
+        findPreference<Preference>(settingManager.keyWorkHoursEnd)?.setOnPreferenceClickListener {
             val minutes = settingManager.getEndWorkHour()
             TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 val prefValue = hourOfDay * 100 + minute
@@ -74,18 +74,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        findPreference<Preference>(getString(R.string.settings_key_about)).setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.settings_key_about))?.setOnPreferenceClickListener {
             FullScreenDialogFragment.show(requireActivity(), R.string.settings_about_title, R.layout.layout_about)
             true
         }
 
-        findPreference<Preference>(getString(R.string.settings_key_feedback)).setOnPreferenceClickListener {
+        findPreference<Preference>(getString(R.string.settings_key_feedback))?.setOnPreferenceClickListener {
             FullScreenDialogFragment.show(requireActivity(), R.string.settings_feedback_title, R.layout.layout_feedback)
             true
         }
 
         findPreference<SwitchPreference>(getString(R.string.settings_key_silent_mode))
-                .setOnPreferenceChangeListener { _, newValue ->
+            ?.setOnPreferenceChangeListener { _, newValue ->
                     if (newValue == true) {
                         (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.let {
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
