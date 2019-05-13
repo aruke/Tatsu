@@ -16,6 +16,7 @@ import org.rionlabs.tatsu.work.NotificationActionReceiver
 object NotificationUI {
 
     const val TIMER_NOTIFICATION_ID = 23
+    const val WORK_HOURS_NOTIFICATION_ID = 24
 
     fun getNotificationFor(context: Context, timer: Timer): Notification {
 
@@ -75,5 +76,27 @@ object NotificationUI {
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notification = getNotificationFor(context, timer)
         notificationManager.notify(TIMER_NOTIFICATION_ID, notification)
+    }
+
+    fun getForStartWork(context: Context): Notification {
+        val pendingIntent = Intent(context, SplashActivity::class.java).let { intent ->
+            PendingIntent.getActivity(context, 0, intent, 0)
+        }
+        val builder = NotificationCompat.Builder(context, context.getString(R.string.work_hours_channel_id))
+                .setContentTitle(context.getString(R.string.work_hours_start_notification_title))
+                .setContentText(context.getString(R.string.work_hours_start_notification_message))
+                .setContentIntent(pendingIntent)
+        return builder.setSmallIcon(R.drawable.ic_schedule).build()
+    }
+
+    fun getForEndWork(context: Context): Notification {
+        val pendingIntent = Intent(context, SplashActivity::class.java).let { intent ->
+            PendingIntent.getActivity(context, 0, intent, 0)
+        }
+        val builder = NotificationCompat.Builder(context, context.getString(R.string.work_hours_channel_id))
+                .setContentTitle(context.getString(R.string.work_hours_end_notification_title))
+                .setContentText(context.getString(R.string.work_hours_end_notification_message))
+                .setContentIntent(pendingIntent)
+        return builder.setSmallIcon(R.drawable.ic_schedule).build()
     }
 }

@@ -33,9 +33,18 @@ object Utility {
             description = context.getString(R.string.timer_channel_description)
         }
 
+        val workHoursNotificationChannel = NotificationChannel(
+                context.getString(R.string.work_hours_channel_id),
+                context.getString(R.string.work_hours_channel_name),
+                NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = context.getString(R.string.work_hours_channel_description)
+        }
+
         val notificationManager: NotificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         notificationManager.createNotificationChannel(timerNotificationChannel)
+        notificationManager.createNotificationChannel(workHoursNotificationChannel)
     }
 }
