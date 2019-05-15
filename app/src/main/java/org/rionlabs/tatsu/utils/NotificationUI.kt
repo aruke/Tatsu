@@ -16,7 +16,8 @@ import org.rionlabs.tatsu.work.NotificationActionReceiver
 object NotificationUI {
 
     const val TIMER_NOTIFICATION_ID = 23
-    const val WORK_HOURS_NOTIFICATION_ID = 24
+    const val WORK_HOURS_START_NOTIFICATION_ID = 24
+    const val WORK_HOURS_END_NOTIFICATION_ID = 25
 
     fun getNotificationFor(context: Context, timer: Timer): Notification {
 

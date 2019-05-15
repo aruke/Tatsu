@@ -85,7 +85,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<SwitchPreference>(getString(R.string.settings_key_silent_mode))
-            ?.setOnPreferenceChangeListener { _, newValue ->
+                ?.setOnPreferenceChangeListener { _, newValue ->
                     if (newValue == true) {
                         (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.let {
                             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -154,8 +154,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val millis = Calendar.getInstance(TimeZone.getDefault()).also {
             it.set(Calendar.HOUR_OF_DAY, hours)
             it.set(Calendar.MINUTE, minutes)
-            // Keep a 15 minutes offset, because AlarmManager doesn't set exact time
-            it.set(Calendar.MINUTE, -15)
         }.timeInMillis
 
         val interval = 86400000L

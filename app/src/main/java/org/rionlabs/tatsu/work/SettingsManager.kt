@@ -78,34 +78,32 @@ class SettingsManager constructor(private val context: Context) {
         }
     }
 
-    val durationSummaryProvider = object : Preference.SummaryProvider<Preference> {
-        override fun provideSummary(preference: Preference?): CharSequence {
-            var minutes = 0
-            preference?.let {
-                minutes = when (it.key) {
-                    keyTimerWork -> getWorkTimerInMinutes()
-                    keyTimerBreak -> getBreakTimerInMinutes()
-                    else ->
-                        throw IllegalStateException("Preference must be managed by SettingManager")
-                }
+    val durationSummaryProvider = Preference.SummaryProvider<Preference> { preference ->
+        var minutes = 0
+        preference?.let {
+            minutes = when (it.key) {
+                keyTimerWork -> getWorkTimerInMinutes()
+                keyTimerBreak -> getBreakTimerInMinutes()
+                else ->
+                    throw IllegalStateException("Preference must be managed by SettingManager")
             }
-
-            val hours = minutes / 60
-            minutes %= 60
-
-            var hourString = context.resources.getQuantityString(R.plurals.duration_format_hours, hours, hours)
-            var minuteString = context.resources.getQuantityString(R.plurals.duration_format_minutes, minutes, minutes)
-
-            // English Grammar doesn't honor `zero` plural. See https://stackoverflow.com/a/17261327
-            if (Locale.getDefault().language == Locale.ENGLISH.language) {
-                if (hours == 0)
-                    hourString = ""
-                if (minutes == 0)
-                    minuteString = ""
-            }
-
-            return "$hourString $minuteString"
         }
+
+        val hours = minutes / 60
+        minutes %= 60
+
+        var hourString = context.resources.getQuantityString(R.plurals.duration_format_hours, hours, hours)
+        var minuteString = context.resources.getQuantityString(R.plurals.duration_format_minutes, minutes, minutes)
+
+        // English Grammar doesn't honor `zero` plural. See https://stackoverflow.com/a/17261327
+        if (Locale.getDefault().language == Locale.ENGLISH.language) {
+            if (hours == 0)
+                hourString = ""
+            if (minutes == 0)
+                minuteString = ""
+        }
+
+        "$hourString $minuteString"
     }
 
     fun getWorkTimerInMinutes(): Int {
