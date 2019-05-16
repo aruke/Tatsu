@@ -15,13 +15,19 @@
     <string name="label_short_seconds">S</string>
     <string name="start_timer">Start Timer</string>
 
-    <!-- Timer Finish Dialog -->
-    <string name="timer_finish_title">Congrats! One sitting is complete!</string>
-    <string name="timer_finish_text">Now that you have worked for a good amount of time, go out and have a stretch!
-    </string>
-    <string name="timer_finish_sub_text">@string/empty</string>
-    <string name="timer_finish_button_start_break">Start break</string>
-    <string name="timer_finish_button_cancel">No, I want free time</string>
+    <!-- Work Timer Finish Dialog -->
+    <string name="work_timer_finish_title">Congrats! One sitting is complete!</string>
+    <string name="work_timer_finish_text">Now that you have worked for a good amount of time, go out and have a stretch!</string>
+    <string name="work_timer_finish_sub_text">@string/empty</string>
+    <string name="work_timer_finish_button_start_break">Start break</string>
+    <string name="work_timer_finish_button_cancel">No, I want free time</string>
+
+    <!-- Work Timer Finish Dialog -->
+    <string name="break_timer_finish_title">Chop Chop!</string>
+    <string name="break_timer_finish_text">Time to go back to work now!</string>
+    <string name="break_timer_finish_sub_text">@string/empty</string>
+    <string name="break_timer_finish_button_start_work">Start Work</string>
+    <string name="break_timer_finish_button_cancel">No, I want free time</string>
 
     <!-- Settings Screen -->
     <string name="settings_timer_title">Timer</string>

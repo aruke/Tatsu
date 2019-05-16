@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import org.rionlabs.tatsu.data.AppDatabase
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
+import org.rionlabs.tatsu.data.model.TimerType
 import org.rionlabs.tatsu.utils.*
 import timber.log.Timber
 import java.lang.ref.SoftReference
@@ -59,12 +60,12 @@ class TimerController(app: Application) : LifecycleObserver {
         }
     }
 
-    fun startNewTimer(durationInSeconds: Long): LiveData<Timer> {
+    fun startNewTimer(timerType: TimerType, durationInSeconds: Long): LiveData<Timer> {
         if (isActiveTimerAvailable()) {
             throw IllegalStateException("Already running or paused timer detected.")
         } else {
             Timber.v("Starting new timer...")
-            val timerId = timerDao.insert(Timer(TimeUtils.currentTimeEpoch(), durationInSeconds))
+            val timerId = timerDao.insert(Timer(TimeUtils.currentTimeEpoch(), durationInSeconds, timerType))
             val timer = timerDao.getWith(timerId).copy(state = TimerState.RUNNING)
             activeTimerData.value = timer
             return activeTimerData.also {

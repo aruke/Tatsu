@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.data.model.TimerState
+import org.rionlabs.tatsu.data.model.TimerType
 import org.rionlabs.tatsu.databinding.FragmentTimerBinding
 import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
@@ -38,12 +39,19 @@ class TimerFragment : Fragment(), TimerInteractionListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showFinishTimerFragment()
-        viewModel.stateData.observe(this, Observer {
-            it?.let { state ->
+        viewModel.timerData.observe(this, Observer {
+            it?.let { timer ->
                 binding.apply {
-                    textTimerStatus.text = state.name
-                    when (state) {
+                    Timber.d("Duration in seconds = $timer")
+                    timer.apply {
+                        Timber.d("Duration display = $hours:$minutes:$seconds")
+                        textDigitSeconds.text = seconds.toString()
+                        textDigitMinutes.text = minutes.toString()
+                        textDigitHours.text = hours.toString()
+                    }
+
+                    textTimerStatus.text = timer.state.name
+                    when (timer.state) {
                         TimerState.IDLE -> {
                             actionButton.setImageResource(R.drawable.ic_play)
                             actionButton.setOnClickListener {
@@ -74,31 +82,25 @@ class TimerFragment : Fragment(), TimerInteractionListener {
                         TimerState.STOPPED -> {
                             actionButton.setImageResource(R.drawable.ic_play)
                             actionButton.setOnClickListener {
-                                viewModel.startNewTimer()
+                                viewModel.startNewWorkTimer()
                             }
                             actionButton.setOnLongClickListener(null)
+
+                            // Show timer dialogs
+                            when (timer.type) {
+                                TimerType.WORK ->
+                                    showFinishBreakTimerFragment()
+                                TimerType.BREAK ->
+                                    showFinishWorkTimerFragment()
+                            }
                         }
                         TimerState.CANCELLED -> {
                             actionButton.setImageResource(R.drawable.ic_play)
                             actionButton.setOnClickListener {
-                                viewModel.startNewTimer()
+                                viewModel.startNewWorkTimer()
                             }
                             actionButton.setOnLongClickListener(null)
                         }
-                    }
-                }
-            }
-        })
-
-        viewModel.timerData.observe(this, Observer {
-            it?.let { timer ->
-                binding.apply {
-                    Timber.d("Duration in seconds = $timer")
-                    timer.apply {
-                        Timber.d("Duration display = $hours:$minutes:$seconds")
-                        textDigitSeconds.text = seconds.toString()
-                        textDigitMinutes.text = minutes.toString()
-                        textDigitHours.text = hours.toString()
                     }
                 }
             }
@@ -106,10 +108,13 @@ class TimerFragment : Fragment(), TimerInteractionListener {
     }
 
     override fun startWorkTimer() {
-        viewModel.startNewTimer()
+        viewModel.timerType = TimerType.BREAK
+        viewModel.startNewWorkTimer()
     }
 
     override fun startBreakTimer() {
+        viewModel.timerType = TimerType.BREAK
+        viewModel.startNewBreakTimer()
     }
 
     override fun pauseTimer() {
@@ -124,17 +129,33 @@ class TimerFragment : Fragment(), TimerInteractionListener {
         viewModel.cancelTimer()
     }
 
-    private fun showFinishTimerFragment() {
+    private fun showFinishWorkTimerFragment() {
         AlertDialog.Builder(requireContext(), R.style.AppTheme_AlertDialog)
-            .setTitle(R.string.timer_finish_title)
-            .setMessage(R.string.timer_finish_text)
-            .setPositiveButton(R.string.timer_finish_button_start_break) { _: DialogInterface, _: Int ->
+                .setTitle(R.string.work_timer_finish_title)
+                .setMessage(R.string.work_timer_finish_text)
+                .setPositiveButton(R.string.work_timer_finish_button_start_break) { _: DialogInterface, _: Int ->
                 startBreakTimer()
-
             }
-            .setNegativeButton(R.string.timer_finish_button_cancel) { dialogInterface: DialogInterface, _: Int ->
+                .setNegativeButton(R.string.work_timer_finish_button_cancel) { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
+                    viewModel.timerType = TimerType.BREAK
+                    viewModel.resetTimerData()
             }
             .show()
+    }
+
+    private fun showFinishBreakTimerFragment() {
+        AlertDialog.Builder(requireContext(), R.style.AppTheme_AlertDialog)
+                .setTitle(R.string.break_timer_finish_title)
+                .setMessage(R.string.break_timer_finish_text)
+                .setPositiveButton(R.string.break_timer_finish_button_start_work) { _: DialogInterface, _: Int ->
+                    startWorkTimer()
+                }
+                .setNegativeButton(R.string.break_timer_finish_button_cancel) { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    viewModel.timerType = TimerType.WORK
+                    viewModel.resetTimerData()
+                }
+                .show()
     }
 }
