@@ -70,3 +70,9 @@ dependencies {
 
     androidTestImplementation "android.arch.work:work-testing:$workVersion"
 }
+
+android.defaultConfig.javaCompileOptions {
+    annotationProcessorOptions {
+        arguments = ["room.schemaLocation": "$projectDir/schema".toString()]
+    }
+}
