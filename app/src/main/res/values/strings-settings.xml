@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_key_timer_work" translatable="false">key_timer_work</string>
-    <string name="settings_default_value_timer_work" translatable="false">1</string>
+    <string name="settings_default_value_timer_work" translatable="false">25</string>
+
+    <string-array name="work_timer_value_set">
+        <item>10</item>
+        <item>25</item>
+        <item>40</item>
+        <item>55</item>
+        <item>70</item>
+        <item>85</item>
+        <item>100</item>
+        <item>115</item>
+    </string-array>
 
     <string name="settings_key_timer_break" translatable="false">key_timer_break</string>
-    <string name="settings_default_value_timer_break" translatable="false">1</string>
+    <string name="settings_default_value_timer_break" translatable="false">5</string>
+
+    <string-array name="break_timer_value_set">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
 
     <string name="settings_key_work_hour_start" translatable="false">key_work_hour_start</string>
     <string name="settings_default_value_work_hour_start" translatable="false">900</string>

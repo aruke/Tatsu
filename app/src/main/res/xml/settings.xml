@@ -7,14 +7,16 @@
         app:iconSpaceReserved="false"
         app:singleLineTitle="true">
 
-        <androidx.preference.Preference
+        <androidx.preference.ListPreference
             android:defaultValue="@string/settings_default_value_timer_work"
+            android:entryValues="@array/work_timer_value_set"
             android:key="@string/settings_key_timer_work"
             android:layout="@layout/preference_time_duration"
             android:title="@string/settings_timer_work_title" />
 
-        <androidx.preference.Preference
+        <androidx.preference.ListPreference
             android:defaultValue="@string/settings_default_value_timer_break"
+            android:entryValues="@array/break_timer_value_set"
             android:key="@string/settings_key_timer_break"
             android:layout="@layout/preference_time_duration"
             android:title="@string/settings_timer_break_title" />

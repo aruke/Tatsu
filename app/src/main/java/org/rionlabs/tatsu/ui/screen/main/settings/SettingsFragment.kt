@@ -13,21 +13,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProviders
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreference
+import androidx.preference.*
 import androidx.recyclerview.widget.RecyclerView
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
+import org.rionlabs.tatsu.utils.TimeUtils
 import org.rionlabs.tatsu.work.SettingsManager
 import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver
 import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_END_WORK_NOTIFICATION
 import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_START_WORK_NOTIFICATION
 import timber.log.Timber
 import java.util.*
-
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -50,6 +47,24 @@ class SettingsFragment : PreferenceFragmentCompat() {
         settingManager.apply {
             findPreference<Preference>(keyTimerWork)?.summaryProvider = durationSummaryProvider
             findPreference<Preference>(keyTimerBreak)?.summaryProvider = durationSummaryProvider
+
+            (findPreference<Preference>(keyTimerWork) as ListPreference).apply {
+                entries = entryValues.map {
+                    TimeUtils.toDurationString(
+                        requireContext(),
+                        it.toString().toInt()
+                    )
+                }.toTypedArray()
+            }
+            (findPreference<Preference>(keyTimerBreak) as ListPreference).apply {
+                entries = entryValues.map {
+                    TimeUtils.toDurationString(
+                        requireContext(),
+                        it.toString().toInt()
+                    )
+                }.toTypedArray()
+            }
+
             findPreference<Preference>(keyWorkHoursStart)?.summaryProvider = timeSummaryProvider
             findPreference<Preference>(keyWorkHoursEnd)?.summaryProvider = timeSummaryProvider
         }

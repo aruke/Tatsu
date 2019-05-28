@@ -6,7 +6,7 @@ import androidx.core.content.edit
 import androidx.preference.Preference
 import androidx.preference.PreferenceManager
 import org.rionlabs.tatsu.R
-import java.util.*
+import org.rionlabs.tatsu.utils.TimeUtils
 
 class SettingsManager constructor(private val context: Context) {
 
@@ -26,8 +26,8 @@ class SettingsManager constructor(private val context: Context) {
             }
         }
 
-    private val timerWorkDefaultValue: Int
-    private val timerBreakDefaultValue: Int
+    private val timerWorkDefaultValue: String
+    private val timerBreakDefaultValue: String
     private val workHoursStartDefaultValue: Int
     private val workHoursEndDefaultValue: Int
     private val silentModeDefaultValue: Boolean
@@ -43,39 +43,31 @@ class SettingsManager constructor(private val context: Context) {
             keyWorkHoursEnd = getString(R.string.settings_key_work_hour_end)
             keySilentMode = getString(R.string.settings_key_silent_mode)
 
-            timerWorkDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_timer_work))
-            timerBreakDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_timer_break))
-            workHoursStartDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_work_hour_start))
-            workHoursEndDefaultValue = Integer.parseInt(getString(R.string.settings_default_value_work_hour_end))
-            silentModeDefaultValue = getString(R.string.settings_default_value_silent_mode) == true.toString()
+            timerWorkDefaultValue = getString(R.string.settings_default_value_timer_work)
+            timerBreakDefaultValue = getString(R.string.settings_default_value_timer_break)
+            workHoursStartDefaultValue =
+                Integer.parseInt(getString(R.string.settings_default_value_work_hour_start))
+            workHoursEndDefaultValue =
+                Integer.parseInt(getString(R.string.settings_default_value_work_hour_end))
+            silentModeDefaultValue =
+                getString(R.string.settings_default_value_silent_mode) == true.toString()
 
             sharedPreference = PreferenceManager.getDefaultSharedPreferences(this)
         }
     }
 
-    val timeSummaryProvider = object : Preference.SummaryProvider<Preference> {
-        override fun provideSummary(preference: Preference?): CharSequence {
-            var time = 0
-            preference?.let {
-                time = when (it.key) {
-                    keyWorkHoursStart -> getStartWorkHour()
-                    keyWorkHoursEnd -> getEndWorkHour()
-                    else ->
-                        throw IllegalStateException("Preference must be managed by SettingManager")
-                }
-            }
-
-            val minutes = time % 100
-            var hours = (time / 100)
-            if (hours < 12) {
-                if (hours == 0) {
-                    hours = 12
-                }
-                return context.getString(R.string.time_format_am, hours, minutes)
-            } else {
-                return context.getString(R.string.time_format_pm, (hours - 12), minutes)
+    val timeSummaryProvider = Preference.SummaryProvider<Preference> { preference ->
+        var time = 0
+        preference?.let {
+            time = when (it.key) {
+                keyWorkHoursStart -> getStartWorkHour()
+                keyWorkHoursEnd -> getEndWorkHour()
+                else ->
+                    throw IllegalStateException("Preference must be managed by SettingManager")
             }
         }
+
+        TimeUtils.toTimeString(context, time)
     }
 
     val durationSummaryProvider = Preference.SummaryProvider<Preference> { preference ->
@@ -88,30 +80,17 @@ class SettingsManager constructor(private val context: Context) {
                     throw IllegalStateException("Preference must be managed by SettingManager")
             }
         }
-
-        val hours = minutes / 60
-        minutes %= 60
-
-        var hourString = context.resources.getQuantityString(R.plurals.duration_format_hours, hours, hours)
-        var minuteString = context.resources.getQuantityString(R.plurals.duration_format_minutes, minutes, minutes)
-
-        // English Grammar doesn't honor `zero` plural. See https://stackoverflow.com/a/17261327
-        if (Locale.getDefault().language == Locale.ENGLISH.language) {
-            if (hours == 0)
-                hourString = ""
-            if (minutes == 0)
-                minuteString = ""
-        }
-
-        "$hourString $minuteString"
+        TimeUtils.toDurationString(context, minutes)
     }
 
     fun getWorkTimerInMinutes(): Int {
-        return sharedPreference.getInt(keyTimerWork, timerWorkDefaultValue)
+        return sharedPreference.getString(keyTimerWork, timerWorkDefaultValue)?.toInt()
+            ?: timerWorkDefaultValue.toInt()
     }
 
     fun getBreakTimerInMinutes(): Int {
-        return sharedPreference.getInt(keyTimerBreak, timerBreakDefaultValue)
+        return sharedPreference.getString(keyTimerBreak, timerBreakDefaultValue)?.toInt()
+            ?: timerBreakDefaultValue.toInt()
     }
 
     fun getStartWorkHour(): Int {
