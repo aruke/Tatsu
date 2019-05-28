@@ -32,6 +32,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private lateinit var settingManager: SettingsManager
 
+    private lateinit var workDurationPref: ListPreference
+    private lateinit var breakDurationPref: ListPreference
+    private lateinit var workStartTimePref: Preference
+    private lateinit var workEndTimePref: Preference
+    private lateinit var silentModePref: SwitchPreference
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         settingManager = SettingsManager(context)
@@ -44,19 +50,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)
+
         settingManager.apply {
-            findPreference<Preference>(keyTimerWork)?.summaryProvider = durationSummaryProvider
-            findPreference<Preference>(keyTimerBreak)?.summaryProvider = durationSummaryProvider
+            workDurationPref = findPreference(keyTimerWork)!!
+            breakDurationPref = findPreference(keyTimerBreak)!!
+            workStartTimePref = findPreference(keyWorkHoursStart)!!
+            workEndTimePref = findPreference(keyWorkHoursEnd)!!
+            silentModePref = findPreference(getString(R.string.settings_key_silent_mode))!!
 
-            (findPreference<Preference>(keyTimerWork) as ListPreference).apply {
-                entries = entryValues.map {
-                    TimeUtils.toDurationString(
-                        requireContext(),
-                        it.toString().toInt()
-                    )
-                }.toTypedArray()
-            }
-            (findPreference<Preference>(keyTimerBreak) as ListPreference).apply {
+            workDurationPref.summaryProvider = durationSummaryProvider
+            breakDurationPref.summaryProvider = durationSummaryProvider
+
+            workDurationPref.apply {
                 entries = entryValues.map {
                     TimeUtils.toDurationString(
                         requireContext(),
@@ -65,11 +70,20 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }.toTypedArray()
             }
 
-            findPreference<Preference>(keyWorkHoursStart)?.summaryProvider = timeSummaryProvider
-            findPreference<Preference>(keyWorkHoursEnd)?.summaryProvider = timeSummaryProvider
+            breakDurationPref.apply {
+                entries = entryValues.map {
+                    TimeUtils.toDurationString(
+                        requireContext(),
+                        it.toString().toInt()
+                    )
+                }.toTypedArray()
+            }
+
+            workStartTimePref.summaryProvider = timeSummaryProvider
+            workEndTimePref.summaryProvider = timeSummaryProvider
         }
 
-        findPreference<Preference>(settingManager.keyWorkHoursStart)?.setOnPreferenceClickListener {
+        workStartTimePref.setOnPreferenceClickListener {
             val minutes = settingManager.getStartWorkHour()
             TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 val prefValue = hourOfDay * 100 + minute
@@ -79,7 +93,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        findPreference<Preference>(settingManager.keyWorkHoursEnd)?.setOnPreferenceClickListener {
+        workEndTimePref.setOnPreferenceClickListener {
             val minutes = settingManager.getEndWorkHour()
             TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 val prefValue = hourOfDay * 100 + minute
@@ -99,28 +113,27 @@ class SettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        findPreference<SwitchPreference>(getString(R.string.settings_key_silent_mode))
-                ?.setOnPreferenceChangeListener { _, newValue ->
-                    if (newValue == true) {
-                        (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.let {
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                                return@setOnPreferenceChangeListener true
-                            }
-
-                            if (!it.isNotificationPolicyAccessGranted) {
-                                val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-                                startActivity(intent)
-                                return@setOnPreferenceChangeListener false
-                            } else {
-                                return@setOnPreferenceChangeListener true
-                            }
-                        } ?: run {
-                            return@setOnPreferenceChangeListener false
-                        }
+        silentModePref.setOnPreferenceChangeListener { _, newValue ->
+            if (newValue == true) {
+                (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.let {
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                        return@setOnPreferenceChangeListener true
                     }
 
-                    return@setOnPreferenceChangeListener true
+                    if (!it.isNotificationPolicyAccessGranted) {
+                        val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+                        startActivity(intent)
+                        return@setOnPreferenceChangeListener false
+                    } else {
+                        return@setOnPreferenceChangeListener true
+                    }
+                } ?: run {
+                    return@setOnPreferenceChangeListener false
                 }
+            }
+
+            return@setOnPreferenceChangeListener true
+        }
     }
 
     override fun onCreateRecyclerView(inflater: LayoutInflater?, parent: ViewGroup?, savedInstanceState: Bundle?): RecyclerView {
