@@ -7,27 +7,27 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "timers")
 data class Timer(
-        @PrimaryKey(autoGenerate = true) val id: Long,
-        /**
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    /**
      * Start time in form of epoch time.
      */
     @ColumnInfo(name = "start_time") val startTime: Long,
-        /**
+    /**
      * End time in form of epoch time.
      */
     @ColumnInfo(name = "end_time") val endTime: Long,
-        /**
+    /**
      * End time in seconds.
      */
     @ColumnInfo(name = "duration") val duration: Long,
-        /**
+    /**
      * Either of [TimerState]
      */
-        @ColumnInfo(name = "state") val state: TimerState,
-        /**
-         * Either of [TimerType]
-         */
-        @ColumnInfo(name = "type") val type: TimerType
+    @ColumnInfo(name = "state") val state: TimerState,
+    /**
+     * Either of [TimerType]
+     */
+    @ColumnInfo(name = "type") val type: TimerType
 ) {
     @Ignore
     constructor(startTime: Long, duration: Long, type: TimerType) :

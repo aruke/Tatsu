@@ -2,6 +2,7 @@ package org.rionlabs.tatsu.utils
 
 import android.content.Context
 import org.rionlabs.tatsu.R
+import java.text.SimpleDateFormat
 import java.util.*
 
 object TimeUtils {
@@ -41,5 +42,18 @@ object TimeUtils {
         } else {
             context.getString(R.string.time_format_pm, (hours - 12), minutes)
         }
+    }
+
+    fun toTimeString(context: Context, startEpoch: Long, endEpoch: Long): String {
+        val startDate = Date(startEpoch * 1000L)
+        val endDate = Date(endEpoch * 1000L)
+        val dateFormat = SimpleDateFormat("dd MMM", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+        val startTime = timeFormat.format(startDate)
+        val endTime = timeFormat.format(endDate)
+        val formattedDate = dateFormat.format(startDate)
+
+        return context.getString(R.string.stats_time_format, formattedDate, startTime, endTime)
     }
 }

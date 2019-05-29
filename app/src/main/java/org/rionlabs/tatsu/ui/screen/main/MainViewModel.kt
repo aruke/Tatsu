@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import org.rionlabs.tatsu.TatsuApp
+import org.rionlabs.tatsu.data.AppDatabase
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState.CANCELLED
 import org.rionlabs.tatsu.data.model.TimerState.IDLE
@@ -18,6 +19,10 @@ import timber.log.Timber
 class MainViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val timerController = (app as TatsuApp).timerController
+
+    private val timerDao = AppDatabase.getInstance(app.applicationContext).timerDao()
+    val timerListData: LiveData<List<Timer>>
+        get() = timerDao.getAll()
 
     private val settingManager = SettingsManager(app)
 

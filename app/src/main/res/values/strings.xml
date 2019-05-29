@@ -62,6 +62,7 @@
     <!-- Stats Screen -->
     <string name="stats_today">Today\'s Stats</string>
     <string name="stats_last_week">Last Week\'s Stats</string>
+    <string name="stats_time_format">%1$s, %2$s to %3$s</string>
 
     <!-- Common -->
     <string name="empty" translatable="false" />
