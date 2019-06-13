@@ -26,6 +26,16 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        rc {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            debuggable = false
+            jniDebuggable = false
+            renderscriptDebuggable = false
+
+            applicationIdSuffix = '.rc'
+        }
     }
 }
 
