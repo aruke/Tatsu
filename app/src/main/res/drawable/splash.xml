@@ -5,18 +5,18 @@
         <color android:color="@color/colorPrimary" />
     </item>
 
-    <item android:gravity="center">
+    <item
+        android:gravity="center"
+        android:top="-72dp">
         <bitmap
-            android:gravity="center"
             android:mipMap="true"
             android:src="@drawable/img_splash" />
     </item>
 
     <item
         android:bottom="48dp"
-        android:gravity="bottom">
+        android:gravity="bottom|center_horizontal">
         <bitmap
-            android:gravity="bottom"
             android:mipMap="true"
             android:src="@drawable/img_rionlabs" />
     </item>
