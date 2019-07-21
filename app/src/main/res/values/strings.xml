@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Tatsu</string>
 
+    <!-- App Guide -->
+    <string name="button_text_finish_guide">Start using Tatsu</string>
+
     <!-- Menu Titles -->
     <string name="title_stats">Stats</string>
     <string name="title_timer">Timer</string>

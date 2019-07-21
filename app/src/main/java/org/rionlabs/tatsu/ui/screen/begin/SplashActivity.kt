@@ -3,14 +3,21 @@ package org.rionlabs.tatsu.ui.screen.begin
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import org.rionlabs.tatsu.ui.screen.guide.GuideActivity
 import org.rionlabs.tatsu.ui.screen.main.MainActivity
+import org.rionlabs.tatsu.work.PreferenceManager
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val preferenceManager = PreferenceManager(application)
+        val intent = if (preferenceManager.shouldShowGuide()) {
+            Intent(this, GuideActivity::class.java)
+        } else {
+            Intent(this, MainActivity::class.java)
+        }
         startActivity(intent)
         finish()
     }
