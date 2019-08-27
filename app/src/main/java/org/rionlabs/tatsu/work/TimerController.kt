@@ -137,14 +137,14 @@ class TimerController(app: Application) : LifecycleObserver {
         oldTimer?.let {
             if (it.state == TimerState.RUNNING) {
                 if (it.duration == 0L) {
-                    updateStateAndDump(TimerState.STOPPED)
+                    updateStateAndDump(TimerState.FINISHED)
                 } else {
                     it.updateLiveData(activeTimerData, duration = it.duration - 1)
                 }
             }
 
             // Cancel timerTask for this timer, if it is not to be ticked
-            if (it.state == TimerState.STOPPED || it.state == TimerState.CANCELLED) {
+            if (it.state == TimerState.FINISHED || it.state == TimerState.CANCELLED) {
                 timerTask?.cancel(true)
                 timerTask = null
             }

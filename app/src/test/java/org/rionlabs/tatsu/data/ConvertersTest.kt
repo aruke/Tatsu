@@ -12,7 +12,7 @@ class ConvertersTest {
         assertEquals("IDLE", Converters.toString(TimerState.IDLE))
         assertEquals("RUNNING", Converters.toString(TimerState.RUNNING))
         assertEquals("PAUSED", Converters.toString(TimerState.PAUSED))
-        assertEquals("STOPPED", Converters.toString(TimerState.STOPPED))
+        assertEquals("FINISHED", Converters.toString(TimerState.FINISHED))
         assertEquals("CANCELLED", Converters.toString(TimerState.CANCELLED))
     }
 
@@ -21,7 +21,7 @@ class ConvertersTest {
         assertEquals(TimerState.IDLE, Converters.toTimerState("IDLE"))
         assertEquals(TimerState.RUNNING, Converters.toTimerState("RUNNING"))
         assertEquals(TimerState.PAUSED, Converters.toTimerState("PAUSED"))
-        assertEquals(TimerState.STOPPED, Converters.toTimerState("STOPPED"))
+        assertEquals(TimerState.FINISHED, Converters.toTimerState("FINISHED"))
         assertEquals(TimerState.CANCELLED, Converters.toTimerState("CANCELLED"))
     }
 

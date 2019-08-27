@@ -79,7 +79,7 @@ class TimerFragment : Fragment(), TimerInteractionListener {
                                 true
                             }
                         }
-                        TimerState.STOPPED -> {
+                        TimerState.FINISHED -> {
                             actionButton.setImageResource(R.drawable.ic_play)
                             actionButton.setOnClickListener {
                                 viewModel.startNewWorkTimer()

@@ -17,7 +17,7 @@ class TimerService : Service() {
     private val timerObserver = Observer<Timer> {
         it?.let { timer ->
             NotificationUI.update(this, timer)
-            if (timer.state == TimerState.STOPPED) {
+            if (timer.state == TimerState.FINISHED) {
                 stopForeground(false)
             } else if (timer.state == TimerState.CANCELLED) {
                 stopForeground(true)
