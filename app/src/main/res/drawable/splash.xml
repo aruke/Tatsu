@@ -6,8 +6,8 @@
     </item>
 
     <item
-        android:gravity="center"
-        android:top="-72dp">
+        android:bottom="72dp"
+        android:gravity="center">
         <bitmap
             android:mipMap="true"
             android:src="@drawable/img_splash" />
@@ -17,6 +17,7 @@
         android:bottom="48dp"
         android:gravity="bottom|center_horizontal">
         <bitmap
+            android:alpha="0.6"
             android:mipMap="true"
             android:src="@drawable/img_rionlabs" />
     </item>
