@@ -46,14 +46,7 @@ class TimerFragment : Fragment() {
         viewModel.timerData.observe(viewLifecycleOwner, Observer {
             it?.let { timer ->
                 binding.apply {
-                    Timber.d("Duration in seconds = $timer")
-                    timer.apply {
-                        Timber.d("Duration display = $hours:$minutes:$seconds")
-                        textDigitSeconds.text = seconds.toString()
-                        textDigitMinutes.text = minutes.toString()
-                        textDigitHours.text = hours.toString()
-                    }
-
+                    digitalTimer.setTimer(timer)
                     textTimerStatus.text = timer.state.name
                 }
             }
