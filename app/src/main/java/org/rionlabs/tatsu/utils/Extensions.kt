@@ -1,5 +1,6 @@
 package org.rionlabs.tatsu.utils
 
+import android.content.res.Resources
 import androidx.lifecycle.MutableLiveData
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
@@ -17,10 +18,17 @@ fun Timer.updateLiveData(
 
     val oldTimer = mutableLiveData.value
     oldTimer?.let {
-        mutableLiveData.value = it.copy(duration = duration, state = state, startTime = startTime, endTime = endTime)
+        mutableLiveData.value =
+            it.copy(duration = duration, state = state, startTime = startTime, endTime = endTime)
     }
 }
 
 fun Timer.isActive(): Boolean {
     return state == TimerState.RUNNING || state == TimerState.PAUSED
 }
+
+val Int.dp: Float
+    get() = (this * Resources.getSystem().displayMetrics.density)
+
+val Int.px: Float
+    get() = (this / Resources.getSystem().displayMetrics.density)

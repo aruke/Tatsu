@@ -1,7 +1,6 @@
 package org.rionlabs.tatsu.ui.screen.main.timer
 
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +46,7 @@ class TimerFragment : Fragment() {
             it?.let { timer ->
                 binding.apply {
                     digitalTimer.setTimer(timer)
-                    textTimerStatus.text = timer.state.name
+                    analogTimer.setTimer(timer)
                 }
             }
         })
@@ -70,8 +69,6 @@ class TimerFragment : Fragment() {
                     }
                 }
                 WORK_TIMER_RUNNING -> {
-                    binding.contentLayout.setBackgroundColor(Color.RED)
-
                     actionButton.setImageResource(R.drawable.ic_pause)
                     actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_PAUSED)
@@ -87,8 +84,6 @@ class TimerFragment : Fragment() {
                     showFinishWorkTimerFragment()
                 }
                 BREAK_TIMER_RUNNING -> {
-                    binding.contentLayout.setBackgroundColor(Color.GREEN)
-
                     actionButton.setImageResource(R.drawable.ic_pause)
                     actionButton.setOnClickListener {
                         viewModel.requestState(BREAK_TIMER_PAUSED)
