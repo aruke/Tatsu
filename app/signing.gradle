@@ -1,0 +1,20 @@
+def signingProperties = new Properties()
+signingProperties.load(new FileInputStream(file("signing.properties")))
+
+android {
+    signingConfigs {
+        release {
+            storeFile file(signingProperties.releaseStoreFilePath)
+            storePassword signingProperties.releaseStorePassword
+            keyAlias signingProperties.releaseSigningKeyAlias
+            keyPassword signingProperties.releaseSigningKeyPassword
+        }
+
+        rc {
+            storeFile file(signingProperties.rcStoreFilePath)
+            storePassword signingProperties.rcStorePassword
+            keyAlias signingProperties.rcSigningKeyAlias
+            keyPassword signingProperties.rcSigningKeyPassword
+        }
+    }
+}
