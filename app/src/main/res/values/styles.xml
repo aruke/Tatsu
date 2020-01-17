@@ -84,14 +84,14 @@
         <item name="autoSizeMinTextSize">18sp</item>
         <item name="autoSizeMaxTextSize">42sp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/source_code_pro</item>
     </style>
 
     <style name="TimerLabelStyle" parent="TextAppearance.AppCompat.Caption">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:layout_margin">4dp</item>
-        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/source_code_pro</item>
         <item name="android:textSize">22sp</item>
     </style>
 
