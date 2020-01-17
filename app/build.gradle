@@ -31,11 +31,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         rc {
-            signingConfig signingConfigs.rc
-            applicationIdSuffix = '.rc'
-
             initWith release
             matchingFallbacks = ['release']
+
+            signingConfig signingConfigs.rc
+            applicationIdSuffix = '.rc'
         }
         debug {
             applicationIdSuffix = '.debug'
