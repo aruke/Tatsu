@@ -14,6 +14,8 @@ import org.rionlabs.tatsu.ui.screen.main.timer.TimerScreenState
 import org.rionlabs.tatsu.ui.screen.main.timer.TimerScreenState.*
 import org.rionlabs.tatsu.work.SettingsManager
 import org.rionlabs.tatsu.work.SilentModeManager
+import org.rionlabs.tatsu.work.VibrationsManager
+import org.rionlabs.tatsu.work.VibrationsManager.VibeType
 import timber.log.Timber
 
 class MainViewModel(val app: Application) : AndroidViewModel(app) {
@@ -27,6 +29,8 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
     private val settingManager = SettingsManager(app)
 
     private val silentModeManager = SilentModeManager(app)
+
+    private val vibrationsManager = VibrationsManager(app)
 
     private val mTimerData = MutableLiveData<Timer>()
     val timerData: LiveData<Timer> = mTimerData
@@ -100,6 +104,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             WORK_TIMER_RUNNING -> when (timerScreenState) {
                 WORK_TIMER_FINISHED -> {
                     _timerScreenState.postValue(WORK_TIMER_FINISHED)
+                    vibrationsManager.vibrate(VibeType.WORK_FINISHED)
                 }
                 WORK_TIMER_PAUSED -> {
                     pauseTimer()
@@ -130,6 +135,7 @@ class MainViewModel(val app: Application) : AndroidViewModel(app) {
             BREAK_TIMER_RUNNING -> when (timerScreenState) {
                 BREAK_TIMER_FINISHED -> {
                     _timerScreenState.postValue(BREAK_TIMER_FINISHED)
+                    vibrationsManager.vibrate(VibeType.BREAK_FINISHED)
                 }
                 BREAK_TIMER_PAUSED -> {
                     pauseTimer()
