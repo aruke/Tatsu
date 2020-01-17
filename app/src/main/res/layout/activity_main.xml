@@ -59,11 +59,11 @@
         android:id="@+id/mainBottomNavigation"
         style="@style/MainBottomAppBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_gravity="bottom"
         app:fabAlignmentMode="center"
         app:fabCradleMargin="8dp"
-        app:fabCradleRoundedCornerRadius="4dp"
+        app:fabCradleRoundedCornerRadius="22dp"
         app:menu="@menu/main_navigation_menu"
         app:navigationIcon="@drawable/ic_stats" />
 
@@ -72,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_timer"
+        app:fabCustomSize="60dp"
         app:layout_anchor="@id/mainBottomNavigation" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

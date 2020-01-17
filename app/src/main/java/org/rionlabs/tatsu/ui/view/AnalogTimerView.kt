@@ -18,7 +18,7 @@ class AnalogTimerView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val ticksPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.colorPrimary)
+        color = ContextCompat.getColor(context, R.color.colorTimerTicks)
         style = Paint.Style.FILL_AND_STROKE
         strokeWidth = 5.dp
         strokeCap = Paint.Cap.ROUND
@@ -26,7 +26,7 @@ class AnalogTimerView @JvmOverloads constructor(
     }
 
     private val progressBackgroundPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.divider)
+        color = ContextCompat.getColor(context, R.color.colorTimerBackground)
         style = Paint.Style.STROKE
         strokeWidth = 10.dp
         isAntiAlias = true
