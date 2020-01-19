@@ -30,18 +30,20 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        item?.let {
-            if (it.itemId == R.id.navigation_menu_settings) {
-                switchToSettings()
-                return true
-            } else if (it.itemId == android.R.id.home) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            // Actually, Stats icon
+            android.R.id.home -> {
                 switchToStats()
-                return true
+                true
             }
+            // Settings
+            R.id.navigation_menu_settings -> {
+                switchToSettings()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-
-        return super.onOptionsItemSelected(item)
     }
 
     private fun switchToStats() {
