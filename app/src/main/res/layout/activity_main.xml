@@ -64,7 +64,6 @@
         app:fabAlignmentMode="center"
         app:fabCradleMargin="8dp"
         app:fabCradleRoundedCornerRadius="22dp"
-        app:menu="@menu/main_navigation_menu"
         app:navigationIcon="@drawable/ic_stats" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
