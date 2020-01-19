@@ -87,6 +87,9 @@
     <string name="work_hours_start_notification_message">Start work with a cheerful mood!</string>
     <string name="work_hours_end_notification_title">Good work!</string>
     <string name="work_hours_end_notification_message">Time to relax and enjoy rest of the day!</string>
+    <string name="action_resume">Resume</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_stop">Stop</string>
 
     <!-- Sentiments -->
     <string name="happy">&#128525;</string>

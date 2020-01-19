@@ -47,19 +47,19 @@ object NotificationUtils {
         if (timer.state == TimerState.PAUSED) {
             broadcastIntent.action = NotificationActionReceiver.ACTION_START
             val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
-            builder.addAction(R.drawable.ic_play, "Resume", intent)
+            builder.addAction(R.drawable.ic_play, context.getString(R.string.action_resume), intent)
         }
 
         if (timer.state == TimerState.RUNNING) {
             broadcastIntent.action = NotificationActionReceiver.ACTION_PAUSE
             val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
-            builder.addAction(R.drawable.ic_pause, "Pause", intent)
+            builder.addAction(R.drawable.ic_pause, context.getString(R.string.action_pause), intent)
         }
 
         if (timer.state == TimerState.PAUSED || timer.state == TimerState.RUNNING) {
             broadcastIntent.action = NotificationActionReceiver.ACTION_STOP
             val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
-            builder.addAction(R.drawable.ic_stop, "Stop", intent)
+            builder.addAction(R.drawable.ic_stop, context.getString(R.string.action_stop), intent)
         }
 
         return builder.build()
