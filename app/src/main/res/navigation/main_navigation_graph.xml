@@ -13,7 +13,27 @@
     <fragment
         android:id="@+id/navigation_menu_timer"
         android:name="org.rionlabs.tatsu.ui.screen.main.timer.TimerFragment"
-        tools:layout="@layout/fragment_timer" />
+        tools:layout="@layout/fragment_timer">
+
+        <action
+            android:id="@+id/action_navigation_timer_to_stats"
+            app:destination="@id/navigation_menu_stats"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/navigation_menu_timer" />
+
+        <action
+            android:id="@+id/action_navigation_timer_to_settings"
+            app:destination="@+id/navigation_menu_settings"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/navigation_menu_timer" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_menu_settings"

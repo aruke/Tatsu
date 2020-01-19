@@ -47,27 +47,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun switchToStats() {
-        navController.navigate(R.id.navigation_menu_stats)
+        navController.navigate(R.id.action_navigation_timer_to_stats)
         fab.setImageResource(R.drawable.ic_hourglass)
         fab.setOnClickListener {
-            switchToMain()
+            popToMain()
         }
         fab.setOnLongClickListener { false }
         headerSubtitle.text = getString(R.string.title_stats)
     }
 
     private fun switchToSettings() {
-        navController.navigate(R.id.navigation_menu_settings)
+        navController.navigate(R.id.action_navigation_timer_to_settings)
         fab.setImageResource(R.drawable.ic_hourglass)
         fab.setOnClickListener {
-            switchToMain()
+            popToMain()
         }
         fab.setOnLongClickListener { false }
         headerSubtitle.text = getString(R.string.title_settings)
     }
 
     private fun switchToMain() {
-        navController.navigate(R.id.navigation_menu_timer)
+        fab.setOnClickListener {}
+        headerSubtitle.text = getString(R.string.title_timer)
+    }
+
+    private fun popToMain() {
+        navController.popBackStack()
         fab.setOnClickListener {}
         headerSubtitle.text = getString(R.string.title_timer)
     }
