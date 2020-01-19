@@ -16,7 +16,7 @@ class TimerService : Service() {
 
     private val timerObserver = Observer<Timer> {
         it?.let { timer ->
-            NotificationUtils.update(this, timer)
+            NotificationUtils.updateTimerNotification(this, timer)
             if (timer.state == TimerState.FINISHED) {
                 stopForeground(false)
             } else if (timer.state == TimerState.CANCELLED) {
@@ -35,7 +35,7 @@ class TimerService : Service() {
             val activeTimer = timerController.getActiveTimer()
             activeTimer.observeForever(timerObserver)
             val timer = activeTimer.value!!
-            val notification = NotificationUtils.getNotificationFor(this, timer)
+            val notification = NotificationUtils.buildForTimer(this, timer)
             startForeground(NotificationUtils.TIMER_NOTIFICATION_ID, notification)
         }
         return START_NOT_STICKY

@@ -16,9 +16,9 @@ class WorkTimeAlarmReceiver : BroadcastReceiver() {
 
         val notification = when (intent.action) {
             ACTION_SHOW_START_WORK_NOTIFICATION ->
-                NotificationUtils.getForStartWork(context)
+                NotificationUtils.buildForStartWork(context)
             ACTION_SHOW_END_WORK_NOTIFICATION ->
-                NotificationUtils.getForEndWork(context)
+                NotificationUtils.buildForEndWork(context)
             else ->
                 throw IllegalStateException("Unknown action")
         }

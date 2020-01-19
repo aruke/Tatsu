@@ -21,7 +21,7 @@ object NotificationUtils {
     const val WORK_HOURS_START_NOTIFICATION_ID = 24
     const val WORK_HOURS_END_NOTIFICATION_ID = 25
 
-    fun getNotificationFor(context: Context, timer: Timer): Notification {
+    fun buildForTimer(context: Context, timer: Timer): Notification {
 
         val builder =
             NotificationCompat.Builder(context, context.getString(R.string.timer_channel_id))
@@ -65,7 +65,7 @@ object NotificationUtils {
         return builder.setSmallIcon(R.drawable.ic_timer).build()
     }
 
-    fun update(context: Context, timer: Timer) {
+    fun updateTimerNotification(context: Context, timer: Timer) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -82,11 +82,11 @@ object NotificationUtils {
     private fun show(context: Context, timer: Timer) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val notification = getNotificationFor(context, timer)
+        val notification = buildForTimer(context, timer)
         notificationManager.notify(TIMER_NOTIFICATION_ID, notification)
     }
 
-    fun getForStartWork(context: Context): Notification {
+    fun buildForStartWork(context: Context): Notification {
         val pendingIntent = Intent(context, SplashActivity::class.java).let { intent ->
             PendingIntent.getActivity(context, 0, intent, 0)
         }
@@ -99,7 +99,7 @@ object NotificationUtils {
         return builder.setSmallIcon(R.drawable.ic_schedule).build()
     }
 
-    fun getForEndWork(context: Context): Notification {
+    fun buildForEndWork(context: Context): Notification {
         val pendingIntent = Intent(context, SplashActivity::class.java).let { intent ->
             PendingIntent.getActivity(context, 0, intent, 0)
         }
