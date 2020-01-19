@@ -23,24 +23,24 @@ object NotificationUtils {
 
     fun buildForTimer(context: Context, timer: Timer): Notification {
 
-        val builder =
-            NotificationCompat.Builder(context, context.getString(R.string.timer_channel_id))
-                .setPriority(NotificationCompat.PRIORITY_LOW)
-
         val title = context.getString(R.string.timer_notification_title, timer.state.toString())
-        builder.setContentTitle(title)
 
         val pendingIntent = Intent(context, SplashActivity::class.java).let { intent ->
             PendingIntent.getActivity(context, 0, intent, 0)
         }
-        builder.setContentIntent(pendingIntent)
 
-        val minutes = timer.hours
-        val hours = timer.minutes
-        val seconds = timer.seconds
-        val message =
+        val message = with(timer) {
             context.getString(R.string.timer_notification_message, hours, minutes, seconds)
-        builder.setContentText(message)
+        }
+
+        val builder =
+            NotificationCompat.Builder(context, context.getString(R.string.timer_channel_id))
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setContentTitle(title)
+                .setContentIntent(pendingIntent)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.ic_timer)
+                .setOnlyAlertOnce(true)
 
         val broadcastIntent = Intent(context, NotificationActionReceiver::class.java)
 
@@ -62,7 +62,7 @@ object NotificationUtils {
             builder.addAction(R.drawable.ic_stop, "Stop", intent)
         }
 
-        return builder.setSmallIcon(R.drawable.ic_timer).build()
+        return builder.build()
     }
 
     fun updateTimerNotification(context: Context, timer: Timer) {
