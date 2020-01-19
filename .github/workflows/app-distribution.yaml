@@ -9,6 +9,7 @@ env:
   FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
   RC_KEYSTORE_FILE: ${{ secrets.RC_KEYSTORE_FILE }}
   SIGNING_PROPERTIES_FILE: ${{ secrets.SIGNING_PROPERTIES_FILE }}
+  GOOGLE_SERVICES_JSON_FILE: ${{ secrets.GOOGLE_SERVICES_JSON_FILE }}
 
 jobs:
   build:
@@ -28,6 +29,7 @@ jobs:
         run: |
           echo $RC_KEYSTORE_FILE | base64 --d > rc.keystore
           echo $SIGNING_PROPERTIES_FILE | base64 --d > signing.properties
+          echo $GOOGLE_SERVICES_JSON_FILE | base64 --d > google-services.json
 
       - name: Release Notes
         working-directory: app
