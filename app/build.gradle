@@ -41,8 +41,8 @@ android {
             applicationIdSuffix = '.rc'
 
             firebaseAppDistribution {
-                releaseNotesFile='app/release-notes-rc'
-                groups="android-rc-testers"
+                releaseNotesFile 'app/release-notes-rc'
+                groups 'android-rc-testers'
             }
         }
         debug {
