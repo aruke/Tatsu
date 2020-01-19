@@ -25,6 +25,7 @@ object NotificationUtils {
 
         val builder =
             NotificationCompat.Builder(context, context.getString(R.string.timer_channel_id))
+                .setPriority(NotificationCompat.PRIORITY_LOW)
 
         val title = context.getString(R.string.timer_notification_title, timer.state.toString())
         builder.setContentTitle(title)
@@ -94,6 +95,7 @@ object NotificationUtils {
                 .setContentTitle(context.getString(R.string.work_hours_start_notification_title))
                 .setContentText(context.getString(R.string.work_hours_start_notification_message))
                 .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
         return builder.setSmallIcon(R.drawable.ic_schedule).build()
     }
 
@@ -106,36 +108,42 @@ object NotificationUtils {
                 .setContentTitle(context.getString(R.string.work_hours_end_notification_title))
                 .setContentText(context.getString(R.string.work_hours_end_notification_message))
                 .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
         return builder.setSmallIcon(R.drawable.ic_schedule).build()
     }
 
+    /**
+     * Creates notification channels above Android O.
+     */
     @TargetApi(Build.VERSION_CODES.O)
     fun createNecessaryNotificationChannels(context: Context) {
-
+        // Target SDK check
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return
         }
 
+        // Service notification for timer
         val timerNotificationChannel = NotificationChannel(
             context.getString(R.string.timer_channel_id),
             context.getString(R.string.timer_channel_name),
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_LOW
         ).apply {
             description = context.getString(R.string.timer_channel_description)
         }
 
+        // Reminders for work hours
         val workHoursNotificationChannel = NotificationChannel(
             context.getString(R.string.work_hours_channel_id),
             context.getString(R.string.work_hours_channel_name),
-            NotificationManager.IMPORTANCE_DEFAULT
+            NotificationManager.IMPORTANCE_HIGH
         ).apply {
             description = context.getString(R.string.work_hours_channel_description)
         }
 
-        val notificationManager: NotificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        notificationManager.createNotificationChannel(timerNotificationChannel)
-        notificationManager.createNotificationChannel(workHoursNotificationChannel)
+        // Create channels
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
+            createNotificationChannel(timerNotificationChannel)
+            createNotificationChannel(workHoursNotificationChannel)
+        }
     }
 }
