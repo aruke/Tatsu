@@ -6,7 +6,7 @@ import androidx.lifecycle.Lifecycle.Event.ON_STOP
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
-import org.rionlabs.tatsu.utils.Utility
+import org.rionlabs.tatsu.utils.NotificationUtils
 import org.rionlabs.tatsu.work.TimerController
 import org.rionlabs.tatsu.work.TimerService
 import timber.log.Timber
@@ -41,6 +41,6 @@ class TatsuApp : Application() {
             }
         })
 
-        Utility.createNecessaryNotificationChannels(applicationContext)
+        NotificationUtils.createNecessaryNotificationChannels(applicationContext)
     }
 }

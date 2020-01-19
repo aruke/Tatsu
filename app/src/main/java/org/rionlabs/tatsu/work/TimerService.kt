@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import org.rionlabs.tatsu.TatsuApp
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
-import org.rionlabs.tatsu.utils.NotificationUI
+import org.rionlabs.tatsu.utils.NotificationUtils
 
 class TimerService : Service() {
 
@@ -16,7 +16,7 @@ class TimerService : Service() {
 
     private val timerObserver = Observer<Timer> {
         it?.let { timer ->
-            NotificationUI.update(this, timer)
+            NotificationUtils.update(this, timer)
             if (timer.state == TimerState.FINISHED) {
                 stopForeground(false)
             } else if (timer.state == TimerState.CANCELLED) {
@@ -35,8 +35,8 @@ class TimerService : Service() {
             val activeTimer = timerController.getActiveTimer()
             activeTimer.observeForever(timerObserver)
             val timer = activeTimer.value!!
-            val notification = NotificationUI.getNotificationFor(this, timer)
-            startForeground(NotificationUI.TIMER_NOTIFICATION_ID, notification)
+            val notification = NotificationUtils.getNotificationFor(this, timer)
+            startForeground(NotificationUtils.TIMER_NOTIFICATION_ID, notification)
         }
         return START_NOT_STICKY
     }
