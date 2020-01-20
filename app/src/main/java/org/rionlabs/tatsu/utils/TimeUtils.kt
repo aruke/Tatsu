@@ -32,8 +32,7 @@ object TimeUtils {
     }
 
     fun toTimeString(context: Context, time: Int): String {
-        val minutes = time % 100
-        var hours = (time / 100)
+        var (hours, minutes) = toHourMinutePair(time)
         return if (hours < 12) {
             if (hours == 0) {
                 hours = 12
@@ -42,6 +41,15 @@ object TimeUtils {
         } else {
             context.getString(R.string.time_format_pm, (hours - 12), minutes)
         }
+    }
+
+    /**
+     * Returns a [Pair] of hour and minutes.
+     * [Pair.first]: Hour is in 24 hours format [Integer] from 0-24.
+     * [Pair.second]: Minute is [Integer] from 0-60.
+     */
+    private fun toHourMinutePair(time: Int): Pair<Int, Int> {
+        return Pair(time / 100, time % 100)
     }
 
     fun toTimeString(context: Context, startEpoch: Long, endEpoch: Long): String {
