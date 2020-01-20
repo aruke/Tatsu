@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.rionlabs.tatsu.R
+import org.rionlabs.tatsu.ui.view.BottomNavigationBar
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,12 +18,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(mainBottomNavigation)
 
         navController = (mainNavHostFragment as NavHostFragment).navController
         ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        switchToMain()
+        mainBottomNavigation.onStateChangeListener =
+            object : BottomNavigationBar.OnStateChangeListener {
+                override fun onNavigatedToStart() {
+                    switchToStats()
+                }
+
+                override fun onNavigatedToEnd() {
+                    switchToSettings()
+                }
+
+                override fun onNavigationReset() {
+                    // switchToMain()
+                }
+
+            }
+
+        // switchToMain()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -48,9 +64,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun switchToStats() {
         navController.navigate(R.id.action_navigation_timer_to_stats)
-        fab.setImageResource(R.drawable.ic_hourglass)
         fab.setOnClickListener {
             popToMain()
+            mainBottomNavigation.resetNavigation()
         }
         fab.setOnLongClickListener { false }
         headerSubtitle.text = getString(R.string.title_stats)
@@ -58,12 +74,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun switchToSettings() {
         navController.navigate(R.id.action_navigation_timer_to_settings)
-        fab.setImageResource(R.drawable.ic_hourglass)
         fab.setOnClickListener {
             popToMain()
+            mainBottomNavigation.resetNavigation()
         }
         fab.setOnLongClickListener { false }
-        headerSubtitle.text = getString(R.string.title_settings)
     }
 
     private fun switchToMain() {

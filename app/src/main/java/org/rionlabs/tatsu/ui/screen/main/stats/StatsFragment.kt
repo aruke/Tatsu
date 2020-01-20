@@ -10,8 +10,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
+import kotlinx.android.synthetic.main.activity_main.*
+import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.databinding.FragmentStatsBinding
+import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 
 class StatsFragment : Fragment() {
@@ -47,5 +50,10 @@ class StatsFragment : Fragment() {
                 statsAdapter.submitList(timerList)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).fab.setImageResource(R.drawable.ic_navigate_next)
     }
 }

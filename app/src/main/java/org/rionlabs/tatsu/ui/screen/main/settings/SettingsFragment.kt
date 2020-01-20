@@ -15,8 +15,10 @@ import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.*
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
+import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.utils.TimeUtils
 import org.rionlabs.tatsu.work.SettingsManager
@@ -85,31 +87,51 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         workStartTimePref.setOnPreferenceClickListener {
             val minutes = settingManager.getStartWorkHour()
-            TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                val prefValue = hourOfDay * 100 + minute
-                setStartWorkHours(prefValue)
-                scheduleAlarm(ACTION_SHOW_START_WORK_NOTIFICATION, hourOfDay, minute)
-            }, minutes / 100, minutes % 100, false).show()
+            TimePickerDialog(
+                requireContext(),
+                TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                    val prefValue = hourOfDay * 100 + minute
+                    setStartWorkHours(prefValue)
+                    scheduleAlarm(ACTION_SHOW_START_WORK_NOTIFICATION, hourOfDay, minute)
+                },
+                minutes / 100,
+                minutes % 100,
+                false
+            ).show()
             true
         }
 
         workEndTimePref.setOnPreferenceClickListener {
             val minutes = settingManager.getEndWorkHour()
-            TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                val prefValue = hourOfDay * 100 + minute
-                setEndWorkHours(prefValue)
-                scheduleAlarm(ACTION_SHOW_END_WORK_NOTIFICATION, hourOfDay, minute)
-            }, minutes / 100, minutes % 100, false).show()
+            TimePickerDialog(
+                requireContext(),
+                TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                    val prefValue = hourOfDay * 100 + minute
+                    setEndWorkHours(prefValue)
+                    scheduleAlarm(ACTION_SHOW_END_WORK_NOTIFICATION, hourOfDay, minute)
+                },
+                minutes / 100,
+                minutes % 100,
+                false
+            ).show()
             true
         }
 
         findPreference<Preference>(getString(R.string.settings_key_about))?.setOnPreferenceClickListener {
-            FullScreenDialogFragment.show(requireActivity(), R.string.settings_about_title, R.layout.layout_about)
+            FullScreenDialogFragment.show(
+                requireActivity(),
+                R.string.settings_about_title,
+                R.layout.layout_about
+            )
             true
         }
 
         findPreference<Preference>(getString(R.string.settings_key_feedback))?.setOnPreferenceClickListener {
-            FullScreenDialogFragment.show(requireActivity(), R.string.settings_feedback_title, R.layout.layout_feedback)
+            FullScreenDialogFragment.show(
+                requireActivity(),
+                R.string.settings_feedback_title,
+                R.layout.layout_feedback
+            )
             true
         }
 
@@ -136,14 +158,27 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
     }
 
-    override fun onCreateRecyclerView(inflater: LayoutInflater?, parent: ViewGroup?, savedInstanceState: Bundle?): RecyclerView {
-        val padding = requireContext().resources.getDimension(R.dimen.main_screen_bottom_padding).toInt()
+    override fun onCreateRecyclerView(
+        inflater: LayoutInflater?,
+        parent: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): RecyclerView {
+        val padding =
+            requireContext().resources.getDimension(R.dimen.main_screen_bottom_padding).toInt()
         val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState)
         recyclerView.apply {
             setPadding(paddingStart, paddingTop, paddingRight, paddingBottom + padding)
             clipToPadding = false
         }
         return recyclerView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).apply {
+            fab.setImageResource(R.drawable.ic_navigate_before)
+            headerSubtitle.text = getString(R.string.title_settings)
+        }
     }
 
     private fun setStartWorkHours(workHoursInMinutes: Int) {
@@ -172,7 +207,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         val intent = Intent(context, WorkTimeAlarmReceiver::class.java)
-        if (action in arrayOf(ACTION_SHOW_START_WORK_NOTIFICATION, ACTION_SHOW_END_WORK_NOTIFICATION)) {
+        if (action in arrayOf(
+                ACTION_SHOW_START_WORK_NOTIFICATION,
+                ACTION_SHOW_END_WORK_NOTIFICATION
+            )
+        ) {
             intent.action = action
         } else {
             throw IllegalStateException("Invalid Action for WorkTimeAlarmReceiver")

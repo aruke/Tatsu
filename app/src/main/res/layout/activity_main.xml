@@ -55,7 +55,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:navGraph="@navigation/main_navigation_graph" />
 
-    <com.google.android.material.bottomappbar.BottomAppBar
+    <org.rionlabs.tatsu.ui.view.BottomNavigationBar
         android:id="@+id/mainBottomNavigation"
         style="@style/MainBottomAppBarStyle"
         android:layout_width="match_parent"
@@ -64,7 +64,8 @@
         app:fabAlignmentMode="center"
         app:fabCradleMargin="8dp"
         app:fabCradleRoundedCornerRadius="22dp"
-        app:navigationIcon="@drawable/ic_stats" />
+        app:navEndIcon="@drawable/ic_settings"
+        app:navStartIcon="@drawable/ic_stats" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

@@ -129,4 +129,9 @@ class TimerFragment : Fragment() {
             }
             .show()
     }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("onResume()")
+    }
 }

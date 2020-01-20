@@ -95,4 +95,12 @@
         <item name="android:textSize">22sp</item>
     </style>
 
+    <!-- BottomNavigationBar -->
+    <declare-styleable name="BottomNavigationBar">
+        <attr name="navStartIcon" format="reference" />
+        <attr name="navStartIconCD" format="string" />
+        <attr name="navEndIcon" format="reference" />
+        <attr name="navEndIconCD" format="string" />
+    </declare-styleable>
+
 </resources>
