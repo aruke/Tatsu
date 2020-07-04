@@ -96,7 +96,7 @@ dependencies {
 
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
-    implementation 'com.github.AppIntro:AppIntro:5.1.0'
+    implementation 'com.github.AppIntro:AppIntro:6.0.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "androidx.arch.core:core-testing:$archTesingVersion"
