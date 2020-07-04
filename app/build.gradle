@@ -56,6 +56,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    androidExtensions {
+        features = ["parcelize"]
+    }
 }
 
 dependencies {
@@ -78,12 +82,12 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
-    implementation 'com.google.android.material:material:1.1.0-rc02'
+    implementation 'com.google.android.material:material:1.1.0'
 
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
 
-    implementation "android.arch.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
     implementation "android.arch.navigation:navigation-ui-ktx:$navVersion"
 
     implementation "androidx.preference:preference:1.1.0"

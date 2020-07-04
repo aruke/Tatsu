@@ -9,11 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.activity_main.*
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.databinding.FragmentTimerBinding
-import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.ui.screen.main.timer.TimerScreenState.*
 import timber.log.Timber
@@ -23,12 +20,9 @@ class TimerFragment : Fragment() {
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentTimerBinding
 
-    private lateinit var actionButton: FloatingActionButton
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
-        actionButton = (requireActivity() as MainActivity).fab
     }
 
     override fun onCreateView(
@@ -56,27 +50,27 @@ class TimerFragment : Fragment() {
             Timber.d("ScreenState changed to $screenState")
 
             // Clear listeners on actionButton
-            actionButton.apply {
+            binding.actionButton.apply {
                 setOnClickListener(null)
                 setOnLongClickListener(null)
             }
 
             when (screenState) {
                 WORK_TIMER_IDLE -> {
-                    actionButton.setImageResource(R.drawable.ic_play)
-                    actionButton.setOnClickListener {
+                    binding.actionButton.setImageResource(R.drawable.ic_play)
+                    binding.actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_RUNNING)
                     }
                 }
                 WORK_TIMER_RUNNING -> {
-                    actionButton.setImageResource(R.drawable.ic_pause)
-                    actionButton.setOnClickListener {
+                    binding.actionButton.setImageResource(R.drawable.ic_pause)
+                    binding.actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_PAUSED)
                     }
                 }
                 WORK_TIMER_PAUSED -> {
-                    actionButton.setImageResource(R.drawable.ic_play)
-                    actionButton.setOnClickListener {
+                    binding.actionButton.setImageResource(R.drawable.ic_play)
+                    binding.actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_RUNNING)
                     }
                 }
@@ -84,14 +78,14 @@ class TimerFragment : Fragment() {
                     showFinishWorkTimerFragment()
                 }
                 BREAK_TIMER_RUNNING -> {
-                    actionButton.setImageResource(R.drawable.ic_pause)
-                    actionButton.setOnClickListener {
+                    binding.actionButton.setImageResource(R.drawable.ic_pause)
+                    binding.actionButton.setOnClickListener {
                         viewModel.requestState(BREAK_TIMER_PAUSED)
                     }
                 }
                 BREAK_TIMER_PAUSED -> {
-                    actionButton.setImageResource(R.drawable.ic_play)
-                    actionButton.setOnClickListener {
+                    binding.actionButton.setImageResource(R.drawable.ic_play)
+                    binding.actionButton.setOnClickListener {
                         viewModel.requestState(BREAK_TIMER_RUNNING)
                     }
                 }
@@ -128,10 +122,5 @@ class TimerFragment : Fragment() {
                 viewModel.requestState(WORK_TIMER_IDLE)
             }
             .show()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Timber.d("onResume()")
     }
 }

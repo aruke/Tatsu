@@ -15,10 +15,8 @@ import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.*
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
-import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.utils.TimeUtils
 import org.rionlabs.tatsu.work.SettingsManager
@@ -171,14 +169,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
             clipToPadding = false
         }
         return recyclerView
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (requireActivity() as MainActivity).apply {
-            fab.setImageResource(R.drawable.ic_navigate_before)
-            headerSubtitle.text = getString(R.string.title_settings)
-        }
     }
 
     private fun setStartWorkHours(workHoursInMinutes: Int) {
