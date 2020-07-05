@@ -2,7 +2,12 @@
     <string name="app_name">Tatsu</string>
 
     <!-- App Guide -->
-    <string name="button_text_finish_guide">Start using Tatsu</string>
+    <string name="guide_title_1">Simple Pomodoro Timer</string>
+    <string name="guide_description_1">Manage your with simple timer. Set work repetitions, Take short breaks!</string>
+    <string name="guide_title_2">Keep track of Productivity</string>
+    <string name="guide_description_2">Track your productive time &amp; break times with simple statistics!</string>
+    <string name="guide_title_3">Keep the Distractions Away</string>
+    <string name="guide_description_3">Turn on Silent Mode to mute all notifications when you are working!</string>
 
     <!-- Menu Titles -->
     <string name="title_stats">Stats</string>

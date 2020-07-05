@@ -31,8 +31,8 @@ class GuideActivity : AppIntro2() {
         addSlide(
             AppIntroFragment.newInstance(
                 defaultSliderPage.copy(
-                    title = "Simple Pomodoro Timer",
-                    description = "Manage your with simple timer. Set work repetitions, Take short breaks!",
+                    title = getString(R.string.guide_title_1),
+                    description = getString(R.string.guide_description_1),
                     imageDrawable = R.drawable.undraw_time_management
                 )
             )
@@ -41,8 +41,8 @@ class GuideActivity : AppIntro2() {
         addSlide(
             AppIntroFragment.newInstance(
                 defaultSliderPage.copy(
-                    title = "Keep track of Productivity",
-                    description = "Track your productive time & break times with simple statistics!",
+                    title = getString(R.string.guide_title_2),
+                    description = getString(R.string.guide_description_2),
                     imageDrawable = R.drawable.undraw_dev_productivity
                 )
             )
@@ -51,8 +51,8 @@ class GuideActivity : AppIntro2() {
         addSlide(
             AppIntroFragment.newInstance(
                 defaultSliderPage.copy(
-                    title = "Keep the Distractions Away",
-                    description = "Turn on Silent Mode to mute all notifications when you are working!",
+                    title = getString(R.string.guide_title_3),
+                    description = getString(R.string.guide_description_3),
                     imageDrawable = R.drawable.undraw_project_completed
                 )
             )
