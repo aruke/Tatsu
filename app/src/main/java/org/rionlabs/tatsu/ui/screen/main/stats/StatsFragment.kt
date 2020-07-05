@@ -31,21 +31,22 @@ class StatsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentStatsBinding.inflate(inflater, container, false)
+        binding = FragmentStatsBinding.inflate(inflater, container, false).apply {
+            statsRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext(), VERTICAL, false)
+                adapter = statsAdapter
+            }
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.statsRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext(), VERTICAL, false)
-            adapter = statsAdapter
-        }
 
         viewModel.timerListData.observe(viewLifecycleOwner, Observer<List<Timer>> {
-            it?.let { timerList ->
-                statsAdapter.submitList(timerList)
-            }
+            val timerList = it ?: return@Observer
+            binding.listEmpty = timerList.isEmpty()
+            statsAdapter.submitList(timerList)
         })
     }
 }
