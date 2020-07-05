@@ -93,7 +93,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun showFinishWorkTimerFragment() {
-        AlertDialog.Builder(requireContext(), R.style.AppTheme_AlertDialog)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.work_timer_finish_title)
             .setMessage(R.string.work_timer_finish_text)
             .setPositiveButton(R.string.work_timer_finish_button_start_break) { _: DialogInterface, _: Int ->
@@ -107,7 +107,7 @@ class TimerFragment : Fragment() {
     }
 
     private fun showFinishBreakTimerFragment() {
-        AlertDialog.Builder(requireContext(), R.style.AppTheme_AlertDialog)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.break_timer_finish_title)
             .setMessage(R.string.break_timer_finish_text)
             .setPositiveButton(R.string.break_timer_finish_button_start_work) { _: DialogInterface, _: Int ->

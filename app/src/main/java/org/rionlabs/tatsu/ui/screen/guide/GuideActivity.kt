@@ -3,6 +3,7 @@ package org.rionlabs.tatsu.ui.screen.guide
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import com.github.appintro.AppIntro2
 import com.github.appintro.AppIntroFragment
@@ -21,11 +22,10 @@ class GuideActivity : AppIntro2() {
         isSkipButtonEnabled = false
 
         val defaultSliderPage = SliderPage(
-            backgroundColor = ContextCompat.getColor(this, R.color.colorPrimary),
-            titleColor = ContextCompat.getColor(this, R.color.textColorLightPrimary),
-            descriptionColor = ContextCompat.getColor(this, R.color.textColorLightSecondary),
-            titleTypefaceFontRes = R.font.raleway,
-            descriptionTypefaceFontRes = R.font.raleway
+            backgroundColor = ContextCompat.getColor(this, R.color.color_primary),
+            descriptionColor = ColorUtils.setAlphaComponent(
+                ContextCompat.getColor(this, R.color.color_on_primary), 100
+            )
         )
 
         addSlide(

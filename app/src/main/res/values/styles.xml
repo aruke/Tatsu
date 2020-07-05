@@ -1,68 +1,45 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/raleway</item>
+    <!--Bottom Sheets-->
+    <style name="ThemeOverlay.AppTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.MyTheme.BottomSheet.Modal</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/Widget.AppTheme.BottomSheet.Modal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
+            @android:color/transparent
+        </item>
     </style>
 
-    <style name="AppTheme.Launch">
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/splash</item>
+    <style name="Widget.AppTheme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">?shapeAppearanceLargeComponent</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <!-- Theme for MainActivity -->
-    <style name="AppTheme.Main">
-        <item name="bottomAppBarStyle">@style/MainBottomAppBarStyle</item>
-    </style>
-
-    <style name="MainBottomAppBarStyle" parent="Widget.MaterialComponents.BottomAppBar.Colored">
-        <item name="backgroundTint">@color/colorPrimary</item>
+    <!-- Buttons -->
+    <style name="Widget.AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
     </style>
 
-    <style name="ToolbarTitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize" tools:ignore="SpUsage">48dp</item>
-        <item name="android:textColor">@color/textColorLightPrimary</item>
-        <item name="android:gravity">center</item>
-        <item name="android:fontFamily">@font/raleway</item>
+    <!-- Inputs -->
+    <style name="Widget.AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.TextInputEditText</item>
     </style>
 
-    <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/textColorLightSecondary</item>
-        <item name="android:gravity">center</item>
-        <item name="android:fontFamily">@font/raleway</item>
+    <style name="ThemeOverlay.App.TextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="editTextStyle">@style/Widget.AppTheme.TextInputEditText</item>
     </style>
 
-    <style name="AppTheme.AlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/raleway</item>
-    </style>
-
-    <!-- Fullscreen Dialog -->
-    <style name="AppTheme.FullScreenDialog" parent="Theme.MaterialComponents.Light.Dialog">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:fontFamily">@font/raleway</item>
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@android:color/white</item>
-    </style>
+    <style name="Widget.AppTheme.TextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox" />
 
     <style name="FullScreenDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
-
 
     <style name="FeedbackSentimentTextStyle">
         <item name="android:gravity">center</item>
@@ -94,13 +71,5 @@
         <item name="android:fontFamily">@font/source_code_pro</item>
         <item name="android:textSize">22sp</item>
     </style>
-
-    <!-- BottomNavigationBar -->
-    <declare-styleable name="BottomNavigationBar">
-        <attr name="navStartIcon" format="reference" />
-        <attr name="navStartIconCD" format="string" />
-        <attr name="navEndIcon" format="reference" />
-        <attr name="navEndIconCD" format="string" />
-    </declare-styleable>
 
 </resources>

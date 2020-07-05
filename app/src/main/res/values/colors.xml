@@ -3,15 +3,23 @@
     <!-- Background color for Icon. Same as primary color. -->
     <color name="ic_launcher_background">#3B3B98</color>
 
-    <color name="colorPrimary">#3B3B98</color>
-    <color name="colorPrimaryDark">#2F2F7A</color>
-    <color name="colorAccent">#ff4757</color>
+    <color name="color_primary">#3B3B98</color>
+    <color name="color_primary_variant">#2F2F7A</color>
+    <color name="color_secondary">#EE6002</color>
+    <color name="color_secondary_variant">#E54304</color>
+
+    <color name="color_background">#FFFFFFFF</color>
+    <color name="color_surface">#FFFFFF</color>
+    <color name="color_error">#D32F2F</color>
+
+    <color name="color_on_primary">#FFFFFFFF</color>
+    <color name="color_on_secondary">#FFFFFFFF</color>
+    <color name="color_on_background">#FF000000</color>
+    <color name="color_on_surface">#FF000000</color>
+    <color name="color_on_error">#FFFFFFFF</color>
 
     <color name="divider">#ddd</color>
 
-    <color name="colorTimerBackground">#f3a683</color>
+    <color name="colorTimerBackground">#BCBCEC</color>
     <color name="colorTimerTicks">#546de5</color>
-
-    <color name="textColorLightPrimary">#FFFF</color>
-    <color name="textColorLightSecondary">#DCFFFFFF</color>
 </resources>

@@ -85,7 +85,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         app:boxBackgroundMode="outline"
-        app:boxStrokeWidth="1dp">
+        app:shapeAppearance="@style/ShapeAppearance.AppTheme.Medium">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -105,11 +105,9 @@
         android:layout_gravity="end"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/colorPrimary"
         android:minWidth="120dp"
         android:padding="16dp"
         android:text="@string/send"
-        android:textColor="@color/textColorLightPrimary"
         app:cornerRadius="32dp" />
 
 </LinearLayout>

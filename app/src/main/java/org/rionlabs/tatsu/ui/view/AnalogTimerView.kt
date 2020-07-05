@@ -20,7 +20,7 @@ class AnalogTimerView @JvmOverloads constructor(
     private val ticksPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.colorTimerTicks)
         style = Paint.Style.FILL_AND_STROKE
-        strokeWidth = 5.dp
+        strokeWidth = 3.dp
         strokeCap = Paint.Cap.ROUND
         isAntiAlias = true
     }
@@ -28,20 +28,20 @@ class AnalogTimerView @JvmOverloads constructor(
     private val progressBackgroundPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.colorTimerBackground)
         style = Paint.Style.STROKE
-        strokeWidth = 10.dp
+        strokeWidth = 8.dp
         isAntiAlias = true
     }
 
     private val progressPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.colorPrimaryDark)
+        color = ContextCompat.getColor(context, R.color.color_primary_variant)
         style = Paint.Style.STROKE
-        strokeWidth = 10.dp
+        strokeWidth = 8.dp
         strokeCap = Paint.Cap.ROUND
         isAntiAlias = true
     }
 
     private val pointPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.colorAccent)
+        color = ContextCompat.getColor(context, R.color.color_secondary)
         style = Paint.Style.FILL
         isAntiAlias = true
     }

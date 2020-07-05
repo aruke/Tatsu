@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.DayNight">
 
         <meta-data
             android:name="preloaded_fonts"
@@ -32,14 +32,11 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="org.rionlabs.tatsu.ui.screen.guide.GuideActivity"
-            android:theme="@style/AppTheme" />
+        <activity android:name="org.rionlabs.tatsu.ui.screen.guide.GuideActivity" />
 
         <activity
             android:name="org.rionlabs.tatsu.ui.screen.main.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.Main">
+            android:label="@string/app_name">
 
             <!-- TODO: Add Google App Indexing -->
             <intent-filter>

@@ -19,7 +19,11 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val fragmentContainer = supportFragmentManager.findFragmentById(R.id.mainNavHostFragment)
-        navController = (fragmentContainer as NavHostFragment).navController
+        navController = (fragmentContainer as NavHostFragment).navController.apply {
+            addOnDestinationChangedListener { _, destination, _ ->
+                binding.headerTitle.text = destination.label
+            }
+        }
 
         binding.mainBottomNavigation.setupWithNavController(navController)
     }
