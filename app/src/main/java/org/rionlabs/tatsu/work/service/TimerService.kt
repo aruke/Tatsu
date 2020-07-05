@@ -1,18 +1,20 @@
-package org.rionlabs.tatsu.work
+package org.rionlabs.tatsu.work.service
 
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.lifecycle.Observer
-import org.rionlabs.tatsu.TatsuApp
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.utils.NotificationUtils
+import org.rionlabs.tatsu.work.TimerController
 
-class TimerService : Service() {
+class TimerService : Service(), KoinComponent {
 
-    private lateinit var timerController: TimerController
+    private val timerController: TimerController by inject()
 
     private val timerObserver = Observer<Timer> {
         it?.let { timer ->
@@ -23,11 +25,6 @@ class TimerService : Service() {
                 stopForeground(true)
             }
         }
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        timerController = (application as TatsuApp).timerController
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

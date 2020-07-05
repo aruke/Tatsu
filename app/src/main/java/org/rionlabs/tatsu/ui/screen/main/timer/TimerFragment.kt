@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.databinding.FragmentTimerBinding
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
@@ -17,13 +17,9 @@ import timber.log.Timber
 
 class TimerFragment : Fragment() {
 
-    private lateinit var viewModel: MainViewModel
     private lateinit var binding: FragmentTimerBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
-    }
+    private val viewModel: MainViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

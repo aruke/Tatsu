@@ -6,6 +6,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.appdistribution'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'koin'
 
 apply from: 'signing.gradle'
 
@@ -91,6 +92,9 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$navVersion"
 
     implementation "androidx.preference:preference:1.1.0"
+
+    implementation "org.koin:koin-androidx-scope:$koinVersion"
+    implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
 
     implementation "android.arch.work:work-runtime:$workVersion"
 

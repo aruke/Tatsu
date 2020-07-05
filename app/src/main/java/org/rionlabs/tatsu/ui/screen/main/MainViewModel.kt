@@ -1,12 +1,10 @@
 package org.rionlabs.tatsu.ui.screen.main
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import org.rionlabs.tatsu.TatsuApp
-import org.rionlabs.tatsu.data.AppDatabase
+import androidx.lifecycle.ViewModel
+import org.rionlabs.tatsu.data.dao.TimerDao
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState.*
 import org.rionlabs.tatsu.data.model.TimerType
@@ -14,23 +12,21 @@ import org.rionlabs.tatsu.ui.screen.main.timer.TimerScreenState
 import org.rionlabs.tatsu.ui.screen.main.timer.TimerScreenState.*
 import org.rionlabs.tatsu.work.SettingsManager
 import org.rionlabs.tatsu.work.SilentModeManager
+import org.rionlabs.tatsu.work.TimerController
 import org.rionlabs.tatsu.work.VibrationsManager
 import org.rionlabs.tatsu.work.VibrationsManager.VibeType
 import timber.log.Timber
 
-class MainViewModel(val app: Application) : AndroidViewModel(app) {
+class MainViewModel(
+    private val timerController: TimerController,
+    private val timerDao: TimerDao,
+    private val settingManager: SettingsManager,
+    private val silentModeManager: SilentModeManager,
+    private val vibrationsManager: VibrationsManager
+) : ViewModel() {
 
-    private val timerController = (app as TatsuApp).timerController
-
-    private val timerDao = AppDatabase.getInstance(app.applicationContext).timerDao()
     val timerListData: LiveData<List<Timer>>
         get() = timerDao.getAll()
-
-    private val settingManager = SettingsManager(app)
-
-    private val silentModeManager = SilentModeManager(app)
-
-    private val vibrationsManager = VibrationsManager(app)
 
     private val mTimerData = MutableLiveData<Timer>()
     val timerData: LiveData<Timer> = mTimerData

@@ -8,6 +8,7 @@ import com.github.appintro.AppIntro2
 import com.github.appintro.AppIntroFragment
 import com.github.appintro.AppIntroPageTransformerType
 import com.github.appintro.model.SliderPage
+import org.koin.android.ext.android.get
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.screen.main.MainActivity
 import org.rionlabs.tatsu.work.PreferenceManager
@@ -69,7 +70,7 @@ class GuideActivity : AppIntro2() {
     override fun onDonePressed(currentFragment: Fragment?) {
         super.onDonePressed(currentFragment)
         // Set flag
-        val preferenceManager = PreferenceManager(application)
+        val preferenceManager = get<PreferenceManager>()
         preferenceManager.setGuideShown()
 
         val intent = Intent(this, MainActivity::class.java)

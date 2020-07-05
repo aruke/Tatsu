@@ -1,4 +1,4 @@
-package org.rionlabs.tatsu.work
+package org.rionlabs.tatsu.work.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -12,41 +12,32 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.edit
-import androidx.lifecycle.ViewModelProviders
 import androidx.preference.*
 import androidx.recyclerview.widget.RecyclerView
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
 import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.utils.TimeUtils
 import org.rionlabs.tatsu.work.SettingsManager
-import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver
-import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_END_WORK_NOTIFICATION
-import org.rionlabs.tatsu.work.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_START_WORK_NOTIFICATION
+import org.rionlabs.tatsu.work.receiver.WorkTimeAlarmReceiver
+import org.rionlabs.tatsu.work.receiver.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_END_WORK_NOTIFICATION
+import org.rionlabs.tatsu.work.receiver.WorkTimeAlarmReceiver.Companion.ACTION_SHOW_START_WORK_NOTIFICATION
 import timber.log.Timber
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by sharedViewModel()
 
-    private lateinit var settingManager: SettingsManager
+    private val settingManager: SettingsManager by inject()
 
     private lateinit var workDurationPref: ListPreference
     private lateinit var breakDurationPref: ListPreference
     private lateinit var workStartTimePref: Preference
     private lateinit var workEndTimePref: Preference
     private lateinit var silentModePref: SwitchPreference
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        settingManager = SettingsManager(context)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.settings, rootKey)

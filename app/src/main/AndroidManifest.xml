@@ -49,11 +49,11 @@
         </activity>
 
         <service
-            android:name=".work.TimerService"
+            android:name=".work.service.TimerService"
             android:exported="false" />
 
         <receiver
-            android:name=".work.NotificationActionReceiver"
+            android:name=".work.receiver.NotificationActionReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="org.rionlabs.tatsu.start" />
@@ -63,7 +63,7 @@
         </receiver>
 
         <receiver
-            android:name=".work.WorkTimeAlarmReceiver"
+            android:name=".work.receiver.WorkTimeAlarmReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="org.rionlabs.tatsu.start_work" />

@@ -13,7 +13,7 @@ import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.ui.screen.begin.SplashActivity
-import org.rionlabs.tatsu.work.NotificationActionReceiver
+import org.rionlabs.tatsu.work.receiver.NotificationActionReceiver
 
 object NotificationUtils {
 
