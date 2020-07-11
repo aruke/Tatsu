@@ -75,6 +75,7 @@
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.AppTheme.BottomSheetDialog</item>
         <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.PrimarySurface</item>
         <item name="materialButtonStyle">@style/Widget.AppTheme.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.AppTheme.OutlinedButton</item>
         <item name="textInputStyle">@style/Widget.AppTheme.TextInputLayout</item>
     </style>
 
