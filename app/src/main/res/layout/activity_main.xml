@@ -27,7 +27,7 @@
                     android:gravity="center"
                     android:text="@string/app_name"
                     android:textAppearance="?textAppearanceHeadline5"
-                    android:textColor="?colorOnPrimary" />
+                    android:textColor="?colorOnSurface" />
 
             </androidx.appcompat.widget.Toolbar>
 

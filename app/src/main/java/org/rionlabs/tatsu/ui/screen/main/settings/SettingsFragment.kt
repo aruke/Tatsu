@@ -148,8 +148,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): RecyclerView {
+        val padding =
+            requireContext().resources.getDimension(R.dimen.settings_bottom_padding).toInt()
         val recyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState)
         recyclerView.apply {
+            setPadding(paddingStart, paddingTop, paddingRight, paddingBottom + padding)
             clipToPadding = false
         }
         return recyclerView

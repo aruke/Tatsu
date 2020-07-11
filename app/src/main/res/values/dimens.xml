@@ -1,1 +1,3 @@
-<resources />
+<resources>
+    <dimen name="settings_bottom_padding">16dp</dimen>
+</resources>
