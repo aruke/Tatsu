@@ -15,10 +15,8 @@ import androidx.core.content.edit
 import androidx.preference.*
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
-import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.utils.TimeUtils
 import org.rionlabs.tatsu.work.SettingsManager
 import org.rionlabs.tatsu.work.receiver.WorkTimeAlarmReceiver
@@ -28,8 +26,6 @@ import timber.log.Timber
 import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
-
-    private val viewModel: MainViewModel by sharedViewModel()
 
     private val settingManager: SettingsManager by inject()
 
