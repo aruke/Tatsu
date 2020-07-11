@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.databinding.FragmentTimerBinding
-import org.rionlabs.tatsu.ui.screen.main.MainViewModel
 import org.rionlabs.tatsu.ui.screen.main.timer.TimerScreenState.*
 import timber.log.Timber
 
@@ -19,7 +18,7 @@ class TimerFragment : Fragment() {
 
     private lateinit var binding: FragmentTimerBinding
 
-    private val viewModel: MainViewModel by sharedViewModel()
+    private val viewModel: TimerViewModel by sharedViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
