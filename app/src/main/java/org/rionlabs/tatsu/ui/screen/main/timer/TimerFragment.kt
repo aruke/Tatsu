@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,12 +22,15 @@ class TimerFragment : Fragment() {
 
     private val viewModel: TimerViewModel by sharedViewModel()
 
+    private lateinit var blinkAnimation: Animation
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTimerBinding.inflate(inflater, container, false)
+        blinkAnimation = AnimationUtils.loadAnimation(context, R.anim.blink)
         return binding.root
     }
 
@@ -50,25 +55,30 @@ class TimerFragment : Fragment() {
                 setOnLongClickListener(null)
             }
 
+            // Clear chip blinking
+            binding.timerTypeChip.clearAnimation()
+
             when (screenState) {
                 WORK_TIMER_IDLE -> {
                     binding.actionButton.setImageResource(R.drawable.ic_play)
                     binding.actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_RUNNING)
                     }
+                    binding.timerTypeChip.setText(R.string.chip_label_start_work)
                 }
                 WORK_TIMER_RUNNING -> {
                     binding.actionButton.setImageResource(R.drawable.ic_pause)
                     binding.actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_PAUSED)
                     }
-                    binding.timerTypeChip.setText(R.string.timer_type_work)
+                    binding.timerTypeChip.setText(R.string.chip_label_timer_type_work)
                 }
                 WORK_TIMER_PAUSED -> {
                     binding.actionButton.setImageResource(R.drawable.ic_play)
                     binding.actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_RUNNING)
                     }
+                    binding.timerTypeChip.startAnimation(blinkAnimation)
                 }
                 WORK_TIMER_FINISHED -> {
                     showFinishWorkTimerFragment()
@@ -78,16 +88,18 @@ class TimerFragment : Fragment() {
                     binding.actionButton.setOnClickListener {
                         viewModel.requestState(BREAK_TIMER_PAUSED)
                     }
-                    binding.timerTypeChip.setText(R.string.timer_type_break)
+                    binding.timerTypeChip.setText(R.string.chip_label_timer_type_break)
                 }
                 BREAK_TIMER_PAUSED -> {
                     binding.actionButton.setImageResource(R.drawable.ic_play)
                     binding.actionButton.setOnClickListener {
                         viewModel.requestState(BREAK_TIMER_RUNNING)
                     }
+                    binding.timerTypeChip.startAnimation(blinkAnimation)
                 }
                 BREAK_TIMER_FINISHED -> {
                     showFinishBreakTimerFragment()
+                    binding.timerTypeChip.setText(R.string.chip_label_start_work)
                 }
             }
         })

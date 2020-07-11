@@ -32,9 +32,10 @@
             android:id="@+id/timerTypeChip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
+            android:clickable="false"
+            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_10"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_10" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- Image Section -->
 
