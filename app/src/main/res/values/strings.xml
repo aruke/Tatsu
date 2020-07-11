@@ -43,6 +43,7 @@
     <string name="settings_timer_break_title">Break Duration</string>
 
     <string name="settings_work_hours_title">Work Hours</string>
+    <string name="settings_work_hours_pref_title">Daily reminders</string>
     <string name="settings_work_hours_start_title">Start my work at</string>
     <string name="settings_work_hours_finish_title">Finish my work at</string>
 

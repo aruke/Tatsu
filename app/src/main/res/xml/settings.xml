@@ -28,14 +28,22 @@
         app:iconSpaceReserved="false"
         app:singleLineTitle="true">
 
+        <androidx.preference.SwitchPreference
+            android:defaultValue="@string/settings_default_value_work_hour_notifications"
+            android:key="@string/settings_key_work_hour_notifications"
+            android:title="@string/settings_work_hours_pref_title"
+            app:iconSpaceReserved="false" />
+
         <androidx.preference.Preference
             android:defaultValue="@string/settings_default_value_work_hour_start"
+            android:dependency="@string/settings_key_work_hour_notifications"
             android:key="@string/settings_key_work_hour_start"
             android:layout="@layout/preference_time"
             android:title="@string/settings_work_hours_start_title" />
 
         <androidx.preference.Preference
             android:defaultValue="@string/settings_default_value_work_hour_end"
+            android:dependency="@string/settings_key_work_hour_notifications"
             android:key="@string/settings_key_work_hour_end"
             android:layout="@layout/preference_time"
             android:title="@string/settings_work_hours_finish_title" />

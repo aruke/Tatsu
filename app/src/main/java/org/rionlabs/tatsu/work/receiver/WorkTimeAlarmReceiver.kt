@@ -3,16 +3,23 @@ package org.rionlabs.tatsu.work.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
+import org.koin.core.KoinComponent
+import org.koin.core.get
 import org.rionlabs.tatsu.utils.NotificationUtils
+import org.rionlabs.tatsu.work.SettingsManager
 import timber.log.Timber
 
-class WorkTimeAlarmReceiver : BroadcastReceiver() {
+class WorkTimeAlarmReceiver : BroadcastReceiver(), KoinComponent {
 
     override fun onReceive(context: Context, intent: Intent) {
         Timber.d("Pending Intent Received with action ${intent.action}")
-        Toast.makeText(context, intent.action, Toast.LENGTH_LONG).show()
+
+        val settingsManager: SettingsManager = get()
+        if (!settingsManager.workHourNotificationsEnabled) {
+            Timber.i("Notifications for work-hours are disabled")
+            return
+        }
 
         val notification = when (intent.action) {
             ACTION_SHOW_START_WORK_NOTIFICATION ->

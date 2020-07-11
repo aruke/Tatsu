@@ -12,6 +12,7 @@ class SettingsManager constructor(private val context: Context) {
 
     val keyTimerWork: String
     val keyTimerBreak: String
+    val keyWorkHoursNotifications: String
     val keyWorkHoursStart: String
     val keyWorkHoursEnd: String
 
@@ -26,8 +27,12 @@ class SettingsManager constructor(private val context: Context) {
             }
         }
 
+    val workHourNotificationsEnabled: Boolean
+        get() = sharedPreference.getBoolean(keyWorkHoursNotifications, workHoursNotificationsDefaultValue)
+
     private val timerWorkDefaultValue: String
     private val timerBreakDefaultValue: String
+    private val workHoursNotificationsDefaultValue: Boolean
     private val workHoursStartDefaultValue: Int
     private val workHoursEndDefaultValue: Int
     private val silentModeDefaultValue: Boolean
@@ -39,12 +44,14 @@ class SettingsManager constructor(private val context: Context) {
         appContext.apply {
             keyTimerWork = getString(R.string.settings_key_timer_work)
             keyTimerBreak = getString(R.string.settings_key_timer_break)
+            keyWorkHoursNotifications = getString(R.string.settings_key_work_hour_notifications)
             keyWorkHoursStart = getString(R.string.settings_key_work_hour_start)
             keyWorkHoursEnd = getString(R.string.settings_key_work_hour_end)
             keySilentMode = getString(R.string.settings_key_silent_mode)
 
             timerWorkDefaultValue = getString(R.string.settings_default_value_timer_work)
             timerBreakDefaultValue = getString(R.string.settings_default_value_timer_break)
+            workHoursNotificationsDefaultValue = getString(R.string.settings_default_value_work_hour_notifications) == true.toString()
             workHoursStartDefaultValue =
                 Integer.parseInt(getString(R.string.settings_default_value_work_hour_start))
             workHoursEndDefaultValue =
