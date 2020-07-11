@@ -63,6 +63,7 @@ class TimerFragment : Fragment() {
                     binding.actionButton.setOnClickListener {
                         viewModel.requestState(WORK_TIMER_PAUSED)
                     }
+                    binding.timerTypeChip.setText(R.string.timer_type_work)
                 }
                 WORK_TIMER_PAUSED -> {
                     binding.actionButton.setImageResource(R.drawable.ic_play)
@@ -78,6 +79,7 @@ class TimerFragment : Fragment() {
                     binding.actionButton.setOnClickListener {
                         viewModel.requestState(BREAK_TIMER_PAUSED)
                     }
+                    binding.timerTypeChip.setText(R.string.timer_type_break)
                 }
                 BREAK_TIMER_PAUSED -> {
                     binding.actionButton.setImageResource(R.drawable.ic_play)

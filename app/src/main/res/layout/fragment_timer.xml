@@ -27,6 +27,15 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".1" />
 
+        <!-- Timer Type Chip -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/timerTypeChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_10" />
+
         <!-- Image Section -->
 
         <org.rionlabs.tatsu.ui.view.AnalogTimerView
