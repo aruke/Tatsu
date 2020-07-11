@@ -7,7 +7,7 @@
 
     <item
         android:id="@+id/navigation_menu_timer"
-        android:icon="@drawable/ic_timer"
+        android:icon="@drawable/ic_hourglass"
         android:title="@string/title_timer" />
 
     <item
