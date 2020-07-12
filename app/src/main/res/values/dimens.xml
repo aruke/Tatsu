@@ -1,3 +1,4 @@
 <resources>
     <dimen name="settings_bottom_padding">16dp</dimen>
+    <dimen name="chart_min_height">200dp</dimen>
 </resources>

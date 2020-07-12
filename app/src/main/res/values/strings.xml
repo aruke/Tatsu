@@ -76,6 +76,13 @@
     <string name="stats_today">Today\'s Stats</string>
     <string name="stats_last_week">Last Week\'s Stats</string>
     <string name="stats_time_format">%1$s, %2$s to %3$s</string>
+    <string name="label_today">Today</string>
+    <string name="label_sessions">Sessions</string>
+    <string name="label_this_week">This Week</string>
+    <string name="label_over_the_month">Over the Month</string>
+    <string name="label_sessions_per_day">Sessions per Day</string>
+    <string name="label_over_the_year">Over the Year</string>
+    <string name="label_sessions_per_week">Sessions per Week</string>
     <string name="label_no_data_available">No Data Available</string>
 
     <!-- Common -->

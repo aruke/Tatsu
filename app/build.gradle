@@ -104,6 +104,8 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie:3.4.1'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     testImplementation 'junit:junit:4.12'
     testImplementation "androidx.arch.core:core-testing:$archTesingVersion"
 
