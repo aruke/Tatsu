@@ -14,6 +14,7 @@ import org.rionlabs.tatsu.work.TimerController
 import org.rionlabs.tatsu.work.VibrationsManager
 import org.rionlabs.tatsu.work.VibrationsManager.VibeType
 import timber.log.Timber
+import java.util.*
 
 class TimerViewModel(
     private val timerController: TimerController,
@@ -195,7 +196,7 @@ class TimerViewModel(
 
     private fun resetTimerToWorkIdle() {
         mTimerData.value = Timer(
-            System.currentTimeMillis(),
+            Calendar.getInstance(),
             settingManager.getWorkTimerInMinutes() * 60L,
             TimerType.WORK
         )

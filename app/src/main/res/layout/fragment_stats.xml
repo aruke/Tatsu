@@ -9,13 +9,14 @@
         <import type="android.view.View" />
 
         <variable
-            name="listEmpty"
-            type="Boolean" />
+            name="viewState"
+            type="org.rionlabs.tatsu.ui.screen.main.stats.StatsViewState" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,13 +24,20 @@
             android:clipToPadding="false"
             android:padding="8dp">
 
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/metaDataGroup"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewState.metaDataAvailable ? View.VISIBLE : View.GONE }"
+                app:constraint_referenced_ids="todayCard,lastWeekCard" />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/todayCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:layout_constraintBottom_toTopOf="@id/headerBarrier"
-                app:layout_constraintEnd_toStartOf="@id/thisWeekCard"
+                app:layout_constraintEnd_toStartOf="@id/lastWeekCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -50,6 +58,7 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{@string/intValue(viewState.sessionsToday)}"
                         android:textAppearance="?textAppearanceHeadline3"
                         app:fontFamily="@font/source_code_pro"
                         tools:text="8" />
@@ -65,6 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textAppearance="?textAppearanceSubtitle1"
+                        app:durationMinutes="@{viewState.minutesToday}"
                         tools:text="4 Hours" />
 
                 </LinearLayout>
@@ -72,7 +82,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/thisWeekCard"
+                android:id="@+id/lastWeekCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -92,12 +102,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
-                        android:text="@string/label_this_week"
+                        android:text="@string/label_last_week"
                         android:textAppearance="?textAppearanceHeadline5" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@{@string/intValue(viewState.sessionsThisWeek)}"
                         android:textAppearance="?textAppearanceHeadline3"
                         app:fontFamily="@font/source_code_pro"
                         tools:text="127" />
@@ -113,6 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textAppearance="?textAppearanceSubtitle1"
+                        app:durationMinutes="@{viewState.minutesThisWeek}"
                         tools:text="63 Hours" />
 
                 </LinearLayout>
@@ -124,7 +136,14 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="todayCard,thisWeekCard" />
+                app:constraint_referenced_ids="todayCard,lastWeekCard" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/detailedStatsGroup"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewState.statsAvailable ? View.VISIBLE : View.GONE }"
+                app:constraint_referenced_ids="overMonthCard,overYearCard" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/overMonthCard"
@@ -166,7 +185,6 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/overYearCard"
@@ -210,21 +228,59 @@
             </com.google.android.material.card.MaterialCardView>
 
             <androidx.constraintlayout.widget.Group
+                android:id="@+id/noStatsGroup"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="gone"
-                app:constraint_referenced_ids="emptyImage,emptyText"
+                android:visibility="@{(viewState.metaDataAvailable &amp;&amp; !viewState.statsAvailable) ? View.VISIBLE : View.GONE }"
+                app:constraint_referenced_ids="noStatsImage,noStatsText"
                 tools:visibility="gone" />
 
             <ImageView
-                android:id="@+id/emptyImage"
+                android:id="@+id/noStatsImage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_margin="16dp"
+                android:alpha="0.6"
+                android:contentDescription="@null"
+                android:src="@drawable/undraw_report"
+                app:layout_constraintBottom_toTopOf="@id/noStatsText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+                app:layout_constraintVertical_bias="0.2"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/noStatsText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:alpha="0.8"
+                android:gravity="center"
+                android:text="@string/label_no_stats_available"
+                android:textAppearance="?textAppearanceSubtitle1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/noStatsImage" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/noDataGroup"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{(viewState.metaDataAvailable || viewState.statsAvailable) ? View.GONE : View.VISIBLE }"
+                app:constraint_referenced_ids="noDataImage,noDataText"
+                tools:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/noDataImage"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_margin="16dp"
                 android:alpha="0.8"
                 android:contentDescription="@null"
                 android:src="@drawable/undraw_no_data"
-                app:layout_constraintBottom_toTopOf="@id/emptyText"
+                app:layout_constraintBottom_toTopOf="@id/noDataText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -232,7 +288,7 @@
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/emptyText"
+                android:id="@+id/noDataText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -242,7 +298,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emptyImage" />
+                app:layout_constraintTop_toBottomOf="@id/noDataImage" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

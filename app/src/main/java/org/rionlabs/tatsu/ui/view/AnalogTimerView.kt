@@ -119,8 +119,7 @@ class AnalogTimerView @JvmOverloads constructor(
     }
 
     fun setTimer(timer: Timer) {
-        val progress = timer.duration.toFloat() / (timer.endTime - timer.startTime).toFloat()
-        angle = progress * 360F
+        angle = timer.completionPercent() * 360F
         invalidate()
     }
 }

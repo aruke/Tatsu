@@ -6,9 +6,13 @@ import org.rionlabs.tatsu.data.AppDatabase
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.data.model.TimerType
-import org.rionlabs.tatsu.utils.*
+import org.rionlabs.tatsu.utils.OpenAsyncTask
+import org.rionlabs.tatsu.utils.Utility
+import org.rionlabs.tatsu.utils.isActive
+import org.rionlabs.tatsu.utils.updateLiveData
 import timber.log.Timber
 import java.lang.ref.SoftReference
+import java.util.*
 
 /**
  * Act as a controller and store for [Timer] objects. Do not instantiate except in application.
@@ -65,7 +69,8 @@ class TimerController(app: Application) : LifecycleObserver {
             throw IllegalStateException("Already running or paused timer detected.")
         } else {
             Timber.v("Starting new timer...")
-            val timerId = timerDao.insert(Timer(TimeUtils.currentTimeEpoch(), durationInSeconds, timerType))
+            val timerId =
+                timerDao.insert(Timer(Calendar.getInstance(), durationInSeconds, timerType))
             val timer = timerDao.getWith(timerId).copy(state = TimerState.RUNNING)
             activeTimerData.value = timer
             return activeTimerData.also {
@@ -130,16 +135,16 @@ class TimerController(app: Application) : LifecycleObserver {
     }
 
     /**
-     * Updates the duration and status by decrementing [Timer.duration] value by 1.
+     * Updates the duration and status by decrementing [Timer.remainingSecs] value by 1.
      */
     private fun updateDataAfterTick() {
         val oldTimer = activeTimerData.value
         oldTimer?.let {
             if (it.state == TimerState.RUNNING) {
-                if (it.duration == 0L) {
+                if (it.remainingSecs == 0L) {
                     updateStateAndDump(TimerState.FINISHED)
                 } else {
-                    it.updateLiveData(activeTimerData, duration = it.duration - 1)
+                    it.updateLiveData(activeTimerData, remainingSecs = it.remainingSecs - 1)
                 }
             }
 

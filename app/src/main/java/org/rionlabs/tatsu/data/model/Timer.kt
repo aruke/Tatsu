@@ -4,22 +4,27 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "timers")
 data class Timer(
     @PrimaryKey(autoGenerate = true) val id: Long,
     /**
-     * Start time in form of epoch time.
+     * Start time.
      */
-    @ColumnInfo(name = "start_time") val startTime: Long,
+    @ColumnInfo(name = "start_time") val startTime: Calendar,
     /**
-     * End time in form of epoch time.
+     * End time.
      */
-    @ColumnInfo(name = "end_time") val endTime: Long,
+    @ColumnInfo(name = "end_time") val endTime: Calendar,
     /**
      * End time in seconds.
      */
-    @ColumnInfo(name = "duration") val duration: Long,
+    @ColumnInfo(name = "remaining_secs") val remainingSecs: Long,
+    /**
+     * Non changeable duration in seconds.
+     */
+    @ColumnInfo(name = "duration_secs") val durationSecs: Long,
     /**
      * Either of [TimerState]
      */
@@ -30,15 +35,29 @@ data class Timer(
     @ColumnInfo(name = "type") val type: TimerType
 ) {
     @Ignore
-    constructor(startTime: Long, duration: Long, type: TimerType) :
-            this(0, startTime, (startTime + duration), duration, TimerState.IDLE, type)
+    constructor(startTime: Calendar, duration: Long, type: TimerType) :
+            this(
+                0,
+                startTime,
+                startTime.apply { add(Calendar.SECOND, duration.toInt()) },
+                duration,
+                duration,
+                TimerState.IDLE,
+                type
+            )
 
     @Ignore
-    val seconds = duration % 60
+    val seconds = remainingSecs % 60
 
     @Ignore
-    val minutes = (duration / 60) % 60
+    val minutes = (remainingSecs / 60) % 60
 
     @Ignore
-    val hours = duration / 3600
+    val hours = remainingSecs / 3600
+
+    @Ignore
+    fun completionPercent(): Float {
+        val totalDurationSec = (endTime.timeInMillis - startTime.timeInMillis) / 1000
+        return remainingSecs.toFloat() / totalDurationSec * 100
+    }
 }

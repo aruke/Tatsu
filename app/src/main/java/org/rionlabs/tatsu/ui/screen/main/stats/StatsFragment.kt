@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.github.mikephil.charting.components.XAxis
@@ -30,8 +29,8 @@ class StatsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        digitsFont = ResourcesCompat.getFont(requireContext(), R.font.source_code_pro)!!
-        appFont = ResourcesCompat.getFont(requireContext(), R.font.raleway)!!
+//        digitsFont = ResourcesCompat.getFont(requireContext(), R.font.source_code_pro)!!
+//        appFont = ResourcesCompat.getFont(requireContext(), R.font.raleway)!!
     }
 
     override fun onCreateView(
@@ -51,9 +50,9 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.timerListData.observe(viewLifecycleOwner, Observer {
-            val timerList = it ?: return@Observer
-            binding.listEmpty = timerList.isEmpty()
+        viewModel.viewStateData.observe(viewLifecycleOwner, Observer {
+            val viewState = it ?: return@Observer
+            binding.viewState = viewState
         })
     }
 
@@ -98,7 +97,7 @@ class StatsFragment : Fragment() {
         // Left YAxis
         axisLeft.apply {
             setDrawAxisLine(false)
-            typeface = digitsFont
+            // typeface = digitsFont
             gridColor = ContextCompat.getColor(requireContext(), R.color.divider)
         }
 
@@ -158,7 +157,7 @@ class StatsFragment : Fragment() {
         // Left Y Axis
         axisLeft.apply {
             setDrawAxisLine(false)
-            typeface = digitsFont
+            // typeface = digitsFont
             gridColor = ContextCompat.getColor(requireContext(), R.color.divider)
         }
 
