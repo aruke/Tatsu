@@ -8,7 +8,7 @@ data class StatsViewState(
     val minutesThisWeek: Int
 ) {
 
-    val metaDataAvailable: Boolean = sessionsToday != 0 && sessionsThisWeek == 0
+    val metaDataAvailable: Boolean = sessionsToday != 0 || sessionsThisWeek != 0
 
     val statsAvailable: Boolean = false
 }
