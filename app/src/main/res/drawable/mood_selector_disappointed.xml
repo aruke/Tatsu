@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?colorControlHighlight">
+
+    <item
+        android:id="@android:id/mask"
+        android:width="80dp"
+        android:height="80dp">
+        <shape android:shape="oval">
+            <solid android:color="?colorControlHighlight" />
+        </shape>
+    </item>
+
+    <item
+        android:width="56dp"
+        android:height="56dp"
+        android:gravity="center">
+        <selector>
+            <item
+                android:drawable="@drawable/mood_disappointed"
+                android:state_checked="true" />
+            <item
+                android:alpha="0.7"
+                android:drawable="@drawable/mood_disappointed_nc"
+                android:state_checked="false" />
+            <item
+                android:alpha="0.5"
+                android:drawable="@drawable/mood_disappointed" />
+        </selector>
+    </item>
+</ripple>

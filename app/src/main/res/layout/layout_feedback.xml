@@ -1,113 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+    </data>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/text_happy"
-            style="@style/FeedbackSentimentTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/happy"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_neutral"
-            app:layout_constraintEnd_toStartOf="@+id/text_neutral"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RadioButton
-            android:id="@+id/radio_happy"
-            style="@style/FeedbackSentimentRadioStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/radio_neutral"
-            app:layout_constraintEnd_toStartOf="@+id/radio_neutral"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_happy" />
-
-        <TextView
-            android:id="@+id/text_neutral"
-            style="@style/FeedbackSentimentTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/neutral"
-            app:layout_constraintBaseline_toBaselineOf="@+id/text_sad"
-            app:layout_constraintEnd_toStartOf="@+id/text_sad"
-            app:layout_constraintStart_toEndOf="@+id/text_happy"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RadioButton
-            android:id="@+id/radio_neutral"
-            style="@style/FeedbackSentimentRadioStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBaseline_toBaselineOf="@+id/radio_sad"
-            app:layout_constraintEnd_toStartOf="@+id/radio_sad"
-            app:layout_constraintStart_toEndOf="@+id/radio_happy"
-            app:layout_constraintTop_toBottomOf="@id/text_neutral" />
-
-        <TextView
-            android:id="@+id/text_sad"
-            style="@style/FeedbackSentimentTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/sad"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/text_neutral"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RadioButton
-            android:id="@+id/radio_sad"
-            style="@style/FeedbackSentimentRadioStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/radio_neutral"
-            app:layout_constraintTop_toBottomOf="@+id/text_sad" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:boxBackgroundMode="outline"
-        app:shapeAppearance="@style/ShapeAppearance.AppTheme.Medium">
-
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
-            android:hint="@string/feedback_hint"
-            android:imeOptions="actionDone"
-            android:inputType="textCapSentences|textMultiLine"
-            android:lines="3"
-            android:singleLine="false" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <RadioGroup
+                android:id="@+id/feelingGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:minWidth="120dp"
-        android:padding="16dp"
-        android:text="@string/send"
-        app:cornerRadius="32dp" />
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    style="@style/FeedbackSentimentRadioStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/mood_selector_happy"
+                    android:button="@null" />
 
-</LinearLayout>
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    style="@style/FeedbackSentimentRadioStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mood_selector_neutral"
+                    android:button="@null"
+                    android:buttonTint="@null" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    style="@style/FeedbackSentimentRadioStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mood_selector_disappointed"
+                    android:button="@null"
+                    android:buttonTint="@null" />
+
+            </RadioGroup>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/feelingGroup"
+                app:shapeAppearance="@style/ShapeAppearance.AppTheme.Medium">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:hint="@string/feedback_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="text|textMultiLine|textCapSentences|textAutoCorrect"
+                    android:minLines="3"
+                    android:singleLine="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:minWidth="120dp"
+                android:padding="16dp"
+                android:text="@string/send"
+                app:cornerRadius="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputLayout" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="sendButton" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@null"
+                android:maxWidth="512dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/undraw_review"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier"
+                app:layout_constraintVertical_bias="1.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>
