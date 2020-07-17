@@ -34,8 +34,8 @@ jobs:
       - name: Setup RC specific version.gradle
         working-directory: app
         run: |
-          echo "versionCode=$(date +'%y%V%M%S')\nversionName=$(date +'%y.%V.%M RC')" > version.properties
-          cat version.properties
+          echo "versionCode=$(date +'%y%V%M%S')" > version.properties
+          echo "versionName=$(date +'%y.%V.%M RC')" >> version.properties
 
       - name: Release Notes
         working-directory: app
