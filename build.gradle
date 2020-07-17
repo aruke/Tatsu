@@ -19,6 +19,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
 
     }
     dependencies {
@@ -31,6 +32,8 @@ buildscript {
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
 
         classpath "org.koin:koin-gradle-plugin:$koinVersion"
+
+        classpath 'com.github.triplet.gradle:play-publisher:2.4.2'
     }
 }
 

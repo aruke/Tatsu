@@ -7,6 +7,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.appdistribution'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'koin'
+apply plugin: 'com.github.triplet.play'
 
 apply from: 'signing.gradle'
 
@@ -115,6 +116,17 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     androidTestImplementation "android.arch.work:work-testing:$workVersion"
+}
+
+android.playConfigs {
+    playConfigs {
+        register("rc") { enabled = false }
+    }
+}
+
+play {
+    serviceAccountCredentials = file("service-account.json")
+    resolutionStrategy = "auto"
 }
 
 android.defaultConfig.javaCompileOptions {

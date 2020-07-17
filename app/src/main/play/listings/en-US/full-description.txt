@@ -1,0 +1,5 @@
+A Pomodoro app!
+
+Features:
+- Set timer for work and break
+- Set Silent Mode
