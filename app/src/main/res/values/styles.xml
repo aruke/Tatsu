@@ -73,4 +73,38 @@
         <item name="fontFamily">@font/source_code_pro</item>
     </style>
 
+    <style name="GuideStyle" />
+
+    <style name="GuideStyle.Container">
+        <item name="android:background">?colorSurface</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">@dimen/appintro_statusbar_height</item>
+    </style>
+
+    <style name="GuideStyle.Heading">
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">bottom|center_horizontal</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:textAppearance">?textAppearanceHeadline5</item>
+    </style>
+
+    <style name="GuideStyle.Image">
+        <item name="android:layout_weight">5</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="lottie_autoPlay">true</item>
+        <item name="lottie_loop">true</item>
+    </style>
+
+    <style name="GuideStyle.Description">
+        <item name="android:layout_weight">3</item>
+        <item name="android:gravity">top|center_horizontal</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:textAppearance">?textAppearanceSubtitle1</item>
+    </style>
+
 </resources>
