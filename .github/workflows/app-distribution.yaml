@@ -35,6 +35,7 @@ jobs:
         working-directory: app
         run: |
           echo "versionCode=$(date +'%y%V%M%S')\nversionName=$(date +'%y.%V.%M RC')" > version.properties
+          echo version.properties
 
       - name: Release Notes
         working-directory: app
@@ -42,4 +43,4 @@ jobs:
           echo $(git log -1 --pretty=%B) > release-notes-rc
 
       - name: Upload to AppDistribution
-        run: ./gradlew :app:assembleRc :app:appDistributionUploadRc
+        run: ./gradlew --no-demon :app:assembleRc :app:appDistributionUploadRc
