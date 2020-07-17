@@ -2,16 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_menu_stats"
-        android:icon="@drawable/ic_stats"
+        android:icon="@drawable/menu_stats"
         android:title="@string/title_stats" />
 
     <item
         android:id="@+id/navigation_menu_timer"
-        android:icon="@drawable/ic_hourglass"
+        android:icon="@drawable/menu_hourglass"
         android:title="@string/title_timer" />
 
     <item
         android:id="@+id/navigation_menu_settings"
-        android:icon="@drawable/ic_settings"
+        android:icon="@drawable/menu_settings"
         android:title="@string/title_settings" />
 </menu>
