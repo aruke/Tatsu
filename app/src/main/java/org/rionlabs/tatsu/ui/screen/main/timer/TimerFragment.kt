@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -29,7 +30,10 @@ class TimerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTimerBinding.inflate(inflater, container, false)
+        binding = FragmentTimerBinding.inflate(inflater, container, false).apply {
+            // Need to set to make FAB icon larger
+            actionButton.scaleType = ImageView.ScaleType.CENTER
+        }
         blinkAnimation = AnimationUtils.loadAnimation(context, R.anim.blink)
         return binding.root
     }
@@ -40,7 +44,6 @@ class TimerFragment : Fragment() {
             it?.let { timer ->
                 binding.apply {
                     digitalTimer.setTimer(timer)
-                    analogTimer.setTimer(timer)
                 }
             }
         })

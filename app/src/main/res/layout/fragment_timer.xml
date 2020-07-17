@@ -11,8 +11,7 @@
         android:paddingStart="32dp"
         android:paddingEnd="32dp">
 
-        <!-- Vertical Guidelines -->
-
+        <!-- Vertical Guideline -->
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_vertical_middle"
             android:layout_width="0dp"
@@ -20,6 +19,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".5" />
 
+        <!-- Top Guideline (10%) -->
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_horizontal_10"
             android:layout_width="0dp"
@@ -27,53 +27,29 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".1" />
 
+        <!-- Digits Section -->
+        <org.rionlabs.tatsu.ui.view.DigitalTimerView
+            android:id="@+id/digitalTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/timerTypeChip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_10"
+            app:layout_constraintVertical_chainStyle="spread" />
+
         <!-- Timer Type Chip -->
         <com.google.android.material.chip.Chip
             android:id="@+id/timerTypeChip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
-            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <!-- Image Section -->
-
-        <org.rionlabs.tatsu.ui.view.AnalogTimerView
-            android:id="@+id/analogTimer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="16dp"
-            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_60"
+            app:layout_constraintBottom_toTopOf="@id/actionButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_10" />
+            app:layout_constraintTop_toBottomOf="@id/digitalTimer" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_horizontal_60"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.6" />
-
-        <!-- Digits Section -->
-
-        <org.rionlabs.tatsu.ui.view.DigitalTimerView
-            android:id="@+id/digitalTimer"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_80"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_60" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_horizontal_80"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
-
+        <!-- Play/Pause Button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/actionButton"
             android:layout_width="wrap_content"
@@ -81,9 +57,18 @@
             android:src="@drawable/ic_timer"
             app:elevation="2dp"
             app:fabCustomSize="72dp"
+            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal_90"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal_80" />
+            app:layout_constraintTop_toBottomOf="@id/timerTypeChip" />
+
+        <!-- Top Guideline (90%) -->
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_horizontal_90"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
