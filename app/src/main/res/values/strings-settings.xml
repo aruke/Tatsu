@@ -24,7 +24,7 @@
         <item>20</item>
     </string-array>
 
-    <string name="settings_key_work_hour_notifications" translatable="false">key_silent_mode</string>
+    <string name="settings_key_work_hour_notifications" translatable="false">key_work_hour_notifications</string>
     <string name="settings_default_value_work_hour_notifications" translatable="false">false</string>
 
     <string name="settings_key_work_hour_start" translatable="false">key_work_hour_start</string>
