@@ -37,4 +37,4 @@ jobs:
         run: ./gradlew --no-daemon -q :app:bundleRelease :app:publishReleaseBundle --track beta --release-status draft --info
 
       - name: Print Git Status
-          run: git status
+        run: git status
