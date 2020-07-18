@@ -34,4 +34,7 @@ jobs:
           echo $GOOGLE_SERVICES_JSON_FILE | base64 --d > google-services.json
 
       - name: Plublish to Play Store in Open Beta track
-        run: ./gradlew --no-daemon :app:bundleRelease :app:publishReleaseBundle --track beta --release-status draft
+        run: ./gradlew --no-daemon -q :app:bundleRelease :app:publishReleaseBundle --track beta --release-status draft --info
+
+      - name: Print Git Status
+          run: git status
