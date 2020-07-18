@@ -16,7 +16,8 @@ import androidx.preference.*
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.android.ext.android.inject
 import org.rionlabs.tatsu.R
-import org.rionlabs.tatsu.ui.dialog.FullScreenDialogFragment
+import org.rionlabs.tatsu.ui.dialog.AboutDialogFragment
+import org.rionlabs.tatsu.ui.dialog.FeedbackDialogFragment
 import org.rionlabs.tatsu.utils.TimeUtils
 import org.rionlabs.tatsu.work.SettingsManager
 import org.rionlabs.tatsu.work.receiver.WorkTimeAlarmReceiver
@@ -103,20 +104,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<Preference>(getString(R.string.settings_key_about))?.setOnPreferenceClickListener {
-            FullScreenDialogFragment.show(
-                requireActivity(),
-                R.string.settings_about_title,
-                R.layout.layout_about
-            )
+            AboutDialogFragment.show(requireActivity())
             true
         }
 
         findPreference<Preference>(getString(R.string.settings_key_feedback))?.setOnPreferenceClickListener {
-            FullScreenDialogFragment.show(
-                requireActivity(),
-                R.string.settings_feedback_title,
-                R.layout.layout_feedback
-            )
+            FeedbackDialogFragment.show(requireActivity())
             true
         }
 
