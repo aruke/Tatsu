@@ -126,6 +126,9 @@ android.playConfigs {
 play {
     serviceAccountCredentials = file("service-account.json")
     resolutionStrategy = "auto"
+    outputProcessor {
+        updateVersionCode("$versionCode")
+    }
 }
 
 android.defaultConfig.javaCompileOptions {
