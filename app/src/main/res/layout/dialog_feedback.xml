@@ -4,6 +4,11 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="viewState"
+            type="org.rionlabs.tatsu.ui.dialog.feedback.FeedbackScreen.ViewState" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -34,17 +39,30 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/welcomeText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/feedback_welcome_text"
+                    android:textAppearance="?textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <RadioGroup
                     android:id="@+id/feelingGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="@{!viewState.loading}"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/welcomeText">
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/sentimentHappy"
                         style="@style/FeedbackSentimentRadioStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -53,6 +71,7 @@
                         android:button="@null" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/sentimentNeutral"
                         style="@style/FeedbackSentimentRadioStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -61,6 +80,7 @@
                         android:buttonTint="@null" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/sentimentSad"
                         style="@style/FeedbackSentimentRadioStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -76,15 +96,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
+                    android:enabled="@{!viewState.loading}"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="1097"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/feelingGroup"
                     app:shapeAppearance="@style/ShapeAppearance.AppTheme.Medium">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/messageInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="top"
+
                         android:hint="@string/feedback_hint"
                         android:imeOptions="actionDone"
                         android:inputType="text|textMultiLine|textCapSentences|textAutoCorrect"
@@ -99,12 +124,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
+                    android:enabled="@{viewState.sendEnabled}"
                     android:minWidth="120dp"
                     android:padding="16dp"
                     android:text="@string/send"
                     app:cornerRadius="32dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/inputLayout" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="16dp"
+                    android:indeterminateTint="?colorControlHighlight"
+                    android:visibility="@{viewState.loading ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@id/sendButton"
+                    app:layout_constraintEnd_toStartOf="@id/sendButton"
+                    app:layout_constraintTop_toTopOf="@id/sendButton" />
 
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/barrier"

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.koin.android.ext.android.inject
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.ui.dialog.AboutDialogFragment
-import org.rionlabs.tatsu.ui.dialog.FeedbackDialogFragment
+import org.rionlabs.tatsu.ui.dialog.feedback.FeedbackDialogFragment
 import org.rionlabs.tatsu.utils.TimeUtils
 import org.rionlabs.tatsu.work.SettingsManager
 import org.rionlabs.tatsu.work.receiver.WorkTimeAlarmReceiver
@@ -109,7 +109,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         findPreference<Preference>(getString(R.string.settings_key_feedback))?.setOnPreferenceClickListener {
-            FeedbackDialogFragment.show(requireActivity())
+            FeedbackDialogFragment.show(requireActivity().supportFragmentManager)
             true
         }
 

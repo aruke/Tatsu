@@ -113,10 +113,8 @@
     <string name="action_stop">Stop</string>
 
     <!-- Sentiments -->
-    <string name="happy">&#128525;</string>
-    <string name="neutral">&#128528;</string>
-    <string name="sad">&#128542;</string>
-    <string name="feedback_hint">Say anything…</string>
+    <string name="feedback_welcome_text">How are you feeling?</string>
+    <string name="feedback_hint">Message</string>
     <string name="send">Send</string>
 
     <string name="title_version">Version</string>
