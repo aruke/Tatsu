@@ -97,6 +97,9 @@ class FeedbackViewModel(val app: Application) : ViewModel() {
         val request = Request.Builder()
             .method("POST", RequestBody.create(MediaType.get("application/json"), requestParams))
             .url(BuildConfig.FEEDBACK_POST_URL)
+            .header("package", BuildConfig.APPLICATION_ID)
+            .header("version-name", BuildConfig.VERSION_NAME)
+            .header("version-code", BuildConfig.VERSION_CODE.toString())
             .build()
 
         val response = OkHttpClient().newCall(request).execute()
