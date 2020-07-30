@@ -96,12 +96,12 @@ class FeedbackViewModel(val app: Application) : ViewModel() {
 
         val request = Request.Builder()
             .method("POST", RequestBody.create(MediaType.get("application/json"), requestParams))
-            .url("https://us-central1-tatsu-ritsu.cloudfunctions.net/sendFeedback")
+            .url(BuildConfig.FEEDBACK_POST_URL)
             .build()
 
         val response = OkHttpClient().newCall(request).execute()
         if (response.code() != 200) {
-            throw RuntimeException("Request did not succeed")
+            throw RuntimeException("Request did not succeed. ${response.code()} ${response.message()}")
         }
     }
 }

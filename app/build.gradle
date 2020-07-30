@@ -22,6 +22,7 @@ android {
 
         // Generated from gradle.properties file (ignored)
         buildConfigField "String", "SAFETY_NET_SITE_KEY", SAFETY_NET_SITE_KEY
+        buildConfigField "String", "FEEDBACK_POST_URL", FEEDBACK_POST_URL
     }
 
     dataBinding.enabled = true
