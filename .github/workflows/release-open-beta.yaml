@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - open-beta
-      - test-open-beta
 
 env:
   RELEASE_KEYSTORE_FILE: ${{ secrets.RELEASE_KEYSTORE_FILE }}
@@ -36,8 +35,5 @@ jobs:
       - name: Build Release Bundle
         run: ./gradlew --no-daemon -q :app:bundleRelease
 
-      - name: Plublish to Play Store in Open Beta track
+      - name: Publish to Play Store in Open Beta track
         run: ./gradlew --no-daemon -q :app:publishReleaseBundle --track beta --release-status draft
-
-      - name: Print Git Status
-        run: git status
