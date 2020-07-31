@@ -13,3 +13,9 @@ android {
         versionName name
     }
 }
+
+ext.updateVersionCode = { versionCodeString ->
+    Properties props = new Properties()
+    props.load(new FileInputStream(versionPropsFile))
+    props.setProperty('versionCode', versionCodeString)
+}
