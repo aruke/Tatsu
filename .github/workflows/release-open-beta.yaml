@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew --no-daemon -q :app:bundleRelease
 
       - name: Plublish to Play Store in Open Beta track
-        run: ./gradlew --no-daemon :publishReleaseBundle --track beta --release-status draft --info
+        run: ./gradlew --no-daemon -q :app:publishReleaseBundle --track beta --release-status draft
 
       - name: Print Git Status
         run: git status
