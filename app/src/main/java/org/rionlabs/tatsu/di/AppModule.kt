@@ -1,6 +1,7 @@
 package org.rionlabs.tatsu.di
 
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import org.rionlabs.tatsu.work.*
 
@@ -25,6 +26,10 @@ object AppModule {
 
         single {
             VibrationsManager(androidApplication())
+        }
+
+        single {
+            AlarmScheduler(androidContext())
         }
     }
 }

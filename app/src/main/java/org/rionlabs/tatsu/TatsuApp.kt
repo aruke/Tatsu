@@ -44,7 +44,7 @@ class TatsuApp : Application() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(timerController)
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
 
-            @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
             fun onStop() {
                 // App goes background
                 if (timerController.isActiveTimerAvailable()) {
@@ -52,7 +52,7 @@ class TatsuApp : Application() {
                 }
             }
 
-            @OnLifecycleEvent(Lifecycle.Event.ON_START)
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onStart() {
                 // App goes foreground
                 TimerService.stop(this@TatsuApp)

@@ -10,7 +10,7 @@ import org.rionlabs.tatsu.utils.NotificationUtils
 import org.rionlabs.tatsu.work.SettingsManager
 import timber.log.Timber
 
-class WorkTimeAlarmReceiver : BroadcastReceiver(), KoinComponent {
+class WorkHoursAlarmReceiver : BroadcastReceiver(), KoinComponent {
 
     override fun onReceive(context: Context, intent: Intent) {
         Timber.d("Pending Intent Received with action ${intent.action}")

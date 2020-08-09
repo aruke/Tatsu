@@ -60,7 +60,7 @@
         </receiver>
 
         <receiver
-            android:name=".work.receiver.WorkTimeAlarmReceiver"
+            android:name=".work.receiver.WorkHoursAlarmReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="org.rionlabs.tatsu.start_work" />
