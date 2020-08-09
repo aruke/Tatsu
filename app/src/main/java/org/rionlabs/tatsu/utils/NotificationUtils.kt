@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
@@ -96,7 +97,9 @@ object NotificationUtils {
                 .setContentText(context.getString(R.string.work_hours_start_notification_message))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-        return builder.setSmallIcon(R.drawable.ic_schedule).build()
+                .setColor(ContextCompat.getColor(context, R.color.color_primary))
+                .setAutoCancel(true)
+        return builder.setSmallIcon(R.drawable.ic_notifications).build()
     }
 
     fun buildForEndWork(context: Context): Notification {
@@ -109,7 +112,8 @@ object NotificationUtils {
                 .setContentText(context.getString(R.string.work_hours_end_notification_message))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-        return builder.setSmallIcon(R.drawable.ic_schedule).build()
+                .setAutoCancel(true)
+        return builder.setSmallIcon(R.drawable.ic_notifications).build()
     }
 
     /**
