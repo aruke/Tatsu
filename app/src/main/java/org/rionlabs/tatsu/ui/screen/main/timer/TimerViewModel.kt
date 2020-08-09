@@ -45,7 +45,11 @@ class TimerViewModel(
                     // NA
                 }
                 PAUSED -> {
-                    // NA
+                    if (timer.type == TimerType.WORK) {
+                        requestStateInternal(WORK_TIMER_PAUSED)
+                    } else {
+                        requestStateInternal(BREAK_TIMER_PAUSED)
+                    }
                 }
                 FINISHED -> {
                     if (timer.type == TimerType.WORK) {
@@ -63,6 +67,7 @@ class TimerViewModel(
 
 
     init {
+        Timber.d("TimerViewModel.init() called")
         if (timerController.isActiveTimerAvailable()) {
             timerController.getActiveTimer().observeForever(metadataObserver)
 
@@ -81,7 +86,20 @@ class TimerViewModel(
     }
 
     private fun requestStateInternal(timerScreenState: TimerScreenState) {
-        val currentState = _timerScreenState.value ?: return
+        val currentState = _timerScreenState.value ?: run {
+            // Current state is null, no need to consider it
+            when (timerScreenState) {
+                WORK_TIMER_IDLE -> {
+                    resetTimerToWorkIdle()
+                }
+                else -> {
+                    _timerScreenState.postValue(timerScreenState)
+                }
+            }
+
+            return
+        }
+
         Timber.d("Current state is $currentState, switching to $timerScreenState")
 
         when (currentState) {
@@ -139,6 +157,7 @@ class TimerViewModel(
                     resetTimerToWorkIdle()
                 }
                 BREAK_TIMER_RUNNING -> {
+                    resumeTimer()
                 }
                 else -> throw IllegalStateException()
             }
@@ -156,6 +175,7 @@ class TimerViewModel(
     }
 
     private fun startNewWorkTimer() {
+        Timber.d("startNewWorkTimer() called")
         val duration = settingManager.getWorkTimerInMinutes() * 60L
         timerController.startNewTimer(TimerType.WORK, duration).observeForever(metadataObserver)
 
@@ -165,6 +185,7 @@ class TimerViewModel(
     }
 
     private fun startNewBreakTimer() {
+        Timber.d("startNewBreakTimer() called")
         val duration = settingManager.getBreakTimerInMinutes() * 60L
         timerController.startNewTimer(TimerType.BREAK, duration).observeForever(metadataObserver)
     }
