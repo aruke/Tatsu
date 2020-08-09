@@ -40,8 +40,10 @@ object NotificationUtils {
                 .setContentTitle(title)
                 .setContentIntent(pendingIntent)
                 .setContentText(message)
-                .setSmallIcon(R.drawable.ic_timer)
+                .setSmallIcon(R.drawable.ic_notification_timer)
+                .setColor(ContextCompat.getColor(context, R.color.color_primary))
                 .setOnlyAlertOnce(true)
+                .setShowWhen(false)
 
         val broadcastIntent = Intent(context, NotificationActionReceiver::class.java)
 
