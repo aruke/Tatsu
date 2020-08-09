@@ -39,6 +39,9 @@ object TimeUtils {
             }
             context.getString(R.string.time_format_am, hours, minutes)
         } else {
+            if (hours == 12) {
+                hours = 24
+            }
             context.getString(R.string.time_format_pm, (hours - 12), minutes)
         }
     }
