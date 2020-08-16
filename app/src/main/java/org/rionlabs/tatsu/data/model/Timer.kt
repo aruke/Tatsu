@@ -60,4 +60,8 @@ data class Timer(
         val totalDurationSec = (endTime.timeInMillis - startTime.timeInMillis) / 1000
         return remainingSecs.toFloat() / totalDurationSec * 100
     }
+
+    override fun toString(): String {
+        return "Timer(id=$id, startTime=${startTime.timeInMillis}, endTime=${endTime.timeInMillis}, remainingSecs=$remainingSecs, durationSecs=$durationSecs, state=$state, type=$type, seconds=$seconds, minutes=$minutes, hours=$hours)"
+    }
 }
