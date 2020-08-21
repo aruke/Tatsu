@@ -45,24 +45,28 @@ object NotificationUtils {
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
 
-        val broadcastIntent = Intent(context, NotificationActionReceiver::class.java)
-
         if (timer.state == TimerState.PAUSED) {
-            broadcastIntent.action = NotificationActionReceiver.ACTION_START
-            val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
-            builder.addAction(R.drawable.ic_play, context.getString(R.string.action_resume), intent)
+            builder.addAction(
+                R.drawable.ic_play,
+                context.getString(R.string.action_resume),
+                NotificationActionReceiver.createPendingBroadcastForResume(context)
+            )
         }
 
         if (timer.state == TimerState.RUNNING) {
-            broadcastIntent.action = NotificationActionReceiver.ACTION_PAUSE
-            val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
-            builder.addAction(R.drawable.ic_pause, context.getString(R.string.action_pause), intent)
+            builder.addAction(
+                R.drawable.ic_pause,
+                context.getString(R.string.action_pause),
+                NotificationActionReceiver.createPendingBroadcastForPause(context)
+            )
         }
 
         if (timer.state == TimerState.PAUSED || timer.state == TimerState.RUNNING) {
-            broadcastIntent.action = NotificationActionReceiver.ACTION_STOP
-            val intent = PendingIntent.getBroadcast(context, 0, broadcastIntent, 0)
-            builder.addAction(R.drawable.ic_stop, context.getString(R.string.action_stop), intent)
+            builder.addAction(
+                R.drawable.ic_stop,
+                context.getString(R.string.action_stop),
+                NotificationActionReceiver.createPendingBroadcastForStop(context)
+            )
         }
 
         return builder.build()

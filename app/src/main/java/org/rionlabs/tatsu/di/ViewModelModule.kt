@@ -1,6 +1,7 @@
 package org.rionlabs.tatsu.di
 
 import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.rionlabs.tatsu.data.AppDatabase
@@ -13,9 +14,9 @@ object ViewModelModule {
     fun get() = module {
         viewModel {
             TimerViewModel(
+                context = androidContext(),
                 timerController = get(),
                 settingManager = get(),
-                silentModeManager = get(),
                 vibrationsManager = get()
             )
         }

@@ -1,5 +1,6 @@
 package org.rionlabs.tatsu.ui.screen.main.timer
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -9,17 +10,17 @@ import org.rionlabs.tatsu.data.model.TimerState.*
 import org.rionlabs.tatsu.data.model.TimerType
 import org.rionlabs.tatsu.ui.screen.main.timer.TimerScreenState.*
 import org.rionlabs.tatsu.work.SettingsManager
-import org.rionlabs.tatsu.work.SilentModeManager
 import org.rionlabs.tatsu.work.TimerController
 import org.rionlabs.tatsu.work.VibrationsManager
 import org.rionlabs.tatsu.work.VibrationsManager.VibeType
+import org.rionlabs.tatsu.work.service.TimerService
 import timber.log.Timber
 import java.util.*
 
 class TimerViewModel(
+    private val context: Context,
     private val timerController: TimerController,
     private val settingManager: SettingsManager,
-    private val silentModeManager: SilentModeManager,
     private val vibrationsManager: VibrationsManager
 ) : ViewModel() {
 
@@ -32,8 +33,8 @@ class TimerViewModel(
 
     private val metadataObserver = Observer<Timer> {
         it?.let { timer ->
-            Timber.d("OnChanged called with NonNull Timer value")
-            Timber.d("$timer")
+            Timber.v("OnChanged called with NonNull Timer value")
+            Timber.v("$timer")
 
             mTimerData.value = timer
 
@@ -176,43 +177,27 @@ class TimerViewModel(
 
     private fun startNewWorkTimer() {
         Timber.d("startNewWorkTimer() called")
-        val duration = settingManager.getWorkTimerInMinutes() * 60L
-        timerController.startNewTimer(TimerType.WORK, duration).observeForever(metadataObserver)
-
-        if (settingManager.silentMode) {
-            silentModeManager.turnOnSilentMode()
-        }
+        TimerService.startWorkTimer(context)
+        // timerController.getActiveTimer().observeForever(metadataObserver)
     }
 
     private fun startNewBreakTimer() {
         Timber.d("startNewBreakTimer() called")
-        val duration = settingManager.getBreakTimerInMinutes() * 60L
-        timerController.startNewTimer(TimerType.BREAK, duration).observeForever(metadataObserver)
+        TimerService.startBreakTimer(context)
+        // timerController.getActiveTimer().observeForever(metadataObserver)
     }
 
     private fun pauseTimer() {
-        timerController.pauseTimer()
-
-        if (settingManager.silentMode) {
-            silentModeManager.turnOffSilentMode()
-        }
+        TimerService.pauseTimer(context)
     }
 
     private fun resumeTimer() {
-        timerController.resumeTimer()
-
-        if (settingManager.silentMode) {
-            silentModeManager.turnOnSilentMode()
-        }
+        TimerService.resumeTimer(context)
     }
 
     private fun cancelTimer() {
-        timerController.cancelTimer()
+        TimerService.stopTimer(context)
         resetTimerToWorkIdle()
-
-        if (settingManager.silentMode) {
-            silentModeManager.turnOffSilentMode()
-        }
     }
 
     private fun resetTimerToWorkIdle() {

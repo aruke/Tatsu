@@ -21,9 +21,9 @@ class DigitalTimerView @JvmOverloads constructor(
 
     fun setTimer(timer: Timer) {
         binding.apply {
-            Timber.d("Duration in seconds = $timer")
+            Timber.v("Duration in seconds = $timer")
             timer.apply {
-                Timber.d("Duration display = $hours:$minutes:$seconds")
+                Timber.v("Duration display = $hours:$minutes:$seconds")
                 var minuteFormat = zeroPaddedFormat
                 var secondFormat = zeroPaddedFormat
 
