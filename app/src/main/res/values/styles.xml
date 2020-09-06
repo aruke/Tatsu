@@ -97,6 +97,7 @@
         <item name="android:layout_marginEnd">16dp</item>
         <item name="lottie_autoPlay">true</item>
         <item name="lottie_loop">true</item>
+        <item name="lottie_enableMergePathsForKitKatAndAbove">true</item>
     </style>
 
     <style name="GuideStyle.Description">

@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import org.rionlabs.tatsu.R
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
+import org.rionlabs.tatsu.data.model.TimerType
 import org.rionlabs.tatsu.ui.screen.begin.SplashActivity
 import org.rionlabs.tatsu.work.receiver.NotificationActionReceiver
 
@@ -24,14 +25,27 @@ object NotificationUtils {
 
     fun buildForTimer(context: Context, timer: Timer): Notification {
 
-        val title = context.getString(R.string.timer_notification_title, timer.state.toString())
+        // Work timer running. Remaining time 12:00.
+        val titleTimer = if (timer.type == TimerType.WORK) {
+            context.getString(R.string.timer_notification_title_work)
+        } else {
+            context.getString(R.string.timer_notification_title_break)
+        }
+
+        val titleState = when (timer.state) {
+            TimerState.IDLE -> if (timer.isPaused) "Paused" else ""
+            TimerState.RUNNING -> "Running"
+            TimerState.FINISHED -> "Finished"
+        }
+
+        val title = titleTimer + titleState
 
         val pendingIntent = Intent(context, SplashActivity::class.java).let { intent ->
             PendingIntent.getActivity(context, 0, intent, 0)
         }
 
         val message = with(timer) {
-            context.getString(R.string.timer_notification_message, hours, minutes, seconds)
+            context.getString(R.string.timer_notification_message_running, hours, minutes, seconds)
         }
 
         val builder =
@@ -45,7 +59,7 @@ object NotificationUtils {
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
 
-        if (timer.state == TimerState.PAUSED) {
+        if (timer.state == TimerState.IDLE && timer.isPaused) {
             builder.addAction(
                 R.drawable.ic_play,
                 context.getString(R.string.action_resume),
@@ -61,7 +75,7 @@ object NotificationUtils {
             )
         }
 
-        if (timer.state == TimerState.PAUSED || timer.state == TimerState.RUNNING) {
+        if (timer.state == TimerState.IDLE || timer.state == TimerState.RUNNING) {
             builder.addAction(
                 R.drawable.ic_stop,
                 context.getString(R.string.action_stop),

@@ -1,54 +1,66 @@
 package org.rionlabs.tatsu.work
 
-import android.app.Application
-import androidx.lifecycle.*
-import org.rionlabs.tatsu.data.AppDatabase
+import android.os.CountDownTimer
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.rionlabs.tatsu.data.dao.TimerDao
 import org.rionlabs.tatsu.data.model.Timer
 import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.data.model.TimerType
-import org.rionlabs.tatsu.utils.OpenAsyncTask
-import org.rionlabs.tatsu.utils.Utility
-import org.rionlabs.tatsu.utils.isActive
-import org.rionlabs.tatsu.utils.updateLiveData
+import org.rionlabs.tatsu.utils.Utility.NONE
 import timber.log.Timber
-import java.lang.ref.SoftReference
 import java.util.*
 
 /**
  * Act as a controller and store for [Timer] objects. Do not instantiate except in application.
  */
-class TimerController(app: Application) : LifecycleObserver {
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+class TimerController(
+    private val coroutineScope: CoroutineScope,
+    private val timerDao: TimerDao
+) {
 
-    private val activeTimerData = MutableLiveData<Timer>()
+    private val activeTimerChannel = BroadcastChannel<Timer>(Channel.CONFLATED)
 
-    private var timerDao = AppDatabase.getInstance(app.applicationContext).timerDao()
+    private var activeTimer: Timer? = null
 
-    private var timerTask: TimerTask? = null
+    private var currentCountdownTimer: CountDownTimer? = null
 
-    /**
-     * Initializes the store with values from database.
-     */
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    fun onCreate() {
-        Timber.v("onCreate() called")
-        val timerList = timerDao.getActive()
-        Timber.d("Received ${timerList.size} entries from database.")
-        if (timerList.isEmpty()) {
-            Timber.v("No active timers found.")
-        } else {
-            val firstTimer = timerList.first()
-            activeTimerData.value = firstTimer
-            Timber.v("Found active timers. Setting LiveData for $firstTimer")
-            // TODO Discard other timers if there are more than one
+    init {
+        coroutineScope.launch {
+            // Check for active timers in database, if none, create one
+            val timerList = timerDao.getActive()
+            Timber.d("Received ${timerList.size} entries from database.")
+            if (timerList.isEmpty()) {
+                Timber.v("No active timers found.")
+                activeTimerChannel.send(NONE)
+            } else {
+                val firstTimer = timerList.first()
+                activeTimerChannel.send(firstTimer)
+                Timber.v("Found active timers. Setting LiveData for $firstTimer")
+                // TODO Discard other timers if there are more than one
+            }
+
+            // Continue to update activeTimer by observing activeTimerChannel
+            activeTimerChannel.asFlow().collectLatest {
+                activeTimer = it
+            }
         }
     }
 
-    /**
-     * Returns true if there is any [TimerState.RUNNING] or [TimerState.PAUSED] timer in store.
-     */
-    fun isActiveTimerAvailable(): Boolean {
-        Timber.v("ActiveTimerData.value ${activeTimerData.value?.state.toString()}")
-        return activeTimerData.value?.isActive() ?: false
+    fun createNewTimer(timerType: TimerType, durationInSeconds: Long) = coroutineScope.launch {
+        Timber.v("Creating new timer...")
+        val timerId = timerDao.insert(Timer(Calendar.getInstance(), durationInSeconds, timerType))
+        val timer = timerDao.getWith(timerId)
+        activeTimerChannel.send(timer)
     }
 
     /**
@@ -56,125 +68,91 @@ class TimerController(app: Application) : LifecycleObserver {
      * Check of there is any such timer by calling [isActiveTimerAvailable] method.
      * Throws [IllegalStateException] if no such timer in store.
      */
-    fun getActiveTimer(): LiveData<Timer> {
-        if (isActiveTimerAvailable()) {
-            return activeTimerData
+    fun observeActiveTimer(): Flow<Timer> {
+        return activeTimerChannel.asFlow()
+    }
+
+    /**
+     * Starts new timer & starts it immediately.
+     */
+    fun startTimer(timerType: TimerType, durationInSeconds: Long) = coroutineScope.launch {
+        if (requireActiveTimer() == NONE) {
+            Timber.v("Existing timer exists...")
         } else {
-            throw IllegalStateException("No running or paused timer available.")
+            createNewTimer(timerType, durationInSeconds)
+        }
+        Timber.v("Starting timer...")
+        requireActiveTimer().apply {
+            updateWithState(TimerState.RUNNING)
+            startCountdownTimer(durationSecs)
         }
     }
 
-    fun startNewTimer(timerType: TimerType, durationInSeconds: Long): LiveData<Timer> {
-        if (isActiveTimerAvailable()) {
-            throw IllegalStateException("Already running or paused timer detected.")
-        } else {
-            Timber.v("Starting new timer...")
-            val timerId =
-                timerDao.insert(Timer(Calendar.getInstance(), durationInSeconds, timerType))
-            val timer = timerDao.getWith(timerId).copy(state = TimerState.RUNNING)
-            activeTimerData.value = timer
-            return activeTimerData.also {
-                timerTask = TimerTask(this).also {
-                    it.execute()
-                }
-            }
-        }
-    }
-
-    fun pauseTimer() {
+    fun pauseTimer() = coroutineScope.launch {
         Timber.v("Pausing timer...")
-        updateStateAndDump(TimerState.PAUSED)
-        timerTask?.cancel(true)
+        requireActiveTimer().updateWithState(newState = TimerState.IDLE)
+        requireCurrentCountdownTimer().cancel()
     }
 
-    fun resumeTimer() {
+    fun resumeTimer() = coroutineScope.launch {
         Timber.v("Resuming timer...")
-        updateStateAndDump(TimerState.RUNNING)
-        timerTask = TimerTask(this).also {
-            it.execute()
-        }
+        val timer = requireActiveTimer()
+        startCountdownTimer(timer.remainingSecs)
+        timer.updateWithState(TimerState.RUNNING)
     }
 
     fun cancelTimer() {
         Timber.v("Cancelling timer...")
-        updateStateAndDump(TimerState.CANCELLED)
+        val timer = requireActiveTimer()
+        timerDao.deleteTimerWith(timer.id) // Delete from DB
+        requireCurrentCountdownTimer().cancel() // Cancel countdown
+        // tODO update channel
     }
 
     /**
-     * Clears the store and dumps data into database.
-     * This method will be rarely called, so never rely on it.
+     * Take an existing timer, updates [activeTimerChannel] & [timerDao].
      */
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onDestroy() {
-        Timber.v("onDestroy() called")
-        dumpToDatabase()
-        activeTimerData.value = null
-        timerTask?.cancel(true)
-    }
-
-    /**
-     * Updates [activeTimerData] and dumps the value to database.
-     */
-    private fun updateStateAndDump(state: TimerState) {
-        val oldTimer = activeTimerData.value
-        oldTimer?.let {
-            it.updateLiveData(activeTimerData, state = state)
-            dumpToDatabase()
-        } ?: run {
-            throw IllegalStateException("No active timer is not available in store.")
-        }
-    }
-
-    /**
-     * Dumps [activeTimerData] value to database.
-     */
-    private fun dumpToDatabase() {
-        activeTimerData.value?.let {
-            timerDao.insert(it)
-        }
+    private suspend fun Timer.updateWithState(newState: TimerState = this.state) {
+        val newTimer = copy(state = newState)
+        activeTimerChannel.send(newTimer)
+        timerDao.insert(newTimer)
     }
 
     /**
      * Updates the duration and status by decrementing [Timer.remainingSecs] value by 1.
      */
-    private fun updateDataAfterTick() {
-        val oldTimer = activeTimerData.value
-        oldTimer?.let {
-            if (it.state == TimerState.RUNNING) {
-                if (it.remainingSecs == 0L) {
-                    updateStateAndDump(TimerState.FINISHED)
-                } else {
-                    it.updateLiveData(activeTimerData, remainingSecs = it.remainingSecs - 1)
+    private fun updateDataAfterTick() = coroutineScope.launch {
+        if (requireActiveTimer().remainingSecs == 0L) {
+            requireActiveTimer().updateWithState(TimerState.FINISHED)
+            return@launch
+        }
+
+        val newTimer = with(requireActiveTimer()) {
+            copy(remainingSecs = remainingSecs - 1)
+        }
+
+        newTimer.updateWithState(TimerState.RUNNING)
+    }
+
+    private fun startCountdownTimer(durationInSeconds: Long) {
+        currentCountdownTimer =
+            object : CountDownTimer(
+                durationInSeconds * 1000,
+                1000
+            ) {
+                override fun onFinish() {
+                    updateDataAfterTick()
                 }
-            }
 
-            // Cancel timerTask for this timer, if it is not to be ticked
-            if (it.state == TimerState.FINISHED || it.state == TimerState.CANCELLED) {
-                timerTask?.cancel(true)
-                timerTask = null
-            }
-        }
+                override fun onTick(millisUntilFinished: Long) {
+                    updateDataAfterTick()
+                }
+            }.start()
     }
 
-    private class TimerTask(timerController: TimerController) : OpenAsyncTask() {
+    private fun requireCurrentCountdownTimer() =
+        currentCountdownTimer ?: throw IllegalStateException("currentCountdownTimer is null")
 
-        val reference = SoftReference<TimerController>(timerController)
-
-        override fun performInBackground() {
-            while (!isCancelled) {
-                Timber.v("Tick")
-                Utility.waitForOneSecond()
-                // Update progress
-                publishProgress()
-            }
-        }
-
-        override fun performOnProgressUpdate() {
-            reference.get()?.updateDataAfterTick()
-        }
-
-        override fun performOnCancelled() {
-            reference.get()?.dumpToDatabase()
-        }
-    }
+    private fun requireActiveTimer() =
+        activeTimer ?: throw IllegalStateException("activeTimer is null")
 }

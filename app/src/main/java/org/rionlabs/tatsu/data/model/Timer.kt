@@ -56,6 +56,9 @@ data class Timer(
     val hours = remainingSecs / 3600
 
     @Ignore
+    val isPaused = state == TimerState.IDLE && remainingSecs < durationSecs
+
+    @Ignore
     fun completionPercent(): Float {
         val totalDurationSec = (endTime.timeInMillis - startTime.timeInMillis) / 1000
         return remainingSecs.toFloat() / totalDurationSec * 100

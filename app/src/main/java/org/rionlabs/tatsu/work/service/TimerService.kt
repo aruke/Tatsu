@@ -4,11 +4,12 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import androidx.lifecycle.Observer
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
-import org.rionlabs.tatsu.data.model.Timer
-import org.rionlabs.tatsu.data.model.TimerState.*
+import org.rionlabs.tatsu.TatsuApp
+import org.rionlabs.tatsu.data.model.TimerState
 import org.rionlabs.tatsu.data.model.TimerType
 import org.rionlabs.tatsu.utils.NotificationUtils
 import org.rionlabs.tatsu.work.SettingsManager
@@ -27,37 +28,44 @@ class TimerService : Service(), KoinComponent {
 
     private val vibrationsManager: VibrationsManager by inject()
 
-    private val binder: Binder = Binder(this)
+    private var isForeground: Boolean = false
 
-    private val timerObserver = Observer<Timer> {
-        it?.let { timer ->
-            NotificationUtils.updateTimerNotification(this, timer)
-            when (timer.state) {
-                IDLE -> {
-                    // TODO: Update notification
-                    stopForeground(false)
-                }
-                FINISHED -> {
-                    // TODO: Update notification
-                    stopForeground(false)
-                    if (timer.type == TimerType.WORK) {
-                        vibrationsManager.vibrate(VibrationsManager.VibeType.WORK_FINISHED)
-                    } else {
-                        vibrationsManager.vibrate(VibrationsManager.VibeType.BREAK_FINISHED)
+    override fun onCreate() {
+        super.onCreate()
+        Timber.d("onCreate() called")
+        (application as TatsuApp).coroutineScope.launch {
+            timerController.observeActiveTimer().collect { timer ->
+                when (timer.state) {
+                    TimerState.IDLE -> {
+                        if (timer.isPaused) {
+                            vibrationsManager.vibrate(VibrationsManager.VibeType.TIMER_PAUSED)
+                            // TODO: Update notification
+                        } else {
+                            stopForeground(true)
+                            isForeground = false
+                        }
                     }
-                }
-                RUNNING -> {
-                    val notification = NotificationUtils.buildForTimer(this, timer)
-                    startForeground(NotificationUtils.TIMER_NOTIFICATION_ID, notification)
-                }
-                PAUSED -> {
-//                    val notification = NotificationUtils.buildForTimer(this, timer)
-//                    startForeground(NotificationUtils.TIMER_NOTIFICATION_ID, notification)
-                    // TODO: Update notification
-                    vibrationsManager.vibrate(VibrationsManager.VibeType.TIMER_PAUSED)
-                }
-                CANCELLED -> {
-                    stopForeground(true)
+                    TimerState.FINISHED -> {
+                        // TODO: Update notification
+                        stopForeground(false)
+                        isForeground = false
+                        if (timer.type == TimerType.WORK) {
+                            vibrationsManager.vibrate(VibrationsManager.VibeType.WORK_FINISHED)
+                        } else {
+                            vibrationsManager.vibrate(VibrationsManager.VibeType.BREAK_FINISHED)
+                        }
+                    }
+                    TimerState.RUNNING -> {
+                        if (isForeground) {
+                            NotificationUtils.updateTimerNotification(this@TimerService, timer)
+                        } else {
+                            val notification =
+                                NotificationUtils.buildForTimer(this@TimerService, timer)
+                            startForeground(NotificationUtils.TIMER_NOTIFICATION_ID, notification)
+                            isForeground = true
+                        }
+
+                    }
                 }
             }
         }
@@ -73,12 +81,7 @@ class TimerService : Service(), KoinComponent {
         when (intent.action) {
             ACTION_START_WORK_TIMER -> {
                 val duration = settingManager.getWorkTimerInMinutes() * 60L
-                timerController.startNewTimer(TimerType.WORK, duration)
-                    .observeForever(timerObserver)
-
-                //val timer = activeTimer.value!!
-                //val notification = NotificationUtils.buildForTimer(this, timer)
-                //startForeground(NotificationUtils.TIMER_NOTIFICATION_ID, notification)
+                timerController.startTimer(TimerType.WORK, duration)
 
                 if (settingManager.silentMode) {
                     silentModeManager.turnOnSilentMode()
@@ -86,12 +89,7 @@ class TimerService : Service(), KoinComponent {
             }
             ACTION_START_BREAK_TIMER -> {
                 val duration = settingManager.getBreakTimerInMinutes() * 60L
-                timerController.startNewTimer(TimerType.BREAK, duration)
-                    .observeForever(timerObserver)
-
-                //val timer = activeTimer.value!!
-                //val notification = NotificationUtils.buildForTimer(this, timer)
-                //startForeground(NotificationUtils.TIMER_NOTIFICATION_ID, notification)
+                timerController.startTimer(TimerType.BREAK, duration)
             }
             ACTION_PAUSE_TIMER -> {
                 timerController.pauseTimer()
@@ -111,6 +109,7 @@ class TimerService : Service(), KoinComponent {
                     silentModeManager.turnOffSilentMode()
                 }
                 stopForeground(false)
+                isForeground = false
             }
         }
 
@@ -118,36 +117,12 @@ class TimerService : Service(), KoinComponent {
         return START_NOT_STICKY
     }
 
-    override fun onRebind(intent: Intent?) {
-        Timber.d("onRebind() called with: intent = [$intent]")
-        super.onRebind(intent)
-    }
-
-    override fun onCreate() {
-        Timber.d("onCreate() called")
-        super.onCreate()
-    }
-
-    override fun onUnbind(intent: Intent?): Boolean {
-        Timber.d("onUnbind() called with: intent = [$intent]")
-        return super.onUnbind(intent)
-    }
+    override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onDestroy() {
         Timber.d("onDestroy() called")
-        if (timerController.isActiveTimerAvailable()) {
-            val activeTimer = timerController.getActiveTimer()
-            activeTimer.removeObserver(timerObserver)
-        }
         super.onDestroy()
     }
-
-    override fun onBind(intent: Intent?): IBinder? {
-        Timber.d("onBind() called with: intent = [$intent]")
-        return binder
-    }
-
-    inner class Binder(private val context: Context) : android.os.Binder()
 
     companion object {
 

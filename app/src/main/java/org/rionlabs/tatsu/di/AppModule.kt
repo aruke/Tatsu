@@ -21,10 +21,6 @@ object AppModule {
         }
 
         single {
-            TimerController(androidApplication())
-        }
-
-        single {
             VibrationsManager(androidApplication())
         }
 

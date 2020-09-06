@@ -23,6 +23,9 @@ interface TimerDao {
     @Insert(onConflict = REPLACE)
     fun insert(timer: Timer): Long
 
+    @Query("DELETE FROM timers WHERE id=:id")
+    fun deleteTimerWith(id: Long)
+
     @Query("SELECT * FROM StatsMeta LIMIT 1")
     fun getStatsMeta(): StatsMeta
 }

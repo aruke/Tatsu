@@ -1,19 +1,21 @@
 package org.rionlabs.tatsu
 
 import android.app.Application
-import androidx.lifecycle.ProcessLifecycleOwner
-import org.koin.android.ext.android.get
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.rionlabs.tatsu.di.AppModule
 import org.rionlabs.tatsu.di.DataModule
+import org.rionlabs.tatsu.di.TimerModule
 import org.rionlabs.tatsu.di.ViewModelModule
 import org.rionlabs.tatsu.utils.NotificationUtils
-import org.rionlabs.tatsu.work.TimerController
-import org.rionlabs.tatsu.work.service.TimerService
 import timber.log.Timber
 
 class TatsuApp : Application() {
+
+    val coroutineScope = CoroutineScope(context = Dispatchers.Main)
 
     override fun onCreate() {
         super.onCreate()
@@ -25,19 +27,16 @@ class TatsuApp : Application() {
             modules(
                 AppModule.get(),
                 DataModule.get(),
+                TimerModule.get(),
                 ViewModelModule.get()
             )
         }
 
-        initializeProcessLifecycle()
         NotificationUtils.createNecessaryNotificationChannels(applicationContext)
     }
 
-    /**
-     * Setup [ProcessLifecycleOwner] with instances of [TimerController] and [TimerService].
-     */
-    private fun initializeProcessLifecycle() {
-        val timerController = get<TimerController>()
-        ProcessLifecycleOwner.get().lifecycle.addObserver(timerController)
+    override fun onTerminate() {
+        super.onTerminate()
+        coroutineScope.cancel("App Terminated")
     }
 }

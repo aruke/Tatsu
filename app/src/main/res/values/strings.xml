@@ -103,7 +103,11 @@
 
     <!-- Notifications -->
     <string name="timer_notification_title">Timer %s</string>
-    <string name="timer_notification_message">Timer → Remaining time: %1$d:%2$d:%3$d</string>
+    <string name="timer_notification_title_work">Work Timer Running</string>
+    <string name="timer_notification_title_break">Break Timer Running</string>
+    <string name="timer_notification_message_running">Remaining time: %1$d:%2$d:%3$d</string>
+    <string name="timer_notification_message_work_paused">Work Timer Paused</string>
+    <string name="timer_notification_message_break_paused">Break Timer Paused</string>
     <string name="work_hours_start_notification_title">Time to start work!</string>
     <string name="work_hours_start_notification_message">Start work with a cheerful mood!</string>
     <string name="work_hours_end_notification_title">Good work!</string>
