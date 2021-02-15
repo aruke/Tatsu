@@ -114,7 +114,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-safetynet:17.0.0'
 
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.arch.core:core-testing:$archTesingVersion"
 
     testImplementation "androidx.room:room-testing:$roomVersion"
